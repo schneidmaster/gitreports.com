@@ -4,7 +4,14 @@
 //= require turbolinks
 //= require_tree .
 
-// Initialize Foundation
-$(document).ready(function() {
-    $(document).foundation();
-});
+var ready = function() {
+
+	// Initialize Foundation
+	$(document).foundation();
+
+};
+
+// Run on natural page load...
+$(document).ready(ready);
+// ...and on Turbolinks reload
+$(document).on('page:load', ready);
