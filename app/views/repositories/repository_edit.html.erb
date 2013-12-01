@@ -1,0 +1,81 @@
+<div class="row">
+  <div class="small-12 columns">
+    <h3><%= @repository.name %></h3>
+    <%= form_for :repository, url: repository_path(@repository), method: :patch do |f| %>
+      <fieldset>
+        <legend>Update Repository</legend>
+
+        <% if @repository.errors.any? %>
+        <div class="row">
+          <div class="small-12 columns">
+            <h2><%= pluralize(@repository.errors.count, "error") %> prohibited
+              this repository from being saved:</h2>
+            <ul>
+            <% @repository.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+            </ul>
+          </div>
+        </div>
+        <% end %>
+
+        <div class="row">
+          <div class="small-12 columns">
+            <%= f.label :display_name %><br>
+            <p>
+              <i>This is the project name that will be displayed when an anonymous user creates a new issue.</i>
+            </p>
+            <%= f.text_field :display_name %>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="small-12 columns">
+            <%= f.label :issue_name %><br>
+            <p>
+              <i>This is what will be set as the name of the new issue created on GitHub.</i>
+            </p>
+            <%= f.text_field :issue_name %>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="small-12 columns">
+            <%= f.label :prompt %><br>
+            <p>
+              <i>This is the message that will be displayed to an anonymous user when they create a new issue.  You can use <%= link_to "Markdown", "http://daringfireball.net/projects/markdown/" %>.</i>
+            </p>
+            <%= f.text_area :prompt, :class => "repository-textarea" %>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="small-12 columns">
+            <%= f.label :followup %><br>
+            <p>
+              <i>This is the result message that will be displayed to an anonymous user after they submit a new issue.  You can use <%= link_to "Markdown", "http://daringfireball.net/projects/markdown/" %>.</i>
+            </p>
+            <%= f.text_area :followup, :class => "repository-textarea" %>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="small-12 columns">
+            <%= f.label :labels %><br>
+            <p>
+            <i>This is the comma-separated list of labels that will be applied to the new issue created on GitHub (bug, enhancement, etc.).  They should match label options on your repository's <%= link_to "issues page", @repository.github_issues_path %>.</i>
+          </p>
+            <%= f.text_field :labels %>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="small-3 columns">
+            <%= submit_tag "Update", :class => "button small" %>
+          </div>
+        </div>
+
+      </fieldset>
+    <% end %>
+  </div>
+</div>

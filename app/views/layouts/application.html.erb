@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title><%= content_for?(:title) ? yield(:title) : "Git Reports" %></title>
+
+    <%= stylesheet_link_tag    "application" %>
+    <%= javascript_include_tag "vendor/modernizr" %>
+    <%= csrf_meta_tags %>
+
+    <%= favicon_link_tag "favicon.ico" %>
+
+    <%= javascript_include_tag "application" %>
+  </head>
+
+  <body>
+
+    <!-- Header and Nav -->
+    <nav class="top-bar" data-topbar>
+      <ul class="title-area">
+        <!-- Title Area -->
+        <li class="name">
+          <h1>
+            <%= link_to "Git Reports", root_path %>
+          </h1>
+        </li>
+        <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+      </ul>
+
+      <section class="top-bar-section">
+
+        <!-- Right Nav Section -->
+        <ul class="right">
+          <% if signed_in? %>
+            <li class="divider"></li>
+            <li class="has-dropdown">
+              <%= link_to current_user.username, profile_path %>
+              <ul class="dropdown">
+                <li><%= link_to "Logout", logout_path %></li>
+              </ul>
+            </li>
+          <% else %>
+            <li class="divider"></li>
+            <li>
+              <%= link_to "Login", login_path %>
+            </li>
+          <% end %>
+        </ul>
+      </section>
+    </nav>
+
+    <br>
+
+    <% if flash[:error] || flash[:notice] || flash[:success] %>
+      <div class="row">
+        <div class="small-12 columns">
+          <% if flash[:error] -%>
+            <div data-alert class="alert-box error">
+              <%= h flash[:error] %>
+              <a href="#" class="close">&times;</a>
+            </div>
+          <% end %>
+          <% if flash[:notice] -%>
+            <div data-alert class="alert-box warning">
+              <%= h flash[:notice] %>
+              <a href="#" class="close">&times;</a>
+            </div>
+          <% end %>
+          <% if flash[:success] -%>
+            <div data-alert class="alert-box success">
+              <%= h flash[:success] %>
+              <a href="#" class="close">&times;</a>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
+  <!-- End Header and Nav -->
+
+    <%= yield %>
+
+    <footer class="row">
+      <div class="large-12 columns">
+        <hr />
+        <div class="row">
+          <div class="large-6 columns">
+            <p>Git Reports</p>
+          </div>
+          <div class="large-6 columns">
+            <ul class="inline-list right">
+              <li><%= link_to "Home", root_path %></li>
+              <li><%= link_to "Tutorial", tutorial_path %></li>
+              <li><%= link_to "About", about_path %></li>
+            </ul>
+          </div>
+      </div>
+    </footer>
+
+    <%= javascript_include_tag "foundation" %>
+
+    <% if ENV['GOOGLE_ANALYTICS_CODE'] %>
+      <script type="text/javascript">
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', '<%= ENV['GOOGLE_ANALYTICS_CODE'] %>', '<%= request.host %>');
+        ga('send', 'pageview');
+      </script>
+    <% end %>
+
+  </body>
+</html>

@@ -1,0 +1,13 @@
+<div class="row">
+	<div class="large-12 columns">
+		<h3><%= @repository.display_or_name %></h3>
+		<hr>
+		<p>
+			<% if @repository.followup.present? && @repository.followup != "" %>
+				<%= raw markdown @repository.followup %>
+			<% else %>
+				Thanks for submitting your report!  We'll look into it as soon as possible.
+			<% end %>
+		</p>
+	</div>
+</div>

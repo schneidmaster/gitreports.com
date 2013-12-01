@@ -1,0 +1,102 @@
+<div class="row">
+	<div class="large-12 columns">
+		<h3><%= @repository.name %></h3>
+		<p>
+			Owner: <%= link_to @repository.holder_name, @repository.holder_path %>
+		</p>
+		<% if @repository.is_org_repo? %>
+			<p>
+				Users:
+				<% @repository.organization.users.each do |user| %>
+					<% if user != @repository.organization.users.first %>
+						, 
+					<% end %>
+					<%= link_to user.username, user.github_path %>
+				<% end %>
+			</p>
+		<% end %>
+		<p>
+			Status: <%= @repository.is_active ? "Active" : "Inactive" %>
+		</p>
+		<% if @repository.is_active %>
+			<p>
+				Public Link: <%= link_to "View", repository_public_path(@repository.holder_name, @repository.name) %>
+			</p>
+		<% end %>
+		<hr>
+		<p>
+			<%= link_to "Edit", repository_edit_path(@repository) %> / 
+			<% if @repository.is_active %>
+				<%= link_to "Deactivate", repository_deactivate_path(@repository), method: :post, confirm: "Are you sure you want to deactivate repository '" + @repository.name + "'?" %>
+			<% else %>
+				<%= link_to "Activate", repository_activate_path(@repository), method: :post, confirm: "Are you sure you want to activate repository '" + @repository.name + "'?" %>
+			<% end %>
+		</p>
+		<hr>
+		<h4>
+			Display Name
+		</h4>
+		<p>
+			<i>This is the project name that will be displayed when an anonymous user creates a new issue.</i>
+		</p>
+		<p>
+			<% if @repository.display_name.present? %>
+				<%= @repository.display_name %>
+			<% else %>
+				Not set
+			<% end %>
+		</p>
+		<h4>
+			Issue Name
+		</h4>
+		<p>
+			<i>This is what will be set as the name of the new issue created on GitHub.</i>
+		</p>
+		<p>
+			<% if @repository.issue_name.present? %>
+				<%= @repository.issue_name %>
+			<% else %>
+				Not set
+			<% end %>
+		</p>
+		<h4>
+			Prompt
+		</h4>
+		<p>
+			<i>This is the message that will be displayed to an anonymous user when they create a new issue.</i>
+		</p>
+		<p>
+			<% if @repository.prompt.present? %>
+				<%= @repository.prompt %>
+			<% else %>
+				Not set
+			<% end %>
+		</p>
+		<h4>
+			Follow Up
+		</h4>
+		<p>
+			<i>This is the result message that will be displayed to an anonymous user after they submit a new issue.</i>
+		</p>
+		<p>
+			<% if @repository.followup.present? %>
+				<%= @repository.followup %>
+			<% else %>
+				Not set
+			<% end %>
+		</p>
+		<h4>
+			Labels
+		</h4>
+		<p>
+			<i>This is the comma-separated list of labels that will be applied to the new issue created on GitHub (bug, enhancement, etc.).</i>
+		</p>
+		<p>
+			<% if @repository.labels.present? %>
+				<%= @repository.labels %>
+			<% else %>
+				Not set
+			<% end %>
+		</p>
+	</div>
+</div>
