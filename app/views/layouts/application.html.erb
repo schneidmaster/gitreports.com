@@ -3,6 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Git Reports is a free service that lets you set up a stable URL for anonymous users to submit bugs and other Issues to your GitHub repositories.">
+    <meta name="keywords" content="GitHub, git, issue, report, bug">
+
+    <meta property="og:title" content="<%= content_for?(:title) ? yield(:title) : "Git Reports" %></title>" />
+    <meta property="og:url" content="<%= request.url %>" />
+    <meta property="og:site_name" content="Git Reports"/>
+    <meta property="og:image" content="<%= image_path("alarm.png") %>" />
+    <meta property="og:type" content="website" />
 
     <title><%= content_for?(:title) ? yield(:title) : "Git Reports" %></title>
 
