@@ -31,6 +31,9 @@ gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
 
+# jQuery-turbolinks fixes some bugs with jQuery (and Foundation) and Turbolinks
+gem 'jquery-turbolinks'
+
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
 
