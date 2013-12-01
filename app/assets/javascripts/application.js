@@ -1,18 +1,12 @@
 // Application.js Manifest
 //= require jquery
-//= require jquery.turbolinks
 //= require jquery_ujs
-//= require turbolinks
+//= require foundation
 //= require_tree .
 
-var ready = function() {
+$(document).ready(function() {
 
 	// Initialize Foundation
 	$(document).foundation();
 
-};
-
-// Run on natural page load...
-$(document).ready(ready);
-// ...and on Turbolinks reload
-$(document).on('page:load', ready);
+});
