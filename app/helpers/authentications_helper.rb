@@ -36,4 +36,8 @@ module AuthenticationsHelper
 			redirect_to profile_path
 		end
 	end
+
+	def logout!
+		session[:user_id] = nil
+	end
 end

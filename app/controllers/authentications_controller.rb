@@ -43,6 +43,14 @@ class AuthenticationsController < ApplicationController
 				user = User.create(:username => client.user[:login], :name => client.user[:name], :gravatar_id => client.user[:gravatar_id], :access_token => access_token)
 			end
 
+			# Log in the user
+			session[:user_id] = user.id
+
+			# Check the rate limit
+			if client.rate_limit.remaining < 10
+				redirect_to login_rate_limited_path
+			end
+
 			# Delete any outdated repos
 			user.repositories.each do |repo|
 				if client.repos.select {|r| r[:name] == repo.name }.count == 0
@@ -125,12 +133,14 @@ class AuthenticationsController < ApplicationController
 
 					# If so, update its name
 					if repo
+
 						repo.update(:name => api_repo[:name])
+
 					# Else create it
 					else
 
 						# Create the new repo
-						repo = Repository.new(:github_id => api_repo[:name], :name => api_repo[:name], :is_active => false)
+						repo = Repository.new(:github_id => api_repo[:id], :name => api_repo[:name], :is_active => false)
 
 						# Tie the repo to the org
 						repo.organization = org
@@ -142,14 +152,12 @@ class AuthenticationsController < ApplicationController
 				end
 			end
 
-			# Log in the user
-			session[:user_id] = user.id
-
 			# Redirect to profile
 			redirect_to profile_path, :flash => { :success => "Logged in!" }
 
 		# If error, redirect with error message
 		rescue
+			logout!
 			redirect_to root_path, :flash => { :error => "An error occurred; please try again" }
 		end
 	end
@@ -157,6 +165,18 @@ class AuthenticationsController < ApplicationController
 	def logout
 		session[:user_id] = nil
 		redirect_to root_path, :flash => { :notice => "Logged out!" }
+	end
+
+	def login_rate_limited
+		if !signed_in?
+			redirect_to root_path
+		else
+			Octokit.connection_options[:ssl] = {:ca_file => File.join(Rails.root, 'config', 'cacert.pem')}
+			client = Octokit::Client.new :access_token => current_access_token
+			@reset_time = client.rate_limit.resets_at
+
+			logout!
+		end
 	end
 
 	private
