@@ -1,7 +1,7 @@
 gitreports.com
 ================
 
-Git Reports is a free service that lets you set up a stable URL for anonymous users to submit bugs and other Issues to your private GitHub repositories.
+Git Reports is a free service that lets you set up a stable URL for anonymous users to submit bugs and other Issues to your GitHub repositories.  It works with public and private repositories and personal and organization repositories.  It also provides some custom settings like Issue labels and messages to display to users submitting bugs.
 
 Self-hosting
 ================
