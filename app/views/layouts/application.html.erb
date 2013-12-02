@@ -47,6 +47,9 @@
             <li class="has-dropdown">
               <%= link_to current_user.username, profile_path %>
               <ul class="dropdown">
+                <li><%= link_to "Profile", profile_path %></li>
+              </ul>
+              <ul class="dropdown">
                 <li><%= link_to "Logout", logout_path %></li>
               </ul>
             </li>
