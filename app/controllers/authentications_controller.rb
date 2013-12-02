@@ -83,6 +83,13 @@ class AuthenticationsController < ApplicationController
 
 			end
 
+			# Delete any outdated orgs
+			user.organizations.each do |org|
+				if client.orgs.select {|r| r[:login] == org.name }.count == 0
+					org.destroy
+				end
+			end
+
 			# Add their org repositories (if any), under the org name to keep it nice and neat
 			client.orgs.each do |api_org|
 
