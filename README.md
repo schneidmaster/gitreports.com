@@ -21,7 +21,13 @@ You're welcome to clone and self-host the application if you're so inclined.  Fo
     
 > GITHUB_CALLBACK_URL=http://yourdomain.com/github_callback
 
-If you want to track the application with Google Analytics, add your code to the environment file as follows:
+If you're developing locally with WEBrick or similar, your domain in the callback URL should include the port, i.e. 
+
+> GITHUB_CALLBACK_URL=http://localhost:3000/github_callback
+
+Since GitHub only accepts one callback URL for registered applications, I found it useful to register a development instance and a production instance, and use separate .env files in development and production with the appropriate client id, client secret, and callback URL in each.
+
+If you want to track the application with Google Analytics, create the property and add the tracking code to the .env file as follows:
 
 > GOOGLE_ANALYTICS_CODE=UA-########-#
 
