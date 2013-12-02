@@ -9,7 +9,7 @@
     <meta property="og:title" content="<%= content_for?(:title) ? yield(:title) : "Git Reports" %></title>" />
     <meta property="og:url" content="<%= request.url %>" />
     <meta property="og:site_name" content="Git Reports"/>
-    <meta property="og:image" content="<%= image_path("alarm.png") %>" />
+    <meta property="og:image" content="<%= request.protocol + request.host + image_path("alarm.png") %>" />
     <meta property="og:type" content="website" />
 
     <title><%= content_for?(:title) ? yield(:title) : "Git Reports" %></title>
