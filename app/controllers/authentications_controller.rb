@@ -34,6 +34,9 @@ class AuthenticationsController < ApplicationController
 			Octokit.connection_options[:ssl] = {:ca_file => File.join(Rails.root, 'config', 'cacert.pem')}
 			client = Octokit::Client.new :access_token => access_token
 
+			# Autopaginate the client
+			client.auto_paginate = true
+
 			# Save the local User to the database
 			user = User.find_by_access_token(access_token)
 
