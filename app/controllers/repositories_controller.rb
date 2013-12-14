@@ -11,11 +11,11 @@ class RepositoriesController < ApplicationController
 		if holder.nil?
 			render '404'
 		else
-			repos = holder.repositories.where(:name => params[:repositoryname])
-			if repos.count == 0 || !repos.first.is_active
+			repo = holder.repositories.find_by_name(params[:repositoryname])
+			if repo.nil? || !repo.is_active
 				render '404'
 			else
-				@repository = repos.first
+				@repository = repo
 			end
 		end
 	end
@@ -30,11 +30,10 @@ class RepositoriesController < ApplicationController
 		if holder.nil?
 			render '404'
 		else
-			repos = holder.repositories.where(:name => params[:repositoryname])
-			if repos.count == 0 || !repos.first.is_active
+			repo = holder.repositories.find_by_name(params[:repositoryname])
+			if repo.nil? || !repo.is_active
 				render '404'
 			else
-				repo = repos.first
 
 				# Create the client
 				Octokit.connection_options[:ssl] = {:ca_file => File.join(Rails.root, 'config', 'cacert.pem')}
@@ -44,7 +43,7 @@ class RepositoriesController < ApplicationController
 				if client.rate_limit.remaining < 10
 					redirect_to repository_rate_limited_path(repo.holder_name, repo.name)
 				end
-				
+
 				# Create the issue
 				client.create_issue(repo.holder_name + "/" + repo.name, repo.issue_name.present? ? repo.issue_name : "Git Reports Issue", repo.construct_body(params), {:labels => repo.labels.present? ? repo.labels : ""})
 
@@ -65,11 +64,11 @@ class RepositoriesController < ApplicationController
 		if holder.nil?
 			render '404'
 		else
-			repos = holder.repositories.where(:name => params[:repositoryname])
-			if repos.count == 0 || !repos.first.is_active
+			repo = holder.repositories.find_by_name(params[:repositoryname])
+			if repo.nil? || !repo.is_active
 				render '404'
 			else
-				@repository = repos.first
+				@repository = repo
 			end
 		end
 
@@ -85,11 +84,11 @@ class RepositoriesController < ApplicationController
 		if holder.nil?
 			render '404'
 		else
-			repos = holder.repositories.where(:name => params[:repositoryname])
-			if repos.count == 0 || !repos.first.is_active
+			repo = holder.repositories.find_by_name(params[:repositoryname])
+			if repo.nil? || !repo.is_active
 				render '404'
 			else
-				@repo = repos.first
+				@repo = repo
 
 				# Create the client
 				Octokit.connection_options[:ssl] = {:ca_file => File.join(Rails.root, 'config', 'cacert.pem')}

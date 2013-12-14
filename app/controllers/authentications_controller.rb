@@ -57,7 +57,12 @@ class AuthenticationsController < ApplicationController
 			# Delete any outdated repos
 			user.repositories.each do |repo|
 				if client.repos.select {|r| r[:name] == repo.name }.count == 0
-					repo.destroy
+					user.repositories.delete(repo)
+
+					# If the repo has no users left, disable it
+					if repo.users.count == 0
+						repo.update(:is_active => false)
+					end
 				end
 			end
 
@@ -67,9 +72,18 @@ class AuthenticationsController < ApplicationController
 				# See if the repo exists
 				repo = Repository.find_by_github_id(api_repo.id)
 
-				# If so, update its name
+				# If so, update its name and add the user if necessary
 				if repo
+
 					repo.update(:name => api_repo[:name])
+
+					if !repo.users.any? {|u| u == user }
+
+						repo.users << user
+						repo.save
+
+					end
+
 				# Else create it
 				else
 
@@ -77,7 +91,7 @@ class AuthenticationsController < ApplicationController
 					repo = Repository.new(:github_id => api_repo[:id], :name => api_repo[:name], :is_active => false)
 
 					# Tie the repo to the user
-					repo.user = user
+					repo.users << user
 
 					# Save the new repo
 					repo.save
@@ -89,7 +103,7 @@ class AuthenticationsController < ApplicationController
 			# Delete any outdated orgs
 			user.organizations.each do |org|
 				if client.orgs.select {|r| r[:login] == org.name }.count == 0
-					org.destroy
+					user.organizations.delete(org)
 				end
 			end
 
@@ -105,18 +119,15 @@ class AuthenticationsController < ApplicationController
 					# Create the new org
 					org = Organization.new(:name => api_org[:login])
 
+					# Tie the user to the org
+					org.users << user
+
 					# Save the org
 					org.save
 
-					# Tie the user to the org
-					user.organizations << org
-
-					# Save the user
-					user.save
-
 				else
 
-					# If so, make sure it's added to the user 
+					# If so, make sure it's added to the user
 					if !user.organizations.any? {|o| o == org }
 
 						# Tie the user to the org
@@ -128,10 +139,15 @@ class AuthenticationsController < ApplicationController
 
 				end
 
-				# Delete any outdated org repos
+				# Delete any outdated org repos that belong to the user
 				org.repositories.each do |repo|
 					if api_org.rels[:repos].get.data.select {|r| r[:name] == repo.name }.count == 0
-						repo.destroy
+						repo.users.delete(user)
+					end
+
+					# If the repo has no users left, disable it
+					if repo.users.count == 0
+						repo.update(:is_active => false)
 					end
 				end
 
@@ -141,10 +157,17 @@ class AuthenticationsController < ApplicationController
 					# See if the repo exists
 					repo = org.repositories.find_by_github_id(api_repo[:id])
 
-					# If so, update its name
+					# If so, update its name and add the user if necessary
 					if repo
 
 						repo.update(:name => api_repo[:name])
+
+						if !repo.users.any? {|u| u == user }
+
+							repo.users << user
+							repo.save
+
+						end
 
 					# Else create it
 					else
@@ -154,6 +177,9 @@ class AuthenticationsController < ApplicationController
 
 						# Tie the repo to the org
 						repo.organization = org
+
+						# Tie the repo to the user
+						repo.users << user
 
 						# Save the new repo
 						repo.save

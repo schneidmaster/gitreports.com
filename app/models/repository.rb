@@ -1,21 +1,13 @@
 class Repository < ActiveRecord::Base
-	belongs_to :user
+	has_and_belongs_to_many :users, -> { order "username ASC" }
 	belongs_to :organization
 
 	def access_token
-		if self.organization
-			self.organization.users.first.access_token
-		else
-			self.user.access_token
-		end
+		self.users.first.access_token
 	end
 
 	def check_owner(user)
-		if self.organization
-			self.organization.users.any? {|u| u == user}
-		else
-			self.user == user
-		end
+		self.users.any? {|u| u == user}
 	end
 
 	def is_org_repo?
@@ -30,7 +22,7 @@ class Repository < ActiveRecord::Base
 		if self.organization
 			self.organization.name
 		else
-			self.user.username
+			self.users.first.username
 		end
 	end
 
@@ -38,7 +30,7 @@ class Repository < ActiveRecord::Base
 		if self.organization
 			'https://github.com/' + self.organization.name
 		else
-			'https://github.com/' + self.user.username
+			'https://github.com/' + self.users.first.username
 		end
 	end
 

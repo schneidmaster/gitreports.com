@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-	has_many :repositories, -> { order "name ASC" }
+	has_and_belongs_to_many :repositories, -> { order "name ASC" }
 	has_and_belongs_to_many :organizations, -> { order "name ASC" }
 
 	def avatar_url(size = 96)
