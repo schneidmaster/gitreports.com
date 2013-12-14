@@ -11,10 +11,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131214181227) do
+ActiveRecord::Schema.define(version: 20131214192504) do
 
   create_table "organizations", force: true do |t|
-    t.integer  "user_id"
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -28,7 +27,6 @@ ActiveRecord::Schema.define(version: 20131214181227) do
   end
 
   create_table "repositories", force: true do |t|
-    t.integer  "user_id"
     t.string   "github_id"
     t.string   "name"
     t.string   "display_name"
