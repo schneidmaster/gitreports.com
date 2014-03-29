@@ -16,6 +16,14 @@ class RepositoriesController < ApplicationController
 				render '404'
 			else
 				@repository = repo
+
+				# Load any data from session
+				if session[:issuedata]
+					@name = session[:issuedata][:name]
+					@email = session[:issuedata][:email]
+					@details = session[:issuedata][:details]
+					session[:issuedata] = nil
+				end
 			end
 		end
 	end
@@ -35,20 +43,33 @@ class RepositoriesController < ApplicationController
 				render '404'
 			else
 
-				# Create the client
-				Octokit.connection_options[:ssl] = {:ca_file => File.join(Rails.root, 'config', 'cacert.pem')}
-				client = Octokit::Client.new :access_token => repo.access_token
+				# Check the captcha
+				if simple_captcha_valid?
 
-				# Check the rate limit
-				if client.rate_limit.remaining < 10
-					redirect_to repository_rate_limited_path(repo.holder_name, repo.name)
+					# Create the client
+					Octokit.connection_options[:ssl] = {:ca_file => File.join(Rails.root, 'config', 'cacert.pem')}
+					client = Octokit::Client.new :access_token => repo.access_token
+
+					# Check the rate limit
+					if client.rate_limit.remaining < 10
+						redirect_to repository_rate_limited_path(repo.holder_name, repo.name)
+					end
+
+					# Create the issue
+					client.create_issue(repo.holder_name + "/" + repo.name, repo.issue_name.present? ? repo.issue_name : "Git Reports Issue", repo.construct_body(params), {:labels => repo.labels.present? ? repo.labels : ""})
+
+					# Redirect
+					redirect_to repository_submitted_path(repo.holder_name, repo.name)
+
+				# If invalid, display as much
+				else
+
+					# Store posted data in session
+					session[:issuedata] = {:name => params[:name], :email => params[:email], :details => params[:details]}
+
+					# Redirect
+					redirect_to repository_public_path(params[:username], params[:repositoryname]), :flash => { :error => "Incorrect CAPTCHA; please retry!" }
 				end
-
-				# Create the issue
-				client.create_issue(repo.holder_name + "/" + repo.name, repo.issue_name.present? ? repo.issue_name : "Git Reports Issue", repo.construct_body(params), {:labels => repo.labels.present? ? repo.labels : ""})
-
-				# Redirect
-				redirect_to repository_submitted_path(repo.holder_name, repo.name)
 			end
 		end
 

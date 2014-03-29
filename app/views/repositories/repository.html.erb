@@ -16,17 +16,23 @@
 				<div class="row">
 					<div class="small-6 columns">
 						<%= label :name, "Name" %>
-			 			<%= text_field_tag :name %>
+			 			<%= text_field_tag :name, @name %>
 			 		</div>
 					<div class="small-6 columns">
 						<%= label :email, "Email" %>
-			 			<%= email_field_tag :email %>
+			 			<%= email_field_tag :email, @email %>
 			 		</div>
 			 	</div>
 			 	<div class="row">
 					<div class="small-12 columns">
 					 	<%= label :details, "Details" %>
-					 	<%= text_area_tag :details, "", :class => "report-textarea" %>
+					 	<%= text_area_tag :details, @details, :class => "report-textarea" %>
+					</div>
+				</div>
+				<div class="row">
+					<div class="small-6 columns">
+						<p>Please complete the following CAPTCHA to prove that you're a human.</p>
+						<%= show_simple_captcha(:label => "") %><br>
 					</div>
 				</div>
 				<div class="row">
