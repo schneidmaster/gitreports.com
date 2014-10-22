@@ -75,7 +75,7 @@ class AuthenticationsController < ApplicationController
 				# If so, update its name and add the user if necessary
 				if repo
 
-					repo.update(:name => api_repo[:name])
+					repo.update(:name => api_repo[:name], :owner => api_repo[:owner][:login])
 
 					if !repo.users.any? {|u| u == user }
 
@@ -160,7 +160,7 @@ class AuthenticationsController < ApplicationController
 					# If so, update its name and add the user if necessary
 					if repo
 
-						repo.update(:name => api_repo[:name])
+						repo.update(:name => api_repo[:name], :owner => api_repo[:owner][:login])
 
 						if !repo.users.any? {|u| u == user }
 

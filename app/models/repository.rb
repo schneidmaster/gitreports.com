@@ -19,7 +19,9 @@ class Repository < ActiveRecord::Base
 	end
 
 	def holder_name
-		if self.organization
+		if self.owner
+			self.owner
+		elsif self.organization
 			self.organization.name
 		else
 			self.users.first.username
@@ -27,11 +29,14 @@ class Repository < ActiveRecord::Base
 	end
 
 	def holder_path
-		if self.organization
-			'https://github.com/' + self.organization.name
-		else
-			'https://github.com/' + self.users.first.username
-		end
+		'https://github.com/' + 
+			if self.owner
+				self.owner
+			elsif self.organization
+				self.organization.name
+			else
+				self.users.first.username
+			end
 	end
 
 	def construct_body(params)
