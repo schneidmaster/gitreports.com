@@ -11,59 +11,59 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141022145432) do
+ActiveRecord::Schema.define(version: 20_141_022_145_432) do
 
-  create_table "organizations", force: true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  create_table 'organizations', force: true do |t|
+    t.string 'name'
+    t.datetime 'created_at'
+    t.datetime 'updated_at'
   end
 
-  create_table "organizations_users", force: true do |t|
-    t.integer  "organization_id"
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  create_table 'organizations_users', force: true do |t|
+    t.integer 'organization_id'
+    t.integer 'user_id'
+    t.datetime 'created_at'
+    t.datetime 'updated_at'
   end
 
-  create_table "repositories", force: true do |t|
-    t.string   "github_id"
-    t.string   "name"
-    t.string   "display_name"
-    t.string   "issue_name"
-    t.text     "prompt"
-    t.text     "followup"
-    t.string   "labels"
-    t.boolean  "is_active"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "organization_id"
-    t.string   "owner"
+  create_table 'repositories', force: true do |t|
+    t.string 'github_id'
+    t.string 'name'
+    t.string 'display_name'
+    t.string 'issue_name'
+    t.text 'prompt'
+    t.text 'followup'
+    t.string 'labels'
+    t.boolean 'is_active'
+    t.datetime 'created_at'
+    t.datetime 'updated_at'
+    t.integer 'organization_id'
+    t.string 'owner'
   end
 
-  create_table "repositories_users", force: true do |t|
-    t.integer  "repository_id"
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  create_table 'repositories_users', force: true do |t|
+    t.integer 'repository_id'
+    t.integer 'user_id'
+    t.datetime 'created_at'
+    t.datetime 'updated_at'
   end
 
-  create_table "simple_captcha_data", force: true do |t|
-    t.string   "key",        limit: 40
-    t.string   "value",      limit: 6
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  create_table 'simple_captcha_data', force: true do |t|
+    t.string 'key',        limit: 40
+    t.string 'value',      limit: 6
+    t.datetime 'created_at'
+    t.datetime 'updated_at'
   end
 
-  add_index "simple_captcha_data", ["key"], name: "idx_key"
+  add_index 'simple_captcha_data', ['key'], name: 'idx_key'
 
-  create_table "users", force: true do |t|
-    t.string   "username"
-    t.string   "name"
-    t.string   "gravatar_id"
-    t.string   "access_token"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  create_table 'users', force: true do |t|
+    t.string 'username'
+    t.string 'name'
+    t.string 'gravatar_id'
+    t.string 'access_token'
+    t.datetime 'created_at'
+    t.datetime 'updated_at'
   end
 
 end

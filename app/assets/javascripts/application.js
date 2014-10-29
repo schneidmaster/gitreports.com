@@ -5,7 +5,7 @@
 
 $(document).ready(function() {
 
-	// Initialize Foundation
-	$(document).foundation();
+  // Initialize Foundation
+  $(document).foundation();
 
 });

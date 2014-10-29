@@ -1,115 +1,115 @@
 <div class="row">
-	<div class="small-9 columns">
-		<h2><%= @current_user.name %></h2>
-		<h4><%= link_to @current_user.username, @current_user.github_path %></h4>
-	</div>
-	<div class="small-3 columns text-right">
-		<%= image_tag @current_user.avatar_url, :alt => @current_user.name %>
-	</div>
+  <div class="small-9 columns">
+    <h2><%= @current_user.name %></h2>
+    <h4><%= link_to @current_user.username, @current_user.github_path %></h4>
+  </div>
+  <div class="small-3 columns text-right">
+    <%= image_tag @current_user.avatar_url, :alt => @current_user.name %>
+  </div>
 </div>
 <div class="row">
-	<div class="small-12 columns">
-		<hr>
-		<% if @current_user.repositories.where(:organization_id => nil).count == 0 %>
-			<h3>No Repositories</h3>
-			<p>Get to work!</p>
-		<% else %>
-			<h3>Repositories</h3>
-			<table class="responsive">
-				<thead>
-					<tr>
-						<th width="60%">Repository Name</th>
-						<th width="10%">Edit</th>
-						<th width="10%">Status</th>
-						<th width="10%">Toggle</th>
-						<th width="10%">Public URL</th>
-					</tr>
-				</thead>
-				<tbody>
-					<% @current_user.repositories.where(:organization_id => nil).each do |repo| %>
-						<tr>
-							<td>
-								<%= link_to repo.name, repository_path(repo) %>
-							</td>
-							<td>
-								<%= link_to "Edit", repository_edit_path(repo) %>
-							</td>
-							<td>
-								<% if repo.is_active %>
-									Active
-								<% else %>
-									Inactive
-								<% end %>
-							</td>
-							<td>
-								<% if repo.is_active %>
-									<%= link_to "Deactivate", repository_deactivate_path(repo), method: :post, confirm: "Are you sure you want to deactivate repository '" + repo.name + "'?" %>
-								<% else %>
-									<%= link_to "Activate", repository_activate_path(repo), method: :post, confirm: "Are you sure you want to activate repository '" + repo.name + "'?" %>
-								<% end %>
-							</td>
-							<td>
-								<% if repo.is_active %>
-									<%= link_to "View", repository_public_path(@current_user.username, repo.name) %>
-								<% else %>
-									-
-								<% end %>
-							</td>
-						</tr>
-					<% end %>
-				</tbody>
-			</table>
-		<% end %>
+  <div class="small-12 columns">
+    <hr>
+    <% if @current_user.repositories.where(:organization_id => nil).count == 0 %>
+      <h3>No Repositories</h3>
+      <p>Get to work!</p>
+    <% else %>
+      <h3>Repositories</h3>
+      <table class="responsive">
+        <thead>
+          <tr>
+            <th width="60%">Repository Name</th>
+            <th width="10%">Edit</th>
+            <th width="10%">Status</th>
+            <th width="10%">Toggle</th>
+            <th width="10%">Public URL</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @current_user.repositories.where(:organization_id => nil).each do |repo| %>
+            <tr>
+              <td>
+                <%= link_to repo.name, repository_path(repo) %>
+              </td>
+              <td>
+                <%= link_to "Edit", repository_edit_path(repo) %>
+              </td>
+              <td>
+                <% if repo.is_active %>
+                  Active
+                <% else %>
+                  Inactive
+                <% end %>
+              </td>
+              <td>
+                <% if repo.is_active %>
+                  <%= link_to "Deactivate", repository_deactivate_path(repo), method: :post, confirm: "Are you sure you want to deactivate repository '" + repo.name + "'?" %>
+                <% else %>
+                  <%= link_to "Activate", repository_activate_path(repo), method: :post, confirm: "Are you sure you want to activate repository '" + repo.name + "'?" %>
+                <% end %>
+              </td>
+              <td>
+                <% if repo.is_active %>
+                  <%= link_to "View", repository_public_path(@current_user.username, repo.name) %>
+                <% else %>
+                  -
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% end %>
 
-		<% @current_user.organizations.each do |org| %>
-			<hr>
-			<h3><%= org.name %></h3>
-			<table class="responsive">
-				<thead>
-					<tr>
-						<th width="60%">Repository Name</th>
-						<th width="10%">Edit</th>
-						<th width="10%">Status</th>
-						<th width="10%">Toggle</th>
-						<th width="10%">Public URL</th>
-					</tr>
-				</thead>
-				<tbody>
-					<% org.repositories.each do |repo| %>
-						<% if repo.users.any? {|u| u == @current_user } %>
-							<tr>
-								<td>
-									<%= link_to repo.name, repository_path(repo) %>
-								</td>
-								<td>
-									<%= link_to "Edit", repository_edit_path(repo) %>
-								</td>
-								<td>
-									<% if repo.is_active %>
-										Active
-									<% else %>
-										Inactive
-									<% end %>
-								</td>
-								<td>
-									<% if repo.is_active %>
-										<%= link_to "Deactivate", repository_deactivate_path(repo), method: :post, confirm: "Are you sure you want to deactivate repository '" + repo.name + "'?" %>
-									<% else %>
-										<%= link_to "Activate", repository_activate_path(repo), method: :post, confirm: "Are you sure you want to activate repository '" + repo.name + "'?" %>
-									<% end %>
-								</td>
-								<td>
-									<% if repo.is_active %>
-										<%= link_to "View", repository_public_path(org.name, repo.name) %>
-									<% else %>
-										-
-									<% end %>
-								</td>
-							</tr>
-						<% end %>
-					<% end %>
-				</tbody>
-			</table>
-		<% end %>
-	</div>
+    <% @current_user.organizations.each do |org| %>
+      <hr>
+      <h3><%= org.name %></h3>
+      <table class="responsive">
+        <thead>
+          <tr>
+            <th width="60%">Repository Name</th>
+            <th width="10%">Edit</th>
+            <th width="10%">Status</th>
+            <th width="10%">Toggle</th>
+            <th width="10%">Public URL</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% org.repositories.each do |repo| %>
+            <% if repo.users.any? {|u| u == @current_user } %>
+              <tr>
+                <td>
+                  <%= link_to repo.name, repository_path(repo) %>
+                </td>
+                <td>
+                  <%= link_to "Edit", repository_edit_path(repo) %>
+                </td>
+                <td>
+                  <% if repo.is_active %>
+                    Active
+                  <% else %>
+                    Inactive
+                  <% end %>
+                </td>
+                <td>
+                  <% if repo.is_active %>
+                    <%= link_to "Deactivate", repository_deactivate_path(repo), method: :post, confirm: "Are you sure you want to deactivate repository '" + repo.name + "'?" %>
+                  <% else %>
+                    <%= link_to "Activate", repository_activate_path(repo), method: :post, confirm: "Are you sure you want to activate repository '" + repo.name + "'?" %>
+                  <% end %>
+                </td>
+                <td>
+                  <% if repo.is_active %>
+                    <%= link_to "View", repository_public_path(org.name, repo.name) %>
+                  <% else %>
+                    -
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    <% end %>
+  </div>
 </div>

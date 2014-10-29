@@ -6,7 +6,7 @@ GitReports::Application.routes.draw do
   get '/profile', to: 'pages#profile', as: 'profile'
   get '/tutorial', to: 'pages#tutorial', as: 'tutorial'
   get '/about', to: 'pages#about', as: 'about'
-  
+
   # Authentication routes
   get '/login', to: 'authentications#login', as: 'login'
   get '/github_callback', to: 'authentications#callback'

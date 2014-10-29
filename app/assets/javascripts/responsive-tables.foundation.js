@@ -20,27 +20,27 @@ $(document).ready(function() {
   $(window).on("redraw",function(){switched=false;updateTables();}); // An event to listen for
   $(window).on("resize", updateTables);
    
-	
-	function splitTable(original)
-	{
-		original.wrap("<div class='table-wrapper' />");
-		
-		var copy = original.clone();
-		copy.find("td:not(:first-child), th:not(:first-child)").css("display", "none");
-		copy.removeClass("responsive");
-		
-		original.closest(".table-wrapper").append(copy);
-		copy.wrap("<div class='pinned' />");
-		original.wrap("<div class='scrollable' />");
+  
+  function splitTable(original)
+  {
+    original.wrap("<div class='table-wrapper' />");
+    
+    var copy = original.clone();
+    copy.find("td:not(:first-child), th:not(:first-child)").css("display", "none");
+    copy.removeClass("responsive");
+    
+    original.closest(".table-wrapper").append(copy);
+    copy.wrap("<div class='pinned' />");
+    original.wrap("<div class='scrollable' />");
 
     setCellHeights(original, copy);
-	}
-	
-	function unsplitTable(original) {
+  }
+  
+  function unsplitTable(original) {
     original.closest(".table-wrapper").find(".pinned").remove();
     original.unwrap();
     original.unwrap();
-	}
+  }
 
   function setCellHeights(original, copy) {
     var tr = original.find('tr'),

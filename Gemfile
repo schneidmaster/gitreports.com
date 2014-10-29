@@ -5,12 +5,17 @@ gem 'rails', '4.0.1'
 
 # Use sqlite3 as the database for Active Record
 group :development do
-	gem 'sqlite3', '1.3.8'
+  gem 'sqlite3', '1.3.8'
+
+  gem 'binding_of_caller', '0.7.2'
+  gem 'better_errors', '1.1.0'
+  gem 'pry-rails', '0.3.2'
+  gem 'rubocop', '0.24.1'
 end
 
 # Use mysql2 in production
 group :production do
-	gem 'mysql2'
+  gem 'mysql2'
 end
 
 # Use SCSS for stylesheets

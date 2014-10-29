@@ -6,7 +6,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string :name
       t.string :gravatar_id
       t.string :access_token
-      
+
       t.timestamps
     end
   end

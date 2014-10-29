@@ -1,49 +1,49 @@
 <div class="row">
-	<div class="small-12 columns">
-		<h2>
-			Git Reports
-		</h2>
-		<hr>
-		<h3>
-			Intro
-		</h3>
-		<p>
-			Git Reports is a free service that lets you set up a stable URL for anonymous users to submit bugs and other Issues to your GitHub repositories, without exposing your code, requiring users to log in with GitHub, or using a messy <%= link_to "two-repository solution", "https://help.github.com/articles/issues-only-access-permissions" %>.  It works with public and private repositories, and it works with personal and organization repositories.  It's super easy to set up: <%= link_to "log in", login_path%>, allow access, and activate your repository from the list!  Check out the <%= link_to "tutorial", tutorial_path %> for more details.
-		</p>
-		<hr>
-		<h3>
-			Pricing
-		</h3>
-		<p>
-			Free and ad-free!  This service is the side project of a broke college student, so if you like it, throw me a few dollars.
-			<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-				<input type="hidden" name="cmd" value="_s-xclick">
-				<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----<%= ENV['PAYPAL_CODE'] %>-----END PKCS7-----
-				">
-				<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-				<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
-			</form>
-		</p>
-		<hr>
-		<h3>
-			Author
-		</h3>
-		<p>
-			Made with love by <%= link_to "Zach Schneider", "http://www.schneidmaster.com" %>.  I'll be graduating in May with my CS degree, so if your company needs Rails developers, check out my <%= link_to "r&eacute;sum&eacute;".html_safe, "http://schneidmaster.com/docs/Zachariah_Schneider_Resume.pdf" %>.
-		</p>
-		<hr>
-		<h3>
-			What's with the permissions?
-		</h3>
-		<p>
-			The GitHub API doesn't have a whole lot of <%= link_to "scope options", "http://developer.github.com/v3/oauth/#scopes" %>; unfortunately, in order to get write access to a repo's issues, I also have to request write access to the full repo.  The site's open-source, though, so you can <%= link_to "check it out for yourself", "https://github.com/schneidmaster/gitreports.com" %> or even self-host your own copy if that's your thing.
-		</p>
-		<hr>
-		<h3>
-			I found a bug/have a feature/etc.!
-		</h3>
-		<p>
-			Dogfood it with a bug report <%= link_to "here", "http://gitreports.com/issue/schneidmaster/gitreports.com" %>, or you can just <%= link_to "create a new issue", "https://github.com/schneidmaster/gitreports.com/issues/new" %> on GitHub; the repo's public.  Feel free to send a pull request if you fix a bug or add a new feature.
-		</p>
-	</div>
+  <div class="small-12 columns">
+    <h2>
+      Git Reports
+    </h2>
+    <hr>
+    <h3>
+      Intro
+    </h3>
+    <p>
+      Git Reports is a free service that lets you set up a stable URL for anonymous users to submit bugs and other Issues to your GitHub repositories, without exposing your code, requiring users to log in with GitHub, or using a messy <%= link_to "two-repository solution", "https://help.github.com/articles/issues-only-access-permissions" %>.  It works with public and private repositories, and it works with personal and organization repositories.  It's super easy to set up: <%= link_to "log in", login_path%>, allow access, and activate your repository from the list!  Check out the <%= link_to "tutorial", tutorial_path %> for more details.
+    </p>
+    <hr>
+    <h3>
+      Pricing
+    </h3>
+    <p>
+      Free and ad-free!  This service is the side project of a broke college student, so if you like it, throw me a few dollars.
+      <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+        <input type="hidden" name="cmd" value="_s-xclick">
+        <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----<%= ENV['PAYPAL_CODE'] %>-----END PKCS7-----
+        ">
+        <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+        <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+      </form>
+    </p>
+    <hr>
+    <h3>
+      Author
+    </h3>
+    <p>
+      Made with love by <%= link_to "Zach Schneider", "http://www.schneidmaster.com" %>.  I'll be graduating in May with my CS degree, so if your company needs Rails developers, check out my <%= link_to "r&eacute;sum&eacute;".html_safe, "http://schneidmaster.com/docs/Zachariah_Schneider_Resume.pdf" %>.
+    </p>
+    <hr>
+    <h3>
+      What's with the permissions?
+    </h3>
+    <p>
+      The GitHub API doesn't have a whole lot of <%= link_to "scope options", "http://developer.github.com/v3/oauth/#scopes" %>; unfortunately, in order to get write access to a repo's issues, I also have to request write access to the full repo.  The site's open-source, though, so you can <%= link_to "check it out for yourself", "https://github.com/schneidmaster/gitreports.com" %> or even self-host your own copy if that's your thing.
+    </p>
+    <hr>
+    <h3>
+      I found a bug/have a feature/etc.!
+    </h3>
+    <p>
+      Dogfood it with a bug report <%= link_to "here", "http://gitreports.com/issue/schneidmaster/gitreports.com" %>, or you can just <%= link_to "create a new issue", "https://github.com/schneidmaster/gitreports.com/issues/new" %> on GitHub; the repo's public.  Feel free to send a pull request if you fix a bug or add a new feature.
+    </p>
+  </div>
 </div>
