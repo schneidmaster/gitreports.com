@@ -45,7 +45,7 @@
             <p>
               <i>This is the message that will be displayed to an anonymous user when they create a new issue.  You can use <%= link_to "Markdown", "http://daringfireball.net/projects/markdown/" %>.</i>
             </p>
-            <%= f.text_area :prompt, :class => "repository-textarea" %>
+            <%= f.text_area :prompt, class: "repository-textarea" %>
           </div>
         </div>
 
@@ -55,7 +55,7 @@
             <p>
               <i>This is the result message that will be displayed to an anonymous user after they submit a new issue.  You can use <%= link_to "Markdown", "http://daringfireball.net/projects/markdown/" %>.</i>
             </p>
-            <%= f.text_area :followup, :class => "repository-textarea" %>
+            <%= f.text_area :followup, class: "repository-textarea" %>
           </div>
         </div>
 
@@ -71,7 +71,7 @@
 
         <div class="row">
           <div class="small-3 columns">
-            <%= submit_tag "Update", :class => "button small" %>
+            <%= submit_tag "Update", class: "button small" %>
           </div>
         </div>
 

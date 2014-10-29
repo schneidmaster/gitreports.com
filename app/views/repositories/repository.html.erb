@@ -26,18 +26,18 @@
          <div class="row">
           <div class="small-12 columns">
              <%= label :details, "Details" %>
-             <%= text_area_tag :details, @details, :class => "report-textarea" %>
+             <%= text_area_tag :details, @details, class: "report-textarea" %>
           </div>
         </div>
         <div class="row">
           <div class="small-6 columns">
             <p>Please complete the following CAPTCHA to prove that you're a human.</p>
-            <%= show_simple_captcha(:label => "") %><br>
+            <%= show_simple_captcha(label: "") %><br>
           </div>
         </div>
         <div class="row">
           <div class="small-3 columns">
-             <%= submit_tag "Submit", :class => "button small" %>
+             <%= submit_tag "Submit", class: "button small" %>
            </div>
          </div>
       </fieldset>

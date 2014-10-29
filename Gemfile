@@ -43,7 +43,7 @@ gem 'dotenv-rails', '0.9.0'
 gem 'redcarpet'
 
 # SimpleCaptcha for, well, captchas
-gem 'simple_captcha', :git => 'git://github.com/galetahub/simple-captcha.git'
+gem 'simple_captcha', git: 'git://github.com/galetahub/simple-captcha.git'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
