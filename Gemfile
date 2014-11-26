@@ -13,6 +13,17 @@ group :development do
   gem 'rubocop', '0.24.1'
 end
 
+group :test do
+  gem 'capybara', '~> 2.3.0'
+  gem 'capybara-screenshot', '~> 0.3.19'
+  gem 'database_cleaner', '~> 1.3.0'
+  gem 'factory_girl_rails', '~> 4.4.1'
+  gem 'faker', '~> 1.3.0'
+  gem 'poltergeist', '~> 1.5.0'
+  gem 'rspec-rails', '~> 2.14.1'
+  gem 'simplecov', '~> 0.8.2'
+end
+
 # Use mysql2 in production
 group :production do
   gem 'mysql2'
