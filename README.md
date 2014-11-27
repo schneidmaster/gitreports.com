@@ -1,3 +1,5 @@
+![](https://travis-ci.org/schneidmaster/gitreports.com.svg?branch=master)
+
 gitreports.com
 ================
 
