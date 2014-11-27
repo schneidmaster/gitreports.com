@@ -20,7 +20,6 @@ group :test do
   gem 'factory_girl_rails', '~> 4.4.1'
   gem 'faker', '~> 1.3.0'
   gem 'poltergeist', '~> 1.5.0'
-  gem 'rspec', '~> 2.14.1'
   gem 'rspec-rails', '~> 2.14.1'
   gem 'simplecov', '~> 0.8.2'
 end
