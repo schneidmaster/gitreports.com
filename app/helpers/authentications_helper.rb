@@ -30,6 +30,8 @@ module AuthenticationsHelper
   def ensure_own_repository!
     if !signed_in?
       redirect_to root_path
+    elsif !Repository.exists?(params[:id])
+      render 'repositories/404'
     elsif !Repository.find(params[:id]).check_owner(current_user)
       redirect_to profile_path
     end

@@ -6,10 +6,8 @@ gem 'rails', '4.0.1'
 # Use sqlite3 as the database for Active Record
 group :development do
   gem 'sqlite3', '1.3.8'
-
   gem 'binding_of_caller', '0.7.2'
   gem 'better_errors', '1.1.0'
-  gem 'pry-rails', '0.3.2'
   gem 'rubocop', '0.24.1'
 end
 
@@ -20,8 +18,15 @@ group :test do
   gem 'factory_girl_rails', '~> 4.4.1'
   gem 'faker', '~> 1.3.0'
   gem 'poltergeist', '~> 1.5.0'
+  gem 'rack_session_access', '~> 0.1.1'
   gem 'rspec-rails', '~> 2.14.1'
   gem 'simplecov', '~> 0.8.2'
+  gem 'sinatra', '~> 1.4.5'
+  gem 'webmock', '~> 1.18.0'
+end
+
+group :development, :test do
+  gem 'pry-rails', '0.3.2'
 end
 
 # Use mysql2 in production
@@ -55,8 +60,3 @@ gem 'redcarpet'
 
 # SimpleCaptcha for, well, captchas
 gem 'simple_captcha', git: 'git://github.com/galetahub/simple-captcha.git'
-
-group :doc do
-  # bundle exec rake doc:rails generates the API under doc/api.
-  gem 'sdoc', require: false
-end

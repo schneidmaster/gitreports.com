@@ -7,6 +7,10 @@ require 'capybara/rspec'
 require 'capybara-screenshot/rspec'
 require 'capybara/poltergeist'
 require 'simplecov'
+require 'webmock/rspec'
+require 'rack_session_access/capybara'
+
+WebMock.disable_net_connect!(allow_localhost: true)
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -14,7 +18,7 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 
 # Checks for pending migrations before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
-ActiveRecord::Migration.maintain_test_schema!
+# ActiveRecord::Migration.maintain_test_schema!
 
 # Generate coverage report
 SimpleCov.start
@@ -33,6 +37,7 @@ RSpec.configure do |config|
 
   # Include SessionHelper methods
   config.include Features::SessionHelpers, type: :feature
+  config.include Controllers::SessionHelpers, type: :controller
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
@@ -54,11 +59,13 @@ RSpec.configure do |config|
   config.order = "random"
 
   # Set up Capybara
-  Capybara.register_driver :poltergeist do |app|
-    Capybara::Poltergeist::Driver.new(app)
+  Capybara.configure do |capy|
+    capy.register_driver :poltergeist do |app|
+      Capybara::Poltergeist::Driver.new(app)
+    end
+    capy.javascript_driver = :poltergeist
+    capy.server_port = 5000
   end
-  Capybara.javascript_driver = :poltergeist
-  Capybara.server_port = 5000
 
   config.before(:suite) do
     DatabaseCleaner.clean_with :truncation
@@ -71,5 +78,12 @@ RSpec.configure do |config|
 
   config.after(:each) do
     DatabaseCleaner.clean
+  end
+
+  # Stub GitHub requests
+  RSpec.configure do |config|
+    config.before(:each) do
+      stub_request(:any, /api.github.com/).to_rack(FakeGitHub)
+    end
   end
 end

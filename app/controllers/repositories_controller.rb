@@ -110,55 +110,32 @@ class RepositoriesController < ApplicationController
   end
 
   def repository_show
-    repo = Repository.find(params[:id])
-    if repo.nil?
-      render '404'
-    else
-      @repository = repo
-    end
+    @repository = Repository.find(params[:id])
   end
 
   def repository_edit
-    repo = Repository.find(params[:id])
-    if repo.nil?
-      render '404'
-    else
-      @repository = repo
-    end
+    @repository = Repository.find(params[:id])
   end
 
   def repository_update
-    repo = Repository.find(params[:id])
-    if repo.nil?
-      render '404'
-    else
-      @repository = repo
+    @repository = Repository.find(params[:id])
 
-      if @repository.update(params[:repository].permit(:display_name, :issue_name, :prompt, :followup, :labels))
-        redirect_to repository_path(@repository)
-      else
-        render 'repository_edit'
-      end
+    if @repository.update(params[:repository].permit(:display_name, :issue_name, :prompt, :followup, :labels))
+      redirect_to repository_path(@repository)
+    else
+      render 'repository_edit'
     end
   end
 
   def repository_activate
     repo = Repository.find(params[:id])
-    if repo.nil?
-      render '404'
-    else
-      repo.update(is_active: true)
-      redirect_to repository_path(repo)
-    end
+    repo.update(is_active: true)
+    redirect_to repository_path(repo)
   end
 
   def repository_deactivate
     repo = Repository.find(params[:id])
-    if repo.nil?
-      render '404'
-    else
-      repo.update(is_active: false)
-      redirect_to repository_path(repo)
-    end
+    repo.update(is_active: false)
+    redirect_to repository_path(repo)
   end
 end
