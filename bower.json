@@ -1,0 +1,11 @@
+{
+  "vendor": {
+    "name": "bower-rails generated vendor assets",
+    "dependencies": {
+      "jquery": "2.1.1",
+      "jquery-ujs": "*",
+      "foundation": "5.0.2",
+      "responsive-tables": "git://github.com/schneidmaster/responsive-tables.git"
+    }
+  }
+}

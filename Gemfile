@@ -34,6 +34,9 @@ group :production do
   gem 'mysql2'
 end
 
+# Use bower for frontend assets
+gem 'bower-rails', '~> 0.9.1'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
 
@@ -42,12 +45,6 @@ gem 'uglifier', '>= 1.3.0'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 gem 'therubyracer', platforms: :ruby
-
-# Use jquery as the JavaScript library
-gem 'jquery-rails'
-
-# Foundation CSS
-gem 'foundation-rails', '5.0.2'
 
 # Octokit GitHub API
 gem 'octokit', '3.5.2'

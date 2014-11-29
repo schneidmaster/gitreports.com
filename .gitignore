@@ -25,7 +25,10 @@
 /config/initializers/secret_token.rb
 
 # Ignore test code
-/coverage/
+/coverage
 
 # Ignore dotfiles
 .DS_Store
+
+# Ignore bower assets
+/vendor
