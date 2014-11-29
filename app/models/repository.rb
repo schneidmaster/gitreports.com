@@ -29,14 +29,7 @@ class Repository < ActiveRecord::Base
   end
 
   def holder_path
-    'https://github.com/' +
-      if owner
-        owner
-      elsif organization
-        organization.name
-      else
-        users.first.username
-      end
+    'https://github.com/' + holder_name
   end
 
   def construct_body(params)
