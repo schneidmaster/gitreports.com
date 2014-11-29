@@ -31,6 +31,10 @@ class FakeGitHub < Sinatra::Base
     json_response 200, 'rate_limit.json', headers
   end
 
+  post '/repos/greptest/CoolCode/issues' do
+    json_response 201, 'issue.json'
+  end
+
   private
 
   def json_response(response_code, content, headers=nil)

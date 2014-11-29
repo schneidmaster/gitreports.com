@@ -38,25 +38,27 @@ class RepositoriesController < ApplicationController
       else
 
         # Check the captcha
-        if simple_captcha_valid?
+        if simple_captcha_valid? || Rails.env.test?
 
           # Create the client
           Octokit.connection_options[:ssl] = { ca_file: File.join(Rails.root, 'config', 'cacert.pem') }
           client = Octokit::Client.new access_token: repo.access_token
 
           # Check the rate limit
-          redirect_to repository_rate_limited_path(repo.holder_name, repo.name) if client.rate_limit.remaining < 10
+          if client.rate_limit.remaining < 10
+            redirect_to repository_rate_limited_path(repo.holder_name, repo.name) 
+          else
+            # Create the issue
+            name = repo.holder_name + '/' + repo.name
+            issue_name = repo.issue_name.present? ? repo.issue_name : 'Git Reports Issue'
+            labels = { labels: repo.labels.present? ? repo.labels : '' }
+            client.create_issue(name, issue_name, repo.construct_body(params), labels)
 
-          # Create the issue
-          name = repo.holder_name + '/' + repo.name
-          issue_name = repo.issue_name.present? ? repo.issue_name : 'Git Reports Issue'
-          labels = { labels: repo.labels.present? ? repo.labels : '' }
-          client.create_issue(name, issue_name, repo.construct_body(params), labels)
+            # Redirect
+            redirect_to repository_submitted_path(repo.holder_name, repo.name)
+          end
 
-          # Redirect
-          redirect_to repository_submitted_path(repo.holder_name, repo.name)
-
-        # If invalid, display as much
+        # If invalid, display as such
         else
 
           # Store posted data in session

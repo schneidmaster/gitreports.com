@@ -5,7 +5,7 @@ feature 'Repository' do
   let!(:repository) { create :user_repository, name: 'CoolCode' }
   let!(:org_repository) { create :repository, name: 'CoolOrg', organization: organization }
   let!(:inactive_repository) { create :repository, name: 'CoolInactive', is_active: false }
-  let!(:user) { create :user, repositories: [repository, inactive_repository] }
+  let!(:user) { create :user, username: 'greptest', repositories: [repository, inactive_repository] }
   let!(:org_user) { create :user, organizations: [organization], repositories: [org_repository] }
   let!(:another_user) { create :user }
 
@@ -123,6 +123,21 @@ feature 'Repository' do
         expect(page).to have_content('Status: Inactive')
         click_on 'Activate'
         expect(page).to have_content('Status: Active')
+      end
+    end
+  end
+
+  describe 'submit issue' do
+    before { repository.update owner: user.username }
+    context 'user fills out form' do
+      scenario 'submits issue' do
+        visit repository_public_path(repository.holder_name, repository.name)
+        fill_in 'name', with: 'Joe Schmoe'
+        fill_in 'email', with: 'joe.schmoe@gmail.com'
+        fill_in 'details', with: 'Your code is broken!'
+        fill_in 'captcha', with: 'asdfgh'
+        click_on 'Submit'
+        expect(page).to have_content('Thanks for submitting your report!')
       end
     end
   end
