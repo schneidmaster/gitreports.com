@@ -1,4 +1,5 @@
 ![](https://travis-ci.org/schneidmaster/gitreports.com.svg?branch=master)
+[![Coverage Status](https://img.shields.io/coveralls/schneidmaster/gitreports.com.svg)](https://coveralls.io/r/schneidmaster/gitreports.com)
 
 gitreports.com
 ================
