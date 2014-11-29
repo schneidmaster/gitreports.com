@@ -37,6 +37,17 @@ module AuthenticationsHelper
     end
   end
 
+  def ensure_repository_active!
+    holder = User.find_by_username(params[:username]) || Organization.find_by_name(params[:username])
+
+    if holder.nil?
+      render '404'
+    else
+      repo = holder.repositories.find_by_name(params[:repositoryname])
+      render '404' if repo.nil? || !repo.is_active
+    end
+  end
+
   def logout!
     session[:user_id] = nil
   end

@@ -2,12 +2,12 @@ require 'spec_helper'
 
 feature 'Repository' do
   let!(:organization) { create :organization }
-  let!(:repository) { create :user_repository, name: 'CoolCode' }
-  let!(:org_repository) { create :repository, name: 'CoolOrg', organization: organization }
-  let!(:inactive_repository) { create :repository, name: 'CoolInactive', is_active: false }
-  let!(:user) { create :user, username: 'greptest', repositories: [repository, inactive_repository] }
-  let!(:org_user) { create :user, organizations: [organization], repositories: [org_repository] }
+  let!(:user) { create :user, username: 'greptest' }
+  let!(:org_user) { create :user, organizations: [organization] }
   let!(:another_user) { create :user }
+  let!(:repository) { create :user_repository, name: 'CoolCode', owner: user.username, users: [user] }
+  let!(:org_repository) { create :repository, name: 'CoolOrg', organization: organization, users: [org_user] }
+  let!(:inactive_repository) { create :repository, name: 'CoolInactive', is_active: false, users: [user] }
 
   describe 'show repository' do
     context 'holder does not exist' do
@@ -128,8 +128,9 @@ feature 'Repository' do
   end
 
   describe 'submit issue' do
-    before { repository.update owner: user.username }
-    context 'user fills out form' do
+    context 'captcha is correct' do
+      before { set_override_captcha true }
+
       scenario 'submits issue' do
         visit repository_public_path(repository.holder_name, repository.name)
         fill_in 'name', with: 'Joe Schmoe'
@@ -138,6 +139,23 @@ feature 'Repository' do
         fill_in 'captcha', with: 'asdfgh'
         click_on 'Submit'
         expect(page).to have_content('Thanks for submitting your report!')
+      end
+    end
+
+    context 'captcha is incorrect' do
+      before { set_override_captcha false }
+      
+      scenario 'prefills issue page and shows error' do
+        visit repository_public_path(repository.holder_name, repository.name)
+        fill_in 'name', with: 'Joe Schmoe'
+        fill_in 'email', with: 'joe.schmoe@gmail.com'
+        fill_in 'details', with: 'Your code is broken!'
+        fill_in 'captcha', with: 'asdfgh'
+        click_on 'Submit'
+        expect(page).to have_content('Incorrect CAPTCHA; please retry!')
+        expect(find_field('name').value).to eq('Joe Schmoe')
+        expect(find_field('email').value).to eq('joe.schmoe@gmail.com')
+        expect(find_field('details').value).to eq('Your code is broken!')
       end
     end
   end

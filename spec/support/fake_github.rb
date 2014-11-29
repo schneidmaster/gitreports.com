@@ -3,7 +3,7 @@ require 'json'
 
 class FakeGitHub < Sinatra::Base
   post '/login/oauth/access_token' do
-    json_response 200, { access_token: SecureRandom.hex }
+    json_response 200, { access_token: 'access' }
   end
   
   get '/user' do
