@@ -44,7 +44,7 @@ class AuthenticationsController < ApplicationController
 
       # Check the rate limit
       if client.rate_limit!.remaining < 10
-        redirect_to login_rate_limited_path 
+        redirect_to login_rate_limited_path
       else
         # Delete any outdated repos
         user.repositories.each do |repo|
@@ -141,7 +141,7 @@ class AuthenticationsController < ApplicationController
       end
     end
   # If error, redirect with error message
-  rescue Exception => e
+  rescue
     logout!
     redirect_to root_path, flash: { error: 'An error occurred; please try again' }
   end

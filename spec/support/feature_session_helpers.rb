@@ -8,7 +8,7 @@ module Features
       page.driver.post path
     end
 
-    def set_override_captcha(value)
+    def override_captcha(value)
       page.set_rack_session(override_captcha: value)
     end
   end

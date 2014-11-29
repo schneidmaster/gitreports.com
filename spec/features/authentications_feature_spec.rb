@@ -30,11 +30,11 @@ feature 'Authentication' do
       let!(:org) { create :organization }
       let!(:user) { create :user, name: 'Old Name', access_token: 'access', organizations: [org] }
       let!(:repository) { create :user_repository, name: 'OldCode', users: [user] }
-      let!(:existing_repo) { create :user_repository, name: 'NeatCode', github_id: 5705827, users: [user] }
+      let!(:existing_repo) { create :user_repository, name: 'NeatCode', github_id: 5_705_827, users: [user] }
       let!(:org_repo) { create :repository, name: 'OldOrgCode', organization: org, users: [user] }
-      let!(:existing_org_repo) { create :repository, name: 'NeatOrgStuff', github_id: 5705826, organization: org, users: [user] }
-      let!(:unlinked_repo) { create :user_repository, name: 'PrettyProject', github_id: 19548054 }
-      let!(:unlinked_org_repo) { create :repository, name: 'NeatOrgProject', github_id: 19548055 }
+      let!(:existing_org_repo) { create :repository, name: 'NeatOrgStuff', github_id: 5_705_826, organization: org, users: [user] }
+      let!(:unlinked_repo) { create :user_repository, name: 'PrettyProject', github_id: 19_548_054 }
+      let!(:unlinked_org_repo) { create :repository, name: 'NeatOrgProject', github_id: 19_548_055 }
 
       before { visit "/github_callback?state=#{state}&code=#{SecureRandom.hex}" }
 

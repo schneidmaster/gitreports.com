@@ -30,7 +30,7 @@ class RepositoriesController < ApplicationController
 
       # Check the rate limit
       if client.rate_limit.remaining < 10
-        redirect_to repository_rate_limited_path(repo.holder_name, repo.name) 
+        redirect_to repository_rate_limited_path(repo.holder_name, repo.name)
       else
         # Create the issue
         name = repo.holder_name + '/' + repo.name

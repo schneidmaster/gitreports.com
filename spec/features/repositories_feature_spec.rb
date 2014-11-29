@@ -41,7 +41,7 @@ feature 'Repository' do
 
       scenario 'edits the repository' do
         click_on 'CoolCode'
-        click_on 'Edit' 
+        click_on 'Edit'
         fill_in 'Display name', with: 'The Coolest'
         fill_in 'Issue name', with: 'Big problems!'
         fill_in 'Prompt', with: 'Tell us what is wrong'
@@ -62,10 +62,10 @@ feature 'Repository' do
         log_in org_user
         visit profile_path
       end
-      
+
       scenario 'edits the repository' do
         click_on 'CoolOrg'
-        click_on 'Edit' 
+        click_on 'Edit'
         fill_in 'Display name', with: 'The Coolest'
         fill_in 'Issue name', with: 'Big problems!'
         fill_in 'Prompt', with: 'Tell us what is wrong'
@@ -83,7 +83,7 @@ feature 'Repository' do
 
     context 'another user logged in' do
       before { log_in another_user }
-      
+
       scenario 'does not permit editing' do
         visit repository_edit_path(repository)
         expect(page).not_to have_content('Update Repository')
@@ -115,7 +115,7 @@ feature 'Repository' do
         log_in org_user
         visit profile_path
       end
-      
+
       scenario 'edits the repository' do
         click_on 'CoolOrg'
         expect(page).to have_content('Status: Active')
@@ -129,7 +129,7 @@ feature 'Repository' do
 
   describe 'submit issue' do
     context 'captcha is correct' do
-      before { set_override_captcha true }
+      before { override_captcha true }
 
       scenario 'submits issue' do
         visit repository_public_path(repository.holder_name, repository.name)
@@ -143,8 +143,8 @@ feature 'Repository' do
     end
 
     context 'captcha is incorrect' do
-      before { set_override_captcha false }
-      
+      before { override_captcha false }
+
       scenario 'prefills issue page and shows error' do
         visit repository_public_path(repository.holder_name, repository.name)
         fill_in 'name', with: 'Joe Schmoe'

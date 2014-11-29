@@ -8,7 +8,7 @@ describe AuthenticationsController do
 
     context 'user is not logged in' do
       it 'redirects to login url' do
-        expect(subject).to redirect_to(%r(\Ahttps://github.com/login/oauth/authorize))
+        expect(subject).to redirect_to(%r{\Ahttps://github.com/login/oauth/authorize})
       end
     end
 

@@ -3,9 +3,9 @@ require 'json'
 
 class FakeGitHub < Sinatra::Base
   post '/login/oauth/access_token' do
-    json_response 200, { access_token: 'access' }
+    json_response 200,  access_token: 'access'
   end
-  
+
   get '/user' do
     json_response 200, 'user.json'
   end
@@ -37,7 +37,7 @@ class FakeGitHub < Sinatra::Base
 
   private
 
-  def json_response(response_code, content, headers=nil)
+  def json_response(response_code, content, headers = nil)
     content_type :json
     status response_code
 
