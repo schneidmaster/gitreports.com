@@ -7,10 +7,6 @@ module AuthenticationsHelper
     signed_in? ? User.find(session[:user_id]) : nil
   end
 
-  def current_access_token
-    signed_in? ? current_user.access_token : nil
-  end
-
   def ensure_signed_in!
     redirect_to login_path unless signed_in?
   end
@@ -34,9 +30,5 @@ module AuthenticationsHelper
       repo = holder.repositories.find_by_name(params[:repositoryname])
       render '404' if repo.nil? || !repo.is_active
     end
-  end
-
-  def logout!
-    session[:user_id] = nil
   end
 end
