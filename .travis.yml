@@ -7,6 +7,5 @@ script:
   - bundle exec rake bower:install
   - bundle exec rspec
 before_script:
-  - cp config/travis.env .env
   - cp config/database.travis.yml config/database.yml
   - npm install -g bower
