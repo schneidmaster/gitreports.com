@@ -3,6 +3,9 @@ FactoryGirl.define do
     github_id { Faker::Bitcoin.address }
     name { Faker::Lorem.word }
     is_active true
+    display_name ''
+    prompt ''
+    followup ''
     owner { Faker::Internet.user_name }
     organization
     users { [] }

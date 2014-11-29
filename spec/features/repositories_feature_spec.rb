@@ -128,14 +128,43 @@ feature 'Repository' do
   end
 
   describe 'submit issue' do
+    context 'custom display name, prompt, and followup are set' do
+      before { override_captcha true }
+
+      let!(:repository) { create :user_repository, owner: user.username, users: [user], display_name: 'Cool Code', prompt: 'Enter your bug please', followup: 'Thanks a lot!' }
+
+      scenario 'shows custom display name, prompt, and followup' do
+        visit repository_public_path(repository.holder_name, repository.name)
+        expect(page).to have_content('Cool Code')
+        expect(page).not_to have_content(repository.name)
+        expect(page).to have_content('Enter your bug please')
+        expect(page).not_to have_content('Please enter your bug report or feature request')
+        fill_in 'name', with: 'Joe Schmoe'
+        fill_in 'email', with: 'joe.schmoe@gmail.com'
+        fill_in 'details', with: 'Your code is broken!'
+        fill_in 'captcha', with: 'asdfgh'
+        click_on 'Submit'
+        expect(page).to have_content('Thanks a lot!')
+        expect(page).not_to have_content('Thanks for submitting your report!')
+      end
+    end
+
+    context 'no custom display, prompt, followup' do
+      scenario 'shows default display name and prompt' do
+        visit repository_public_path(repository.holder_name, repository.name)
+        expect(page).to have_content(repository.name)
+        expect(page).to have_content('Please enter your bug report or feature request')
+      end
+    end
+
     context 'rate limited' do
-      let!(:limited_user) { create :user, access_token: 'rate_limit_expired' }
-      let!(:limited_repo) { create :user_repository, name: 'Overused', owner: limited_user.username, users: [limited_user] }
+      let!(:user) { create :user, access_token: 'rate_limit_expired' }
+      let!(:repository) { create :user_repository, name: 'Overused', owner: user.username, users: [user] }
 
       before { override_captcha true }
 
       scenario 'shows rate limited page' do
-        visit repository_public_path(limited_repo.holder_name, limited_repo.name)
+        visit repository_public_path(repository.holder_name, repository.name)
         fill_in 'name', with: 'Joe Schmoe'
         fill_in 'email', with: 'joe.schmoe@gmail.com'
         fill_in 'details', with: 'Your code is broken!'
