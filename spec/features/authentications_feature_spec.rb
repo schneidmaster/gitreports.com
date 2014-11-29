@@ -11,7 +11,14 @@ feature 'Authentication' do
     context 'state is incorrect' do
       scenario 'does not log in' do
         visit "/github_callback?state=wrongstate&code=#{SecureRandom.hex}"
-        expect(page).to have_content('Error, please try again.')
+        expect(page).to have_content('An error occurred; please try again')
+      end
+    end
+
+    context 'rate limit is expired' do
+      scenario 'shows rate limited page' do
+        visit "/github_callback?state=#{state}&code=rate_limit_expired"
+        expect(page).to have_content('Git Reports is currently experiencing heavy traffic.')
       end
     end
 
@@ -26,13 +33,33 @@ feature 'Authentication' do
       end
     end
 
+    context 'first user login as org' do
+      let!(:user) { create :user }
+      let!(:org) { create :organization, name: 'neatorg' }
+      let!(:org_repo) { create :repository, name: 'OldOrgCode', organization: org, users: [user] }
+      let!(:existing_org_repo) { create :repository, name: 'NeatOrgStuff', github_id: 5_705_826, organization: org, users: [user] }
+
+      before { visit "/github_callback?state=#{state}&code=#{SecureRandom.hex}" }
+
+      scenario 'adds user to org' do
+        expect(page).to have_content('neatorg')
+      end
+
+      scenario 'updates existing org repo' do
+        expect(page).not_to have_content('NeatOrgStuff')
+        expect(page).to have_content('NeatOrgCode')
+      end
+
+      scenario 'deletes old org repo' do
+        expect(page).not_to have_content('OldOrgCode')
+      end
+    end
+
     context 'return user login' do
       let!(:org) { create :organization }
       let!(:user) { create :user, name: 'Old Name', access_token: 'access', organizations: [org] }
       let!(:repository) { create :user_repository, name: 'OldCode', users: [user] }
       let!(:existing_repo) { create :user_repository, name: 'NeatCode', github_id: 5_705_827, users: [user] }
-      let!(:org_repo) { create :repository, name: 'OldOrgCode', organization: org, users: [user] }
-      let!(:existing_org_repo) { create :repository, name: 'NeatOrgStuff', github_id: 5_705_826, organization: org, users: [user] }
       let!(:unlinked_repo) { create :user_repository, name: 'PrettyProject', github_id: 19_548_054 }
       let!(:unlinked_org_repo) { create :repository, name: 'NeatOrgProject', github_id: 19_548_055 }
 
@@ -56,17 +83,8 @@ feature 'Authentication' do
         expect(page).to have_content('CoolCode')
       end
 
-      scenario 'updates existing org repo' do
-        expect(page).not_to have_content('NeatOrgStuff')
-        expect(page).to have_content('NeatOrgCode')
-      end
-
-      scenario 'deletes old repositories' do
+      scenario 'deletes old repo' do
         expect(page).not_to have_content('OldCode')
-      end
-
-      scenario 'deletes old org repositories' do
-        expect(page).not_to have_content('OldOrgCode')
       end
     end
   end

@@ -10,7 +10,7 @@ class AuthenticationsController < ApplicationController
   def callback
     # Catch any errors gracefully
     if params[:state] != state
-      redirect_to root_path, flash: { error: 'Error, please try again.' }
+      redirect_to root_path, flash: { error: 'An error occurred; please try again' }
     else
       delete_state!
 
