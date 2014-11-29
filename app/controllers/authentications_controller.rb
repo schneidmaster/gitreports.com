@@ -42,79 +42,24 @@ class AuthenticationsController < ApplicationController
 
     # Log in the user
     session[:user_id] = user.id
+
     # Check the rate limit
-    redirect_to login_rate_limited_path if client.rate_limit.remaining < 10
-
-    # Delete any outdated repos
-    user.repositories.each do |repo|
-      next unless client.repos.select { |r| r[:name] == repo.name }.count == 0
-      user.repositories.delete(repo)
-
-      # If the repo has no users left, disable it
-      repo.update(is_active: false) if repo.users.count == 0
-    end
-
-    # Add their repositories
-    client.repos.each do |api_repo|
-      # See if the repo exists
-      repo = Repository.find_by_github_id(api_repo.id)
-      # If so, update its name and add the user if necessary
-      if repo
-        repo.update(name: api_repo[:name], owner: api_repo[:owner][:login])
-        unless repo.users.any? { |u| u == user }
-          repo.users << user
-          repo.save
-        end
-      # Else create it
-      else
-        # Create the new repo
-        repo = Repository.new(github_id: api_repo[:id], name: api_repo[:name], is_active: false)
-        # Tie the repo to the user
-        repo.users << user
-        # Save the new repo
-        repo.save
-      end
-    end
-
-    # Delete any outdated orgs
-    user.organizations.each do |org|
-      next unless client.orgs.select { |r| r[:login] == org.name }.count == 0
-      user.organizations.delete(org)
-    end
-
-    # Add their org repositories (if any), under the org name to keep it nice and neat
-    client.orgs.each do |api_org|
-      # See if the org exists
-      org = Organization.find_by_name(api_org[:login])
-      # If not, create it
-      if org.nil?
-        # Create the new org
-        org = Organization.new(name: api_org[:login])
-        # Tie the user to the org
-        org.users << user
-        # Save the org
-        org.save
-      else
-        # If so, make sure it's added to the user
-        unless user.organizations.any? { |o| o == org }
-          # Tie the user to the org
-          user.organizations << org
-          # Save the user
-          user.save
-        end
-      end
-      # Delete any outdated org repos that belong to the user
-      org.repositories.each do |repo|
-        next unless api_org.rels[:repos].get.data.select { |r| r[:name] == repo.name }.count == 0
-        repo.users.delete(user)
+    if client.rate_limit!.remaining < 10
+      redirect_to login_rate_limited_path 
+    else
+      # Delete any outdated repos
+      user.repositories.each do |repo|
+        next unless client.repos.select { |r| r[:name] == repo.name }.count == 0
+        user.repositories.delete(repo)
 
         # If the repo has no users left, disable it
         repo.update(is_active: false) if repo.users.count == 0
       end
-      # Add or create the org's repos
-      api_org.rels[:repos].get.data.each do |api_repo|
+
+      # Add their repositories
+      client.repos.each do |api_repo|
         # See if the repo exists
-        repo = org.repositories.find_by_github_id(api_repo[:id])
+        repo = Repository.find_by_github_id(api_repo.id)
         # If so, update its name and add the user if necessary
         if repo
           repo.update(name: api_repo[:name], owner: api_repo[:owner][:login])
@@ -126,19 +71,77 @@ class AuthenticationsController < ApplicationController
         else
           # Create the new repo
           repo = Repository.new(github_id: api_repo[:id], name: api_repo[:name], is_active: false)
-          # Tie the repo to the org
-          repo.organization = org
           # Tie the repo to the user
           repo.users << user
           # Save the new repo
           repo.save
         end
       end
+
+      # Delete any outdated orgs
+      user.organizations.each do |org|
+        next unless client.orgs.select { |r| r[:login] == org.name }.count == 0
+        user.organizations.delete(org)
+      end
+
+      # Add their org repositories (if any), under the org name to keep it nice and neat
+      client.orgs.each do |api_org|
+        # See if the org exists
+        org = Organization.find_by_name(api_org[:login])
+        # If not, create it
+        if org.nil?
+          # Create the new org
+          org = Organization.new(name: api_org[:login])
+          # Tie the user to the org
+          org.users << user
+          # Save the org
+          org.save
+        else
+          # If so, make sure it's added to the user
+          unless user.organizations.any? { |o| o == org }
+            # Tie the user to the org
+            user.organizations << org
+            # Save the user
+            user.save
+          end
+        end
+        # Delete any outdated org repos that belong to the user
+        org.repositories.each do |repo|
+          next unless api_org.rels[:repos].get.data.select { |r| r[:name] == repo.name }.count == 0
+          repo.users.delete(user)
+
+          # If the repo has no users left, disable it
+          repo.update(is_active: false) if repo.users.count == 0
+        end
+        # Add or create the org's repos
+        api_org.rels[:repos].get.data.each do |api_repo|
+          # See if the repo exists
+          repo = org.repositories.find_by_github_id(api_repo[:id])
+          # If so, update its name and add the user if necessary
+          if repo
+            repo.update(name: api_repo[:name], owner: api_repo[:owner][:login])
+            unless repo.users.any? { |u| u == user }
+              repo.users << user
+              repo.save
+            end
+          # Else create it
+          else
+            # Create the new repo
+            repo = Repository.new(github_id: api_repo[:id], name: api_repo[:name], is_active: false)
+            # Tie the repo to the org
+            repo.organization = org
+            # Tie the repo to the user
+            repo.users << user
+            # Save the new repo
+            repo.save
+          end
+        end
+      end
+      # Redirect to profile
+      redirect_to profile_path, flash: { success: 'Logged in!' }
     end
-    # Redirect to profile
-    redirect_to profile_path, flash: { success: 'Logged in!' }
   # If error, redirect with error message
-  rescue
+  rescue Exception => e
     logout!
     redirect_to root_path, flash: { error: 'An error occurred; please try again' }
   end

@@ -1,0 +1,12 @@
+[
+  {
+    "login": "neatorg",
+    "id": 1326940,
+    "url": "https://api.github.com/orgs/neatorg",
+    "repos_url": "https://api.github.com/orgs/neatorg/repos",
+    "events_url": "https://api.github.com/orgs/neatorg/events",
+    "members_url": "https://api.github.com/orgs/neatorg/members{/member}",
+    "public_members_url": "https://api.github.com/orgs/neatorg/public_members{/member}",
+    "avatar_url": "https://avatars.githubusercontent.com/u/1896112?v=3"
+  }
+]
