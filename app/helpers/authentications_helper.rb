@@ -1,26 +1,14 @@
 module AuthenticationsHelper
   def signed_in?
-    if session[:user_id]
-      true
-    else
-      false
-    end
+    !session[:user_id].nil?
   end
 
   def current_user
-    if signed_in?
-      User.find(session[:user_id])
-    else
-      nil
-    end
+    signed_in? ? User.find(session[:user_id]) : nil
   end
 
   def current_access_token
-    if signed_in?
-      current_user.access_token
-    else
-      nil
-    end
+    signed_in? ? current_user.access_token : nil
   end
 
   def ensure_signed_in!
