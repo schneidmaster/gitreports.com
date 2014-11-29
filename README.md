@@ -18,11 +18,13 @@ You're welcome to clone and self-host the application if you're so inclined.  Fo
 5. Rename config/initializers/secret_token.example.rb to config/initializers/secret_token.rb, and replace the #### with a long alphanumeric string- this is used to generate tokens to sign your application's cookies.
 6. Git Reports uses dotenv for configuration.  Create a file in the application root directory named ".env" and add the following lines to it (filling in the values you got from the last step):
 
+---
+
     GITHUB_CLIENT_ID=youridhere
     GITHUB_CLIENT_SECRET=yoursecrethere
     GITHUB_CALLBACK_URL=http://yourdomain.com/github_callback
 
-If you're developing locally with WEBrick or similar, your domain in the callback URL should include the port, i.e. 
+If you're developing locally with WEBrick or similar, your domain in the callback URL should include the port, i.e.
 
     GITHUB_CALLBACK_URL=http://localhost:3000/github_callback
 
