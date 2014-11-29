@@ -23,19 +23,32 @@ class FakeGitHub < Sinatra::Base
   end
 
   get '/rate_limit' do
-    headers = {}
-    headers['X-RateLimit-Limit'] = '5000'
-    headers['X-RateLimit-Remaining'] = '4999'
-    headers['X-RateLimit-Reset'] = '1372700873'
+    if rate_limit_expired
+      headers = {}
+      headers['X-RateLimit-Limit'] = '5000'
+      headers['X-RateLimit-Remaining'] = '0'
+      headers['X-RateLimit-Reset'] = '1500000000'
 
-    json_response 200, 'rate_limit.json', headers
+      json_response 200, 'rate_limit_exp.json', headers
+    else
+      headers = {}
+      headers['X-RateLimit-Limit'] = '5000'
+      headers['X-RateLimit-Remaining'] = '4999'
+      headers['X-RateLimit-Reset'] = '1372700873'
+
+      json_response 200, 'rate_limit.json', headers
+    end
   end
 
-  post '/repos/greptest/CoolCode/issues' do
+  post '/repos/:username/:repository/issues' do
     json_response 201, 'issue.json'
   end
 
   private
+
+  def rate_limit_expired
+    request.env['HTTP_AUTHORIZATION'] == 'token rate_limit_expired'
+  end
 
   def json_response(response_code, content, headers = nil)
     content_type :json

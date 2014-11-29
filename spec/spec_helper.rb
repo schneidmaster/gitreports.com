@@ -4,7 +4,7 @@ require File.expand_path('../../config/environment', __FILE__)
 require 'simplecov'
 require 'coveralls'
 
-SimpleCov.formatter = Coveralls::SimpleCov::Formatter
+SimpleCov.formatter = Coveralls::SimpleCov::Formatter if ENV['TRAVIS']
 SimpleCov.start
 
 require 'rspec/rails'
