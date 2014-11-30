@@ -2,6 +2,9 @@ class Repository < ActiveRecord::Base
   has_and_belongs_to_many :users, -> { order 'username ASC' }, uniq: true
   belongs_to :organization
 
+  scope :user_owned, -> { where(organization: nil) }
+  scope :with_user, ->(user) { joins(:users).where('users.id = ?', user) }
+
   def user=(user)
     users << user unless users.include?(user)
   end
