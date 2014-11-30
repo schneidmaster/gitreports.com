@@ -30,7 +30,7 @@ describe GithubService do
 
       it 'updates org repos' do
         GithubService.create_or_update_user('access')
-        
+
         subject
 
         # Removes outdated org repository

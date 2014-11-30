@@ -8,12 +8,11 @@ class RepositoriesController < ApplicationController
     @repository = holder.repositories.find_by_name(params[:repositoryname])
 
     # Load any data from session
-    if session[:issuedata]
-      @name = session[:issuedata][:name]
-      @email = session[:issuedata][:email]
-      @details = session[:issuedata][:details]
-      session[:issuedata] = nil
-    end
+    return unless session[:issuedata]
+    @name = session[:issuedata][:name]
+    @email = session[:issuedata][:email]
+    @details = session[:issuedata][:details]
+    session.delete(:issuedata)
   end
 
   def repository_submit

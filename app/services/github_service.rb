@@ -6,8 +6,7 @@ class GithubService
       return nil if client.rate_limit.remaining < 10
 
       # Save the local User to the database
-      user = User.find_by_access_token(access_token)
-      if user
+      if (user = User.find_by_access_token(access_token))
         user.update(username: client.user[:login], name: client.user[:name], gravatar_id: client.user[:gravatar_id])
       else
         user = User.create(username: client.user[:login], name: client.user[:name], gravatar_id: client.user[:gravatar_id], access_token: access_token)
@@ -32,8 +31,8 @@ class GithubService
       old_ids = user.repositories.pluck(:github_id)
 
       # Add user repositories
-      client.repos.select{ |repo| repo[:has_issues] }.each do |api_repo|
-        if repo = Repository.find_by_github_id(api_repo.id)
+      client.repos.select { |repo| repo[:has_issues] }.each do |api_repo|
+        if (repo = Repository.find_by_github_id(api_repo.id))
           # Remove from delete list
           old_ids.delete(api_repo.id.to_s)
 
@@ -51,7 +50,7 @@ class GithubService
 
       # Add their org repositories (if any), under the org name to keep it nice and neat
       client.orgs.each do |api_org|
-        if org = Organization.find_by_name(api_org[:login])
+        if (org = Organization.find_by_name(api_org[:login]))
           # Remove from delete list
           old_org_names.delete(api_org[:login])
           # Make sure it's added to the user
@@ -62,8 +61,8 @@ class GithubService
         end
 
         # Add or create the org's repos
-        api_org.rels[:repos].get.data.select{ |repo| repo[:has_issues] }.each do |api_repo|
-          if repo = org.repositories.find_by_github_id(api_repo[:id])
+        api_org.rels[:repos].get.data.select { |repo| repo[:has_issues] }.each do |api_repo|
+          if (repo = org.repositories.find_by_github_id(api_repo[:id]))
             # Remove from delete list
             old_ids.delete(api_repo.id.to_s)
 

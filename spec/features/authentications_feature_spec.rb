@@ -88,7 +88,7 @@ feature 'Authentication' do
       end
     end
   end
-  
+
   describe 'logout' do
     let!(:user) { create :user, name: 'Joe Schmoe' }
 

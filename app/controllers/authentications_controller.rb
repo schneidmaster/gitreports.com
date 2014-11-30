@@ -29,7 +29,7 @@ class AuthenticationsController < ApplicationController
         access_token = response['access_token']
 
         # Create or update user
-        if user = GithubService.create_or_update_user(access_token)
+        if (user = GithubService.create_or_update_user(access_token))
           # Log in the user
           session[:user_id] = user.id
 
