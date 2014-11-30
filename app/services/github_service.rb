@@ -76,7 +76,9 @@ class GithubService
       end
 
       # Remove user from any orgs they're no longer part of
-      user.organizations.where(name: old_org_names).delete_all
+      old_org_names.each do |org_name|
+        Organization.find_by_name(org_name).users.delete(user)
+      end
 
       # Remove user from any repos they no longer have access to
       old_ids.each do |github_id|
