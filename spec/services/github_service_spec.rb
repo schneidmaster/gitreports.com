@@ -33,7 +33,9 @@ describe GithubService do
         
         subject
 
+        # Removes outdated org repository
         expect(user.repositories.find_by_name('OldOrgCode')).to eq(nil)
+        # Updates org repo with new name
         expect(user.repositories.find_by_name('NeatOrgCode')).not_to eq(nil)
       end
     end
@@ -49,9 +51,13 @@ describe GithubService do
       it 'updates repos' do
         subject
 
+        # Adds existing repository to user
         expect(user.repositories.find_by_name('PrettyProject')).not_to eq(nil)
+        # Adds existing org repository to user
         expect(user.repositories.find_by_name('NeatOrgProject')).not_to eq(nil)
+        # Updates user repository with new name
         expect(user.repositories.find_by_name('CoolCode')).not_to eq(nil)
+        # Deletes outdated user repository
         expect(user.repositories.find_by_name('OldCode')).to eq(nil)
       end
     end

@@ -1,5 +1,5 @@
 class Repository < ActiveRecord::Base
-  has_and_belongs_to_many :users, -> { order 'username ASC' }
+  has_and_belongs_to_many :users, -> { order 'username ASC' }, uniq: true
   belongs_to :organization
 
   def access_token
