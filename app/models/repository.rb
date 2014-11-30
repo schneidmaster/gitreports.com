@@ -13,16 +13,8 @@ class Repository < ActiveRecord::Base
     users.first.access_token
   end
 
-  def check_owner(user)
-    users.any? { |u| u == user }
-  end
-
   def org_repo?
-    if organization
-      true
-    else
-      false
-    end
+    organization.present?
   end
 
   def holder_name
@@ -36,35 +28,22 @@ class Repository < ActiveRecord::Base
   end
 
   def holder_path
-    'https://github.com/' + holder_name
+    "https://github.com/#{holder_name}"
   end
 
   def construct_body(params)
-    body = ''
-    if params[:name] && params[:name] != ''
-      body += 'Submitter: ' + params[:name] + "\r\n"
-    end
-    if params[:email] && params[:email] != ''
-      body += 'Email: ' + params[:email] + "\r\n"
-    end
-    body += params[:details]
-
+    body ||= "Submitter: #{params[:name]}\r\n" unless params[:name].blank?
+    body ||= "Email: #{params[:email]}\r\n" unless params[:email].blank?
+    body ||= params[:details]
     body
   end
 
   def display_or_name
-    if display_name.present?
-      display_name
-    else
-      name
-    end
-  end
-
-  def github_path
-    holder_path + '/' + name
+    return display_name if display_name.present?
+    return name
   end
 
   def github_issues_path
-    github_path + '/issues'
+    "#{holder_path}/#{name}/issues"
   end
 end

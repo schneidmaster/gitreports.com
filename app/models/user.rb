@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :organizations, -> { order 'name ASC' }, uniq: true
 
   def github_path
-    'https://github.com/' + username
+    "https://github.com/#{username}"
   end
 
   def avatar_url
