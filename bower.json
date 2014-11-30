@@ -4,7 +4,7 @@
     "dependencies": {
       "jquery": "2.1.1",
       "jquery-ujs": "*",
-      "foundation": "5.0.2",
+      "foundation": "5.4.7",
       "responsive-tables": "git://github.com/schneidmaster/responsive-tables.git"
     }
   }
