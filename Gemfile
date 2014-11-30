@@ -41,6 +41,9 @@ gem 'bower-rails', '~> 0.9.1'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
 
+# Use coffeescript
+gem 'coffee-rails', '~> 4.1.0'
+
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 
@@ -58,3 +61,7 @@ gem 'redcarpet'
 
 # SimpleCaptcha for, well, captchas
 gem 'simple_captcha', git: 'git://github.com/galetahub/simple-captcha.git'
+
+# Sidekiq handles jobs
+gem 'sidekiq', '3.2.1'
+gem 'sidekiq-status', '0.5.1'

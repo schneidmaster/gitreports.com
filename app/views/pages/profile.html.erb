@@ -7,6 +7,14 @@
     <%= image_tag @current_user.avatar_url, alt: @current_user.name, class: "profile-img" %>
   </div>
 </div>
+<div id="repo-alert" class="row">
+  <div class="small-12 columns">
+    <div data-alert class="alert-box warning">
+      <span id="repo-load-info">Refreshing repository information from GitHub...</span>
+      <a href="#" class="close">&times;</a>
+    </div>
+  </div>
+</div>
 <div class="row">
   <div class="small-12 columns">
     <hr>

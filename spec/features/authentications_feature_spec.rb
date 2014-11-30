@@ -23,68 +23,9 @@ feature 'Authentication' do
     end
 
     context 'first user login' do
-      scenario 'retrieves and stores repositories' do
+      scenario 'logs in the user' do
         visit "/github_callback?state=#{state}&code=#{SecureRandom.hex}"
         expect(page).to have_content('Logged in!')
-        expect(page).to have_content('CoolCode')
-        expect(page).to have_content('PrettyProject')
-        expect(page).to have_content('NeatOrgCode')
-        expect(page).to have_content('NeatOrgProject')
-      end
-    end
-
-    context 'first user login as org' do
-      let!(:user) { create :user }
-      let!(:org) { create :organization, name: 'neatorg' }
-      let!(:org_repo) { create :repository, name: 'OldOrgCode', organization: org, users: [user] }
-      let!(:existing_org_repo) { create :repository, name: 'NeatOrgStuff', github_id: 5_705_826, organization: org, users: [user] }
-
-      before { visit "/github_callback?state=#{state}&code=#{SecureRandom.hex}" }
-
-      scenario 'adds user to org' do
-        expect(page).to have_content('neatorg')
-      end
-
-      scenario 'updates existing org repo' do
-        expect(page).not_to have_content('NeatOrgStuff')
-        expect(page).to have_content('NeatOrgCode')
-      end
-
-      scenario 'deletes old org repo' do
-        expect(page).not_to have_content('OldOrgCode')
-      end
-    end
-
-    context 'return user login' do
-      let!(:org) { create :organization }
-      let!(:user) { create :user, name: 'Old Name', access_token: 'access', organizations: [org] }
-      let!(:repository) { create :user_repository, name: 'OldCode', users: [user] }
-      let!(:existing_repo) { create :user_repository, name: 'NeatCode', github_id: 5_705_827, users: [user] }
-      let!(:unlinked_repo) { create :user_repository, name: 'PrettyProject', github_id: 19_548_054 }
-      let!(:unlinked_org_repo) { create :repository, name: 'NeatOrgProject', github_id: 19_548_055 }
-
-      before { visit "/github_callback?state=#{state}&code=#{SecureRandom.hex}" }
-
-      scenario 'updates user information' do
-        expect(page).to have_content('George Git')
-        expect(page).not_to have_content('Old Name')
-      end
-
-      scenario 'adds new repo to user' do
-        expect(page).to have_content('PrettyProject')
-      end
-
-      scenario 'adds new org repo to user' do
-        expect(page).to have_content('NeatOrgProject')
-      end
-
-      scenario 'updates existing repo' do
-        expect(page).not_to have_content('NeatCode')
-        expect(page).to have_content('CoolCode')
-      end
-
-      scenario 'deletes old repo' do
-        expect(page).not_to have_content('OldCode')
       end
     end
   end

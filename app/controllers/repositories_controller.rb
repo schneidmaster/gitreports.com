@@ -1,6 +1,15 @@
 class RepositoriesController < ApplicationController
-  before_filter :ensure_own_repository!, except: [:repository, :repository_submit, :repository_submitted, :repository_rate_limited]
+  before_filter :ensure_own_repository!, except: [:load_status, :repository, :repository_submit, :repository_submitted, :repository_rate_limited]
   before_filter :ensure_repository_active!, only: [:repository, :repository_submit, :repository_submitted, :repository_rate_limited]
+
+  def load_status
+    render text: 
+      if session[:job_id]
+        Sidekiq::Status::complete?(session[:job_id])
+      else
+        true
+      end
+  end
 
   def repository
     holder = User.find_by_username(params[:username]) || Organization.find_by_name(params[:username])

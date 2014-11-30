@@ -53,9 +53,19 @@ GEM
       capybara (>= 1.0, < 3)
       colored
       launchy
+    celluloid (0.16.0)
+      timers (~> 4.0.0)
     cliver (0.3.2)
     coderay (1.1.0)
+    coffee-rails (4.1.0)
+      coffee-script (>= 2.2.0)
+      railties (>= 4.0.0, < 5.0)
+    coffee-script (2.3.0)
+      coffee-script-source
+      execjs
+    coffee-script-source (1.8.0)
     colored (1.2)
+    connection_pool (2.1.0)
     coveralls (0.7.1)
       multi_json (~> 1.3)
       rest-client
@@ -84,6 +94,7 @@ GEM
       multipart-post (>= 1.2, < 3)
     ffi (1.9.6-x86-mingw32)
     hike (1.2.3)
+    hitimes (1.2.2)
     i18n (0.6.11)
     json (1.8.1)
     launchy (2.4.3)
@@ -151,6 +162,9 @@ GEM
     rainbow (2.0.0)
     rake (10.4.0)
     redcarpet (3.2.1)
+    redis (3.1.0)
+    redis-namespace (1.5.1)
+      redis (~> 3.0, >= 3.0.4)
     ref (1.0.5)
     rest-client (1.7.2)
       mime-types (>= 1.16, < 3.0)
@@ -188,6 +202,14 @@ GEM
     sawyer (0.5.5)
       addressable (~> 2.3.5)
       faraday (~> 0.8, < 0.10)
+    sidekiq (3.2.1)
+      celluloid (>= 0.15.2)
+      connection_pool (>= 2.0.0)
+      json
+      redis (>= 3.0.6)
+      redis-namespace (>= 1.3.1)
+    sidekiq-status (0.5.1)
+      sidekiq (>= 2.7, < 3.4)
     simplecov (0.8.2)
       docile (~> 1.1.0)
       multi_json
@@ -217,6 +239,8 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.4)
     tilt (1.4.1)
+    timers (4.0.1)
+      hitimes
     tins (1.3.3)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
@@ -241,6 +265,7 @@ DEPENDENCIES
   bower-rails (~> 0.9.1)
   capybara (~> 2.3.0)
   capybara-screenshot (~> 0.3.19)
+  coffee-rails (~> 4.1.0)
   coveralls
   database_cleaner (~> 1.3.0)
   dotenv-rails (= 0.9.0)
@@ -256,6 +281,8 @@ DEPENDENCIES
   rspec-rails (~> 2.14.1)
   rubocop (= 0.24.1)
   sass-rails (~> 4.0.0)
+  sidekiq (= 3.2.1)
+  sidekiq-status (= 0.5.1)
   simple_captcha!
   simplecov (~> 0.8.2)
   sinatra (~> 1.4.5)

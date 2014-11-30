@@ -6,6 +6,23 @@ describe RepositoriesController do
   let!(:org_user) { create :user, organizations: [organization] }
   let!(:another_user) { create :user }
 
+  describe '#load_status' do
+    subject { get :load_status }
+
+    context 'job ID does not exist' do
+      it 'returns true' do
+        expect(subject.body).to eq('true')
+      end
+    end
+
+    context 'job ID is set' do
+      before { session[:job_id] = 1 }
+      it 'checks job status' do
+        expect(subject.body).to eq('false')
+      end
+    end
+  end
+
   describe '#repository_show' do
     let!(:repository) { create :user_repository, users: [user] }
     let!(:org_repository) { create :repository, organization: organization, users: [org_user] }

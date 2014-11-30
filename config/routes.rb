@@ -23,5 +23,6 @@ GitReports::Application.routes.draw do
   patch '/repository/manage/:id', to: 'repositories#repository_update', as: 'repository_update'
   post '/repository/manage/:id/activate', to: 'repositories#repository_activate', as: 'repository_activate'
   post '/repository/manage/:id/deactivate', to: 'repositories#repository_deactivate', as: 'repository_deactivate'
+  get '/load_status', to: 'repositories#load_status'
 
 end

@@ -7,6 +7,8 @@ class AuthenticationsController < ApplicationController
   end
 
   def callback
+    delete_state!
+
     # Retrieve access token
     error_redirect! unless (access_token = token_request!(params[:code]))
 
@@ -16,12 +18,9 @@ class AuthenticationsController < ApplicationController
     # Log in the user
     log_in!(user)
 
-    # Add repositories and redirect to profile
-    if GithubService.load_repositories(access_token)
-      profile_redirect! 
-    else
-      rate_limit_redirect!
-    end
+    # Add repositories
+    session[:job_id] = GithubWorker.perform_async(access_token)
+    profile_redirect! 
   end
 
   def logout
@@ -40,6 +39,10 @@ class AuthenticationsController < ApplicationController
 
   def check_state!
     redirect_to root_path, flash: { error: 'An error occurred; please try again' } unless params[:state] == state
+  end
+
+  def delete_state!
+    session.delete(:state)
   end
 
   def log_in!(user)
@@ -64,9 +67,7 @@ class AuthenticationsController < ApplicationController
 
   def state
     if session[:state]
-      cur_state = session[:state]
-      session.delete(:state)
-      cur_state
+      session[:state]
     else
       state = SecureRandom.hex
       session[:state] = state

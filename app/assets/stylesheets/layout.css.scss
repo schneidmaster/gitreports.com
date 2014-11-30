@@ -7,3 +7,12 @@ table {
   max-height: 96px;
   max-width: 96px;
 }
+
+#repo-alert {
+  display: none;
+
+  a {
+    color: white;
+    text-decoration: underline;
+  }
+}
