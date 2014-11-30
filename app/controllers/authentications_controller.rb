@@ -89,7 +89,6 @@ class AuthenticationsController < ApplicationController
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = true
     http.verify_mode = OpenSSL::SSL::VERIFY_PEER
-    http.ca_file = File.join(Rails.root, 'config', 'cacert.pem')
 
     # Generate path
     path = path_raw

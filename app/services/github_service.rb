@@ -55,7 +55,7 @@ class GithubService
           # Remove from delete list
           old_org_names.delete(api_org[:login])
           # Make sure it's added to the user
-          user.organizations << org
+          org.users << user
         else
           # Create the new org
           org = Organization.create(name: api_org[:login], users: [user])

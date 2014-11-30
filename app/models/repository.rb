@@ -2,6 +2,10 @@ class Repository < ActiveRecord::Base
   has_and_belongs_to_many :users, -> { order 'username ASC' }, uniq: true
   belongs_to :organization
 
+  def user=(user)
+    users << user unless users.include?(user)
+  end
+
   def access_token
     users.first.access_token
   end
