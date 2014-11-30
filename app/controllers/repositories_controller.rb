@@ -25,7 +25,6 @@ class RepositoriesController < ApplicationController
     if simple_captcha_valid? && (!Rails.env.test? || session[:override_captcha])
 
       # Create the client
-      Octokit.connection_options[:ssl] = { ca_file: File.join(Rails.root, 'config', 'cacert.pem') }
       client = Octokit::Client.new access_token: repo.access_token
 
       # Check the rate limit
@@ -65,7 +64,6 @@ class RepositoriesController < ApplicationController
     @repo = holder.repositories.find_by_name(params[:repositoryname])
 
     # Create the client
-    Octokit.connection_options[:ssl] = { ca_file: File.join(Rails.root, 'config', 'cacert.pem') }
     client = Octokit::Client.new access_token: @repo.access_token
 
     # Get the reset time

@@ -1,7 +1,6 @@
 class GithubService
   class << self
     def create_or_update_user(access_token)
-      Octokit.connection_options[:ssl] = { ca_file: File.join(Rails.root, 'config', 'cacert.pem') }
       client = Octokit::Client.new access_token: access_token
 
       return nil if client.rate_limit.remaining < 10
@@ -22,7 +21,6 @@ class GithubService
       user = User.find_by_access_token(access_token)
 
       # Create client with token
-      Octokit.connection_options[:ssl] = { ca_file: File.join(Rails.root, 'config', 'cacert.pem') }
       client = Octokit::Client.new access_token: access_token
 
       return nil if client.rate_limit.remaining < 10
