@@ -1,13 +1,13 @@
 class Repository < ActiveRecord::Base
-  has_and_belongs_to_many :users, -> { order 'username ASC' }, uniq: true
+  has_and_belongs_to_many :users, -> { order 'username ASC' } do
+    def <<(user)
+      super unless proxy_association.owner.users.include?(user)
+    end  
+  end
   belongs_to :organization
 
   scope :user_owned, -> { where(organization: nil) }
   scope :with_user, ->(user) { joins(:users).where('users.id = ?', user) }
-
-  def user=(user)
-    users << user unless users.include?(user)
-  end
 
   def access_token
     users.first.access_token
