@@ -1,7 +1,7 @@
 {
   "login": "greptest",
   "id": 1234567,
-  "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+  "avatar_url": "https://github.com/identicons/schneidmaster.png",
   "gravatar_id": "",
   "url": "https://api.github.com/users/greptest",
   "html_url": "https://github.com/greptest",

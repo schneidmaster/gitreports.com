@@ -7,9 +7,9 @@ class GithubService
 
       # Save the local User to the database
       if (user = User.find_by_access_token(access_token))
-        user.update(username: client.user[:login], name: client.user[:name], gravatar_id: client.user[:gravatar_id])
+        user.update(username: client.user[:login], name: client.user[:name], avatar_url: client.user[:avatar_url])
       else
-        user = User.create(username: client.user[:login], name: client.user[:name], gravatar_id: client.user[:gravatar_id], access_token: access_token)
+        user = User.create(username: client.user[:login], name: client.user[:name], avatar_url: client.user[:avatar_url], access_token: access_token)
       end
 
       user

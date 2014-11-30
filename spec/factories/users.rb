@@ -2,7 +2,7 @@ FactoryGirl.define do
   factory :user do
     username { Faker::Internet.user_name nil, %w(_) }
     name { Faker::Name.name }
-    gravatar_id { Faker::Bitcoin.address }
+    avatar_url { "https://github.com/identicons/#{username}.png" }
     access_token { Faker::Bitcoin.address }
     repositories { [] }
     organizations { [] }
