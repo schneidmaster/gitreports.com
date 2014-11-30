@@ -1,4 +1,3 @@
 #!/bin/sh
 touch tmp/restart.txt
 echo "restarting Passenger app"
-sudo sidekiq.sh start || sudo sidekiq.sh restart
