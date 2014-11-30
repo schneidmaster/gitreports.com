@@ -1,54 +1,31 @@
 class AuthenticationsController < ApplicationController
+  before_action :check_state!, only: [:callback]
+
   def login
-    if signed_in?
-      redirect_to root_path, flash: { success: 'Already logged in!' }
-    else
-      redirect_to auth_url
-    end
+    redirect_to root_path, flash: { success: 'Already logged in!' } if signed_in?
+    redirect_to auth_url
   end
 
   def callback
-    # Catch any errors gracefully
-    if params[:state] != state
-      redirect_to root_path, flash: { error: 'An error occurred; please try again' }
+    # Retrieve access token
+    error_redirect! unless (access_token = token_request!(params[:code]))
+
+    # Create user
+    rate_limit_redirect! unless (user = GithubService.create_or_update_user(access_token))
+
+    # Log in the user
+    log_in!(user)
+
+    # Add repositories and redirect to profile
+    if GithubService.load_repositories(access_token)
+      profile_redirect! 
     else
-      delete_state!
-
-      # Set params for GitHub POST request
-      req_params = {}
-      req_params[:client_id] = ENV['GITHUB_CLIENT_ID']
-      req_params[:client_secret] = ENV['GITHUB_CLIENT_SECRET']
-      req_params[:code] = params[:code]
-
-      # Make POST request
-      response = post_request('https://github.com', '/login/oauth/access_token', req_params)
-
-      if response.nil?
-        redirect_to root_path, flash: { error: 'An error occurred; please try again' }
-      else
-        access_token = response['access_token']
-
-        # Create or update user
-        if (user = GithubService.create_or_update_user(access_token))
-          # Log in the user
-          session[:user_id] = user.id
-
-          # Add repositories
-          if GithubService.load_repositories(access_token)
-            # Redirect to profile
-            redirect_to profile_path, flash: { success: 'Logged in!' }
-          else
-            redirect_to login_rate_limited_path
-          end
-        else
-          redirect_to login_rate_limited_path
-        end
-      end
+      rate_limit_redirect!
     end
   end
 
   def logout
-    session[:user_id] = nil
+    log_out!
     redirect_to root_path, flash: { notice: 'Logged out!' }
   end
 
@@ -56,9 +33,40 @@ class AuthenticationsController < ApplicationController
 
   private
 
+  def auth_url
+    "https://github.com/login/oauth/authorize?client_id=#{ENV['GITHUB_CLIENT_ID']}&" + 
+    "#{{ redirect_uri: ENV['GITHUB_CALLBACK_URL'] }.to_query}&#{{ scope: 'repo' }.to_query}&state=#{state}"
+  end
+
+  def check_state!
+    redirect_to root_path, flash: { error: 'An error occurred; please try again' } unless params[:state] == state
+  end
+
+  def log_in!(user)
+    session[:user_id] = user.id
+  end
+
+  def log_out!
+    session.delete(:user_id)
+  end
+
+  def error_redirect!
+    redirect_to root_path, flash: { error: 'An error occurred; please try again' }
+  end
+
+  def rate_limit_redirect!
+    redirect_to login_rate_limited_path
+  end
+
+  def profile_redirect!
+    redirect_to profile_path, flash: { success: 'Logged in!' }
+  end
+
   def state
     if session[:state]
-      session[:state]
+      cur_state = session[:state]
+      session.delete(:state)
+      cur_state
     else
       state = SecureRandom.hex
       session[:state] = state
@@ -66,38 +74,24 @@ class AuthenticationsController < ApplicationController
     end
   end
 
-  def delete_state!
-    session[:state] = nil
-  end
-
-  def auth_url
-    base_url = 'https://github.com/login/oauth/authorize'
-    redirect_uri = ENV['GITHUB_CALLBACK_URL']
-    scopes = 'repo'
-
-    params = 'client_id=' + ENV['GITHUB_CLIENT_ID']
-    params += '&' + { redirect_uri: redirect_uri }.to_query
-    params += '&' + { scope: scopes }.to_query
-    params += '&state=' + state
-
-    base_url + '?' + params
-  end
-
-  def post_request(url_raw, path_raw, req_params = nil)
+  def token_request!(code)
     # Initialize HTTP library
-    url = URI.parse(url_raw)
+    url = URI.parse('https://github.com')
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = true
     http.verify_mode = OpenSSL::SSL::VERIFY_PEER
 
-    # Generate path
-    path = path_raw
-
     # Create the new request
-    request = Net::HTTP::Post.new(path)
+    request = Net::HTTP::Post.new('/login/oauth/access_token')
 
-    # Add post params if they exist
-    request.set_form_data(req_params) unless req_params.nil?
+    # Set params
+    req_params = {}
+    req_params[:client_id] = ENV['GITHUB_CLIENT_ID']
+    req_params[:client_secret] = ENV['GITHUB_CLIENT_SECRET']
+    req_params[:code] = code
+
+    # Add params to request
+    request.set_form_data(req_params)
 
     # Accept JSON
     request['accept'] = 'application/json'
@@ -108,7 +102,7 @@ class AuthenticationsController < ApplicationController
     rescue
       nil
     else
-      JSON.parse(response.body)
+      JSON.parse(response.body)['access_token']
     end
   end
 end
