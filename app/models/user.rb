@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
   end
 
   def avatar_url
-    if self[:avatar_url].nil?
+    if self[:avatar_url].blank?
       "https://github.com/identicons/#{username}.png"
     else
       self[:avatar_url]
