@@ -90,7 +90,7 @@ class GithubService
       end
     end
 
-    def submit_issue(repo_id, name, email, details)
+    def submit_issue(repo_id, sub_name, email, details)
       # Find repo
       repo = Repository.find(repo_id)
 
@@ -104,7 +104,7 @@ class GithubService
       name = repo.holder_name + '/' + repo.name
       issue_name = repo.issue_name.present? ? repo.issue_name : 'Git Reports Issue'
       labels = { labels: repo.labels.present? ? repo.labels : '' }
-      issue = client.create_issue(name, issue_name, repo.construct_body(name, email, details), labels)
+      issue = client.create_issue(name, issue_name, repo.construct_body(sub_name, email, details), labels)
 
       # Send notification email
       EmailWorker.perform_async NotificationMailer, :issue_submitted_email, repo.id, issue[:number]
