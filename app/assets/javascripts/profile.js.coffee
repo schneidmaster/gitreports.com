@@ -7,4 +7,5 @@ checkStatus = () ->
       setTimeout checkStatus, 1000
 
 $(document).ready ->
-  checkStatus()
+  if $("#repo-alert").length > 0
+    checkStatus()

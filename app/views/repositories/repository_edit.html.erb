@@ -70,6 +70,16 @@
         </div>
 
         <div class="row">
+          <div class="small-12 columns">
+            <%= f.label :notification_emails %><br>
+            <p>
+              <i>A notification email will be sent to these email(s) when an issue is submitted. Enter a comma-separated list.</i>
+            </p>
+            <%= f.text_field :notification_emails %>
+          </div>
+        </div>
+
+        <div class="row">
           <div class="small-3 columns">
             <%= submit_tag "Update", class: "button small" %>
           </div>

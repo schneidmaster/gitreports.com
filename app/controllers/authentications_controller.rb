@@ -19,7 +19,7 @@ class AuthenticationsController < ApplicationController
     log_in!(user)
 
     # Add repositories
-    session[:job_id] = GithubWorker.perform_async(access_token)
+    session[:job_id] = GithubWorker.perform_async(:load_repositories, access_token)
     profile_redirect! 
   end
 

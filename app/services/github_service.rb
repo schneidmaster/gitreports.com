@@ -89,5 +89,25 @@ class GithubService
         repo.update(is_active: false) if repo.users.count == 0
       end
     end
+
+    def submit_issue(repo_id, name, email, details)
+      # Find repo
+      repo = Repository.find(repo_id)
+
+      # Create the client
+      client = Octokit::Client.new access_token: repo.access_token
+
+      # Check the rate limit
+      return nil if client.rate_limit.remaining < 10
+
+      # Create the issue
+      name = repo.holder_name + '/' + repo.name
+      issue_name = repo.issue_name.present? ? repo.issue_name : 'Git Reports Issue'
+      labels = { labels: repo.labels.present? ? repo.labels : '' }
+      issue = client.create_issue(name, issue_name, repo.construct_body(name, email, details), labels)
+
+      # Send notification email
+      EmailWorker.perform_async NotificationMailer, :issue_submitted_email, repo.id, issue[:number]
+    end
   end
 end

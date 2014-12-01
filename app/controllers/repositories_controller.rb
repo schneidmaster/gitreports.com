@@ -32,22 +32,11 @@ class RepositoriesController < ApplicationController
     # Check the captcha
     if simple_captcha_valid? && (!Rails.env.test? || session[:override_captcha])
 
-      # Create the client
-      client = Octokit::Client.new access_token: repo.access_token
+      # Submit issue
+      GithubWorker.perform_async(:submit_issue, repo.id, params[:name], params[:email], params[:details])
 
-      # Check the rate limit
-      if client.rate_limit.remaining < 10
-        redirect_to repository_rate_limited_path(repo.holder_name, repo.name)
-      else
-        # Create the issue
-        name = repo.holder_name + '/' + repo.name
-        issue_name = repo.issue_name.present? ? repo.issue_name : 'Git Reports Issue'
-        labels = { labels: repo.labels.present? ? repo.labels : '' }
-        client.create_issue(name, issue_name, repo.construct_body(params), labels)
-
-        # Redirect
-        redirect_to repository_submitted_path(repo.holder_name, repo.name)
-      end
+      # Redirect
+      redirect_to repository_submitted_path(repo.holder_name, repo.name)
 
     # If invalid, display as such
     else
@@ -89,7 +78,7 @@ class RepositoriesController < ApplicationController
   def repository_update
     @repository = Repository.find(params[:id])
 
-    if @repository.update(params[:repository].permit(:display_name, :issue_name, :prompt, :followup, :labels))
+    if @repository.update(repository_params)
       redirect_to repository_path(@repository)
     else
       render 'repository_edit'
@@ -106,5 +95,29 @@ class RepositoriesController < ApplicationController
     repo = Repository.find(params[:id])
     repo.update(is_active: false)
     redirect_to repository_path(repo)
+  end
+
+  private
+
+  def repository_params
+    params[:repository].permit(:display_name, :issue_name, :prompt, :followup, :labels).merge(notification_emails: parse_emails(params[:repository][:notification_emails]))
+  end
+
+  def parse_emails(emails)
+    valid_emails = []
+    unless emails.nil?
+      emails.split(/,|\n/).each do |full_email|
+        unless full_email.blank?
+          if full_email.index(/\<.+\>/)
+            email = full_email.match(/\<.*\>/)[0].gsub(/[\<\>]/, "").strip
+          else
+            email = full_email.strip
+          end
+          email = email.delete("<").delete(">")
+          valid_emails << email if ValidateEmail.valid?(email)
+        end
+      end                    
+    end
+    return valid_emails.join(', ')
   end
 end

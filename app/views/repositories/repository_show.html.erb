@@ -4,17 +4,15 @@
     <p>
       Owner: <%= link_to @repository.holder_name, @repository.holder_path %>
     </p>
-    <% if @repository.org_repo? %>
-      <p>
-        Users:
-        <% @repository.users.each do |user| %>
-          <% if user != @repository.organization.users.first %>
-            ,
-          <% end %>
-          <%= link_to user.username, user.github_path %>
+    <p>
+      Users:
+      <% @repository.users.each do |user| %>
+        <% if user != @repository.users.first %>
+          ,
         <% end %>
-      </p>
-    <% end %>
+        <%= link_to user.username, user.github_path %>
+      <% end %>
+    </p>
     <p>
       Status: <%= @repository.is_active ? "Active" : "Inactive" %>
     </p>
@@ -94,6 +92,19 @@
     <p>
       <% if @repository.labels.present? %>
         <%= @repository.labels %>
+      <% else %>
+        Not set
+      <% end %>
+    </p>
+    <h4>
+      Notification Email(s)
+    </h4>
+    <p>
+      <i>A notification email will be sent to these email(s) when an issue is submitted.</i>
+    </p>
+    <p>
+      <% if @repository.notification_emails.present? %>
+        <%= @repository.notification_emails %>
       <% else %>
         Not set
       <% end %>

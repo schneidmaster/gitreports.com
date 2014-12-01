@@ -65,3 +65,6 @@ gem 'simple_captcha', git: 'git://github.com/galetahub/simple-captcha.git'
 # Sidekiq handles jobs
 gem 'sidekiq', '3.2.1'
 gem 'sidekiq-status', '0.5.1'
+
+# Validate emails
+gem 'valid_email', require: 'valid_email/validate_email'

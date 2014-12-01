@@ -13,10 +13,6 @@ class Repository < ActiveRecord::Base
     users.first.access_token
   end
 
-  def org_repo?
-    organization.present?
-  end
-
   def holder_name
     if owner
       owner
@@ -31,10 +27,11 @@ class Repository < ActiveRecord::Base
     "https://github.com/#{holder_name}"
   end
 
-  def construct_body(params)
-    body ||= "Submitter: #{params[:name]}\r\n" unless params[:name].blank?
-    body ||= "Email: #{params[:email]}\r\n" unless params[:email].blank?
-    body ||= params[:details]
+  def construct_body(name, email, details)
+    body = ""
+    body += "Submitter: #{name}\r\n" unless name.blank?
+    body += "Email: #{email}\r\n" unless email.blank?
+    body += details unless details.blank?
     body
   end
 
@@ -45,5 +42,9 @@ class Repository < ActiveRecord::Base
 
   def github_issues_path
     "#{holder_path}/#{name}/issues"
+  end
+
+  def github_issue_path(issue)
+    "#{github_issues_path}/#{issue}"
   end
 end

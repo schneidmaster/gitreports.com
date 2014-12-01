@@ -157,23 +157,6 @@ feature 'Repository' do
       end
     end
 
-    context 'rate limited' do
-      let!(:user) { create :user, access_token: 'rate_limit_expired' }
-      let!(:repository) { create :user_repository, name: 'Overused', owner: user.username, users: [user] }
-
-      before { override_captcha true }
-
-      scenario 'shows rate limited page' do
-        visit repository_public_path(repository.holder_name, repository.name)
-        fill_in 'name', with: 'Joe Schmoe'
-        fill_in 'email', with: 'joe.schmoe@gmail.com'
-        fill_in 'details', with: 'Your code is broken!'
-        fill_in 'captcha', with: 'asdfgh'
-        click_on 'Submit'
-        expect(page).to have_content('Git Reports is currently experiencing heavy traffic.')
-      end
-    end
-
     context 'captcha is correct' do
       before { override_captcha true }
 
