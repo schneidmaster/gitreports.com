@@ -115,4 +115,16 @@ describe GithubService do
       end
     end
   end
+
+  describe '#submit_issue' do
+    let!(:user) { create :user }
+    let!(:repository) { create :repository, users: [user] }
+
+    subject { GithubService.submit_issue(repository.id, 'Bob', 'bob@email.com', "I'm having a problem with this.") }
+
+    it 'create the issue' do
+      issue = subject
+      expect(issue['body']).to eq("I'm having a problem with this.")
+    end
+  end
 end

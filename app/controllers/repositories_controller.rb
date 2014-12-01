@@ -1,6 +1,6 @@
 class RepositoriesController < ApplicationController
-  before_filter :ensure_own_repository!, except: [:load_status, :repository, :repository_submit, :repository_submitted, :repository_rate_limited]
-  before_filter :ensure_repository_active!, only: [:repository, :repository_submit, :repository_submitted, :repository_rate_limited]
+  before_filter :ensure_own_repository!, except: [:load_status, :repository, :repository_submit, :repository_submitted]
+  before_filter :ensure_repository_active!, only: [:repository, :repository_submit, :repository_submitted]
 
   def load_status
     render text: 
@@ -53,18 +53,6 @@ class RepositoriesController < ApplicationController
     holder = User.find_by_username(params[:username]) || Organization.find_by_name(params[:username])
 
     @repository = holder.repositories.find_by_name(params[:repositoryname])
-  end
-
-  def repository_rate_limited
-    holder = User.find_by_username(params[:username]) || Organization.find_by_name(params[:username])
-
-    @repo = holder.repositories.find_by_name(params[:repositoryname])
-
-    # Create the client
-    client = Octokit::Client.new access_token: @repo.access_token
-
-    # Get the reset time
-    @reset_time = client.rate_limit.resets_at
   end
 
   def repository_show

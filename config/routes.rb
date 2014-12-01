@@ -17,7 +17,6 @@ GitReports::Application.routes.draw do
   get '/issue/:username/:repositoryname', to: 'repositories#repository', as: 'repository_public', repositoryname: /[^\/]+/
   post '/issue/:username/:repositoryname', to: 'repositories#repository_submit', repositoryname: /[^\/]+/
   get '/issue/:username/:repositoryname/submitted', to: 'repositories#repository_submitted', as: 'repository_submitted', repositoryname: /[^\/]+/
-  get '/issue/:username/:repositoryname/ratelimited', to: 'repositories#repository_rate_limited', as: 'repository_rate_limited', repositoryname: /[^\/]+/
   get '/repository/manage/:id', to: 'repositories#repository_show', as: 'repository'
   get '/repository/manage/:id/edit', to: 'repositories#repository_edit', as: 'repository_edit'
   patch '/repository/manage/:id', to: 'repositories#repository_update', as: 'repository_update'

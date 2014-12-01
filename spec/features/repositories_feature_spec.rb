@@ -47,6 +47,7 @@ feature 'Repository' do
         fill_in 'Prompt', with: 'Tell us what is wrong'
         fill_in 'Followup', with: 'Thanks!'
         fill_in 'Labels', with: 'problem'
+        fill_in 'Notification emails', with: 'valid@email.com, invalid@email'
         click_on 'Update'
 
         expect(page).to have_content('The Coolest')
@@ -54,6 +55,8 @@ feature 'Repository' do
         expect(page).to have_content('Tell us what is wrong')
         expect(page).to have_content('Thanks!')
         expect(page).to have_content('problem')
+        expect(page).to have_content('valid@email.com')
+        expect(page).not_to have_content('invalid@email')
       end
     end
 
@@ -71,6 +74,7 @@ feature 'Repository' do
         fill_in 'Prompt', with: 'Tell us what is wrong'
         fill_in 'Followup', with: 'Thanks!'
         fill_in 'Labels', with: 'problem'
+        fill_in 'Notification emails', with: 'valid@email.com, invalid@email'
         click_on 'Update'
 
         expect(page).to have_content('The Coolest')
@@ -78,6 +82,8 @@ feature 'Repository' do
         expect(page).to have_content('Tell us what is wrong')
         expect(page).to have_content('Thanks!')
         expect(page).to have_content('problem')
+        expect(page).to have_content('valid@email.com')
+        expect(page).not_to have_content('invalid@email')
       end
     end
 

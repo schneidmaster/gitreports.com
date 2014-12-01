@@ -98,7 +98,7 @@ class GithubService
       client = Octokit::Client.new access_token: repo.access_token
 
       # Check the rate limit
-      return nil if client.rate_limit.remaining < 10
+      throw 'Rate limit reached' if client.rate_limit.remaining < 10
 
       # Create the issue
       name = repo.holder_name + '/' + repo.name
@@ -108,6 +108,8 @@ class GithubService
 
       # Send notification email
       EmailWorker.perform_async NotificationMailer, :issue_submitted_email, repo.id, issue[:number]
+
+      issue
     end
   end
 end
