@@ -27,9 +27,9 @@ class Repository < ActiveRecord::Base
     "https://github.com/#{holder_name}"
   end
 
-  def construct_body(name, email, details)
+  def construct_body(sub_name, email, details)
     body = ""
-    body += "Submitter: #{name}\r\n" unless name.blank?
+    body += "Submitter: #{sub_name}\r\n" unless sub_name.blank?
     body += "Email: #{email}\r\n" unless email.blank?
     body += details unless details.blank?
     body
