@@ -20,7 +20,7 @@ class AuthenticationsController < ApplicationController
 
     # Add repositories
     session[:job_id] = GithubWorker.perform_async(:load_repositories, access_token)
-    profile_redirect! 
+    profile_redirect!
   end
 
   def logout
@@ -33,7 +33,7 @@ class AuthenticationsController < ApplicationController
   private
 
   def auth_url
-    "https://github.com/login/oauth/authorize?client_id=#{ENV['GITHUB_CLIENT_ID']}&" + 
+    "https://github.com/login/oauth/authorize?client_id=#{ENV['GITHUB_CLIENT_ID']}&" \
     "#{{ redirect_uri: ENV['GITHUB_CALLBACK_URL'] }.to_query}&#{{ scope: 'repo' }.to_query}&state=#{state}"
   end
 

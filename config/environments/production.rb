@@ -81,10 +81,10 @@ GitReports::Application.configure do
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     authentication: :plain,
-    address: "smtp.mailgun.org",
+    address: 'smtp.mailgun.org',
     port: 587,
-    domain: "gitreports.com",
-    user_name: "postmaster@gitreports.com",
+    domain: 'gitreports.com',
+    user_name: 'postmaster@gitreports.com',
     password: ENV['MAILGUN_PASSWORD']
   }
 end

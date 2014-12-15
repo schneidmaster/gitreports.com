@@ -3,9 +3,9 @@ class RepositoriesController < ApplicationController
   before_filter :ensure_repository_active!, only: [:repository, :repository_submit, :repository_submitted]
 
   def load_status
-    render text: 
+    render text:
       if session[:job_id]
-        Sidekiq::Status::complete?(session[:job_id])
+        Sidekiq::Status.complete?(session[:job_id])
       else
         true
       end
@@ -95,17 +95,17 @@ class RepositoriesController < ApplicationController
     valid_emails = []
     unless emails.nil?
       emails.split(/,|\n/).each do |full_email|
-        unless full_email.blank?
-          if full_email.index(/\<.+\>/)
-            email = full_email.match(/\<.*\>/)[0].gsub(/[\<\>]/, "").strip
-          else
-            email = full_email.strip
-          end
-          email = email.delete("<").delete(">")
-          valid_emails << email if ValidateEmail.valid?(email)
+        next if full_email.blank?
+
+        if full_email.index(/\<.+\>/)
+          email = full_email.match(/\<.*\>/)[0].gsub(/[\<\>]/, '').strip
+        else
+          email = full_email.strip
         end
-      end                    
+        email = email.delete('<').delete('>')
+        valid_emails << email if ValidateEmail.valid?(email)
+      end
     end
-    return valid_emails.join(', ')
+    valid_emails.join(', ')
   end
 end

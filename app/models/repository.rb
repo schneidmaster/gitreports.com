@@ -2,7 +2,7 @@ class Repository < ActiveRecord::Base
   has_and_belongs_to_many :users, -> { order 'username ASC' } do
     def <<(user)
       super unless proxy_association.owner.users.include?(user)
-    end  
+    end
   end
   belongs_to :organization
 
@@ -28,7 +28,7 @@ class Repository < ActiveRecord::Base
   end
 
   def construct_body(sub_name, email, details)
-    body = ""
+    body = ''
     body += "Submitter: #{sub_name}\r\n" unless sub_name.blank?
     body += "Email: #{email}\r\n" unless email.blank?
     body += details unless details.blank?
@@ -37,7 +37,7 @@ class Repository < ActiveRecord::Base
 
   def display_or_name
     return display_name if display_name.present?
-    return name
+    name
   end
 
   def github_issues_path
