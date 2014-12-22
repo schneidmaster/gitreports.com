@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :repository do
     github_id { Faker::Bitcoin.address }
-    name { Faker::Lorem.word }
+    name { Faker::Lorem.characters(10) }
     is_active true
     display_name ''
     prompt ''
