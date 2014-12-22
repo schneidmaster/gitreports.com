@@ -3,14 +3,8 @@ class GithubService
     def create_or_update_user(access_token)
       return nil if (client = Octokit::Client.new access_token: access_token).rate_limit.remaining < 10
 
-      # Save the local User to the database
-      user = User.find_or_create_by(access_token: access_token).update(username: client.user[:login], name: client.user[:name], avatar_url: client.user[:avatar_url])
-
-      # Return user if they were found
-      return user if user.is_a?(User)
-
-      # Look up user if they were just created
-      User.find_by_access_token(access_token) 
+      # Retrieve or update the user
+      retrieve_user(client, access_token)
     end
 
     def load_repositories(access_token)
@@ -18,30 +12,16 @@ class GithubService
       user = User.find_by_access_token(access_token)
 
       # Create client with token
-      client = Octokit::Client.new access_token: access_token
-
-      return nil if client.rate_limit.remaining < 10
+      return nil if (client = Octokit::Client.new access_token: access_token).rate_limit.remaining < 10
 
       # Autopaginate the client
       client.auto_paginate = true
 
       # Record IDs to delete ones no longer in use
-      old_ids = user.repositories.pluck(:github_id)
-
-      # Add user repositories
-      old_ids -= add_repos(client.repos.select { |repo| repo[:has_issues] }, user)
-
-      # Add their org repositories (if any), under the org name to keep it nice and neat
-      old_ids -= add_orgs(client.orgs, user)
+      old_ids = user.repositories.pluck(:github_id) - add_repos(client.repos, user) - add_orgs(client.orgs, user)
 
       # Remove user from any repos they no longer have access to
-      old_ids.each do |github_id|
-        # Delete user from repository
-        (repo = Repository.find_by_github_id(github_id)).users.delete(user)
-
-        # If the repo has no users left, disable it
-        repo.update(is_active: false) if repo.users.count == 0
-      end
+      remove_outdated(user, old_ids)
     end
 
     def submit_issue(repo_id, sub_name, email, details)
@@ -75,24 +55,14 @@ class GithubService
       found_ids = []
 
       orgs.each do |api_org|
-        if (org = Organization.find_by_name(api_org[:login]))
-          # Remove from delete list
-          old_org_names.delete(api_org[:login])
-          # Make sure it's added to the user
-          org.users << user
-        else
-          # Create the new org
-          org = Organization.create(name: api_org[:login], users: [user])
-        end
+        old_org_names -= [(org = add_org(api_org, user)).name]
 
         # Add or create the org's repos
-        found_ids += add_repos(api_org.rels[:repos].get.data.select { |repo| repo[:has_issues] }, user, org)
+        found_ids += add_repos(api_org.rels[:repos].get.data, user, org)
       end
 
       # Remove user from any orgs they're no longer part of
-      old_org_names.each do |org_name|
-        Organization.find_by_name(org_name).users.delete(user)
-      end
+      old_org_names.each{ |org_name| Organization.find_by_name(org_name).users.delete(user) }
 
       found_ids
     end
@@ -102,7 +72,7 @@ class GithubService
 
       owner = org || user
 
-      repos.each do |api_repo|
+      repos.select { |repo| repo[:has_issues] }.each do |api_repo|
         if (repo = owner.repositories.find_by_github_id(api_repo.id))
           # Remove from delete list
           found_ids.push(api_repo.id.to_s)
@@ -117,6 +87,34 @@ class GithubService
       end
 
       found_ids
+    end
+
+    private
+
+    def add_org(api_org, user)
+      org = Organization.find_or_create_by(name: api_org[:login])
+
+      # Make sure it's added to the user
+      org.users << user
+      
+      org
+    end
+
+    def retrieve_user(client, access_token)
+      # Find
+      user = User.find_or_create_by(access_token: access_token)
+      user.update(username: client.user[:login], name: client.user[:name], avatar_url: client.user[:avatar_url])
+      user
+    end
+
+    def remove_outdated(user, old_ids)
+      old_ids.each do |github_id|
+        # Delete user from repository
+        (repo = Repository.find_by_github_id(github_id)).users.delete(user)
+
+        # If the repo has no users left, disable it
+        repo.update(is_active: false) if repo.users.count == 0
+      end
     end
   end
 end
