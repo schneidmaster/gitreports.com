@@ -1,18 +1,16 @@
 class GithubService
   class << self
     def create_or_update_user(access_token)
-      client = Octokit::Client.new access_token: access_token
-
-      return nil if client.rate_limit.remaining < 10
+      return nil if (client = Octokit::Client.new access_token: access_token).rate_limit.remaining < 10
 
       # Save the local User to the database
-      if (user = User.find_by_access_token(access_token))
-        user.update(username: client.user[:login], name: client.user[:name], avatar_url: client.user[:avatar_url])
-      else
-        user = User.create(username: client.user[:login], name: client.user[:name], avatar_url: client.user[:avatar_url], access_token: access_token)
-      end
+      user = User.find_or_create_by(access_token: access_token).update(username: client.user[:login], name: client.user[:name], avatar_url: client.user[:avatar_url])
 
-      user
+      # Return user if they were found
+      return user if user.is_a?(User)
+
+      # Look up user if they were just created
+      User.find_by_access_token(access_token) 
     end
 
     def load_repositories(access_token)
@@ -38,8 +36,8 @@ class GithubService
 
       # Remove user from any repos they no longer have access to
       old_ids.each do |github_id|
-        repo = Repository.find_by_github_id(github_id)
-        repo.users.delete(user)
+        # Delete user from repository
+        (repo = Repository.find_by_github_id(github_id)).users.delete(user)
 
         # If the repo has no users left, disable it
         repo.update(is_active: false) if repo.users.count == 0
@@ -102,11 +100,7 @@ class GithubService
     def add_repos(repos, user, org = nil)
       found_ids = []
 
-      if org.nil?
-        owner = user
-      else
-        owner = org
-      end
+      owner = org || user
 
       repos.each do |api_repo|
         if (repo = owner.repositories.find_by_github_id(api_repo.id))
