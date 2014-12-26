@@ -93,7 +93,12 @@ feature 'Repository' do
       scenario 'does not permit editing' do
         visit edit_repository_path(repository)
         expect(page).not_to have_content('Update Repository')
-        visit edit_repository_path(org_repository)
+      end
+    end
+
+    context 'nobody logged in' do
+      scenario 'does not permit editing' do
+        visit edit_repository_path(repository)
         expect(page).not_to have_content('Update Repository')
       end
     end
