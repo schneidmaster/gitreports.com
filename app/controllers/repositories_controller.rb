@@ -2,13 +2,34 @@ class RepositoriesController < ApplicationController
   before_filter :ensure_own_repository!, except: [:load_status, :repository, :submit, :submitted]
   before_filter :ensure_repository_active!, only: [:repository, :submit, :submitted]
 
-  def load_status
-    render text:
-      if session[:job_id]
-        Sidekiq::Status.complete?(session[:job_id])
-      else
-        true
-      end
+  def show
+    @repository = Repository.find(params[:id])
+  end
+
+  def edit
+    @repository = Repository.find(params[:id])
+  end
+
+  def update
+    @repository = Repository.find(params[:id])
+
+    if @repository.update(repository_params)
+      redirect_to repository_path(@repository)
+    else
+      render 'edit'
+    end
+  end
+
+  def activate
+    repo = Repository.find(params[:repository_id])
+    repo.update(is_active: true)
+    redirect_to repo
+  end
+
+  def deactivate
+    repo = Repository.find(params[:repository_id])
+    repo.update(is_active: false)
+    redirect_to repo
   end
 
   def repository
@@ -47,34 +68,13 @@ class RepositoriesController < ApplicationController
     @repository = current_resource
   end
 
-  def show
-    @repository = Repository.find(params[:id])
-  end
-
-  def edit
-    @repository = Repository.find(params[:id])
-  end
-
-  def update
-    @repository = Repository.find(params[:id])
-
-    if @repository.update(repository_params)
-      redirect_to repository_path(@repository)
-    else
-      render 'edit'
-    end
-  end
-
-  def activate
-    repo = Repository.find(params[:repository_id])
-    repo.update(is_active: true)
-    redirect_to repo
-  end
-
-  def deactivate
-    repo = Repository.find(params[:repository_id])
-    repo.update(is_active: false)
-    redirect_to repo
+  def load_status
+    render text:
+      if session[:job_id]
+        Sidekiq::Status.complete?(session[:job_id])
+      else
+        true
+      end
   end
 
   private

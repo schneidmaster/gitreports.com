@@ -1,0 +1,29 @@
+<tr>
+  <td>
+    <%= link_to repo.name, repository_path(repo) %>
+  </td>
+  <td>
+    <%= link_to "Edit", edit_repository_path(repo) %>
+  </td>
+  <td>
+    <% if repo.is_active %>
+      Active
+    <% else %>
+      Inactive
+    <% end %>
+  </td>
+  <td>
+    <% if repo.is_active %>
+      <%= link_to "Deactivate", repository_deactivate_path(repo), method: :post, data: { confirm: "Are you sure you want to deactivate repository '" + repo.name + "'?" } %>
+    <% else %>
+      <%= link_to "Activate", repository_activate_path(repo), method: :post, data: { confirm: "Are you sure you want to activate repository '" + repo.name + "'?" } %>
+    <% end %>
+  </td>
+  <td>
+    <% if repo.is_active %>
+      <%= link_to "View", repository_public_path(@current_user.username, repo.name) %>
+    <% else %>
+      -
+    <% end %>
+  </td>
+</tr>
