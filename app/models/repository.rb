@@ -54,7 +54,7 @@ class Repository < ActiveRecord::Base
 
   def custom_field_length
     %w(display_name issue_name prompt followup).each do |field|
-      errors[field] << "must be at least 5 characters" unless self.send(field).blank? || self.send(field).length >= 5
+      errors[field] << 'must be at least 5 characters' unless send(field).blank? || send(field).length >= 5
     end
   end
 end

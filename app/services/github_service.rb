@@ -40,7 +40,7 @@ class GithubService
       # Record repo IDs that are found
       found_ids = []
 
-      found_org_names = orgs.collect do |api_org|
+      found_org_names = orgs.map do |api_org|
         # Add the org
         org = add_org(api_org, user)
 
@@ -61,7 +61,7 @@ class GithubService
     def add_repos(repos, user, org = nil)
       owner = org || user
 
-      repos.select(&:has_issues).collect{ |api_repo| find_or_update_repo(owner, api_repo, user, org) }.compact!
+      repos.select(&:has_issues).map { |api_repo| find_or_update_repo(owner, api_repo, user, org) }.compact!
     end
 
     def find_or_update_repo(owner, api_repo, user, org = nil)
@@ -97,7 +97,7 @@ class GithubService
 
       # Make sure it's added to the user
       org.users << user
-      
+
       org
     end
 
