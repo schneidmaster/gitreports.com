@@ -22,6 +22,13 @@ feature 'Authentication' do
       end
     end
 
+    context 'access token request fails' do
+      scenario 'shows error message' do
+        visit "/github_callback?state=#{state}&code=access_fail"
+        expect(page).to have_content('An error occurred; please try again')
+      end
+    end
+
     context 'first user login' do
       scenario 'logs in the user' do
         visit "/github_callback?state=#{state}&code=#{SecureRandom.hex}"

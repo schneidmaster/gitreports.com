@@ -5,6 +5,8 @@ class FakeGitHub < Sinatra::Base
   post '/login/oauth/access_token' do
     if rate_limit_expired
       json_response 200,  access_token: 'rate_limit_expired'
+    elsif access_fail
+      json_response 500, access_token: nil
     else
       json_response 200,  access_token: 'access'
     end
@@ -49,6 +51,10 @@ class FakeGitHub < Sinatra::Base
   end
 
   private
+
+  def access_fail
+    params[:code] == 'access_fail'
+  end
 
   def rate_limit_expired
     request.env['HTTP_AUTHORIZATION'] == 'token rate_limit_expired' || params[:code] == 'rate_limit_expired'

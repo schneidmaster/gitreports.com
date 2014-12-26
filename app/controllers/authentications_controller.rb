@@ -98,12 +98,7 @@ class AuthenticationsController < ApplicationController
     request['accept'] = 'application/json'
 
     # Make request and return parsed result
-    begin
-      response = http.request(request)
-    rescue
-      nil
-    else
-      JSON.parse(response.body)['access_token']
-    end
+    response = http.request(request)
+    response ? JSON.parse(response.body)['access_token'] : nil
   end
 end
