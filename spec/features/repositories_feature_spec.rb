@@ -39,24 +39,50 @@ feature 'Repository' do
         visit profile_path
       end
 
-      scenario 'edits the repository' do
-        click_on 'CoolCode'
-        click_on 'Edit'
-        fill_in 'Display name', with: 'The Coolest'
-        fill_in 'Issue name', with: 'Big problems!'
-        fill_in 'Prompt', with: 'Tell us what is wrong'
-        fill_in 'Followup', with: 'Thanks!'
-        fill_in 'Labels', with: 'problem'
-        fill_in 'Notification emails', with: 'valid@email.com, invalid@email'
-        click_on 'Update'
+      context 'invalid fields' do
+        scenario 'shows errors' do
+          click_on 'CoolCode'
+          click_on 'Edit'
+          fill_in 'Display name', with: 'Shrt'
+          click_on 'Update'
+          expect(page).to have_content('Display name must be at least 5 characters')
+          fill_in 'Display name', with: 'The Coolest'
+          fill_in 'Issue name', with: 'Shrt'
+          click_on 'Update'
+          expect(page).to have_content('Issue name must be at least 5 characters')
+          fill_in 'Issue name', with: 'Big problems!'
+          fill_in 'Prompt', with: 'Shrt'
+          click_on 'Update'
+          expect(page).to have_content('Prompt must be at least 5 characters')
+          fill_in 'Prompt', with: 'Tell us what is wrong'
+          fill_in 'Followup', with: 'Shrt'
+          click_on 'Update'
+          expect(page).to have_content('Followup must be at least 5 characters')
+        end
+      end
 
-        expect(page).to have_content('The Coolest')
-        expect(page).to have_content('Big problems!')
-        expect(page).to have_content('Tell us what is wrong')
-        expect(page).to have_content('Thanks!')
-        expect(page).to have_content('problem')
-        expect(page).to have_content('valid@email.com')
-        expect(page).not_to have_content('invalid@email')
+      context 'valid fields' do
+        scenario 'edits the repository' do
+          click_on 'CoolCode'
+          click_on 'Edit'
+          fill_in 'Display name', with: 'The Coolest'
+          fill_in 'Issue name', with: 'Big problems!'
+          fill_in 'Prompt', with: 'Tell us what is wrong'
+          fill_in 'Followup', with: 'Thanks!'
+          fill_in 'Labels', with: 'problem'
+          fill_in 'Notification emails', with: 'valid@email.com, invalid@email, Joe Smith <joe@email.com>'
+          click_on 'Update'
+
+          expect(page).to have_content('The Coolest')
+          expect(page).to have_content('Big problems!')
+          expect(page).to have_content('Tell us what is wrong')
+          expect(page).to have_content('Thanks!')
+          expect(page).to have_content('problem')
+          expect(page).to have_content('valid@email.com')
+          expect(page).not_to have_content('invalid@email')
+          expect(page).not_to have_content('Joe Smith')
+          expect(page).to have_content('joe@email.com')
+        end
       end
     end
 

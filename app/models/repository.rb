@@ -9,6 +9,8 @@ class Repository < ActiveRecord::Base
   scope :user_owned, -> { where(organization: nil) }
   scope :with_user, ->(user) { joins(:users).where('users.id = ?', user) }
 
+  validate :custom_field_length
+
   def access_token
     users.first.access_token
   end
@@ -46,5 +48,13 @@ class Repository < ActiveRecord::Base
 
   def github_issue_path(issue)
     "#{github_issues_path}/#{issue}"
+  end
+
+  private
+
+  def custom_field_length
+    %w(display_name issue_name prompt followup).each do |field|
+      errors[field] << "must be at least 5 characters" unless self.send(field).blank? || self.send(field).length >= 5
+    end
   end
 end
