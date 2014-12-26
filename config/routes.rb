@@ -20,7 +20,7 @@ GitReports::Application.routes.draw do
     get ':username/:repositoryname/submitted', to: 'repositories#submitted', as: 'submitted', repositoryname: /[^\/]+/
   end
 
-  resources :repositories do
+  resources :repositories, only: [:show, :edit, :update] do
     post 'activate'
     post 'deactivate'
   end
