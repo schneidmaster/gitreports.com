@@ -14,14 +14,17 @@ GitReports::Application.routes.draw do
   get '/login_rate_limited', to: 'authentications#login_rate_limited', as: 'login_rate_limited'
 
   # Repository routes
-  get '/issue/:username/:repositoryname', to: 'repositories#repository', as: 'repository_public', repositoryname: /[^\/]+/
-  post '/issue/:username/:repositoryname', to: 'repositories#repository_submit', repositoryname: /[^\/]+/
-  get '/issue/:username/:repositoryname/submitted', to: 'repositories#repository_submitted', as: 'repository_submitted', repositoryname: /[^\/]+/
-  get '/repository/manage/:id', to: 'repositories#repository_show', as: 'repository'
-  get '/repository/manage/:id/edit', to: 'repositories#repository_edit', as: 'repository_edit'
-  patch '/repository/manage/:id', to: 'repositories#repository_update', as: 'repository_update'
-  post '/repository/manage/:id/activate', to: 'repositories#repository_activate', as: 'repository_activate'
-  post '/repository/manage/:id/deactivate', to: 'repositories#repository_deactivate', as: 'repository_deactivate'
+  scope :issue do
+    get ':username/:repositoryname', to: 'repositories#repository', as: 'repository_public', repositoryname: /[^\/]+/
+    post ':username/:repositoryname', to: 'repositories#submit', repositoryname: /[^\/]+/
+    get ':username/:repositoryname/submitted', to: 'repositories#submitted', as: 'submitted', repositoryname: /[^\/]+/
+  end
+
+  resources :repositories do
+    post 'activate'
+    post 'deactivate'
+  end
+
   get '/load_status', to: 'repositories#load_status'
 
 end

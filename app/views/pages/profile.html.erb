@@ -40,7 +40,7 @@
                 <%= link_to repo.name, repository_path(repo) %>
               </td>
               <td>
-                <%= link_to "Edit", repository_edit_path(repo) %>
+                <%= link_to "Edit", edit_repository_path(repo) %>
               </td>
               <td>
                 <% if repo.is_active %>
@@ -89,7 +89,7 @@
                 <%= link_to repo.name, repository_path(repo) %>
               </td>
               <td>
-                <%= link_to "Edit", repository_edit_path(repo) %>
+                <%= link_to "Edit", edit_repository_path(repo) %>
               </td>
               <td>
                 <% if repo.is_active %>

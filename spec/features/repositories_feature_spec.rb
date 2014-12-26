@@ -91,9 +91,9 @@ feature 'Repository' do
       before { log_in another_user }
 
       scenario 'does not permit editing' do
-        visit repository_edit_path(repository)
+        visit edit_repository_path(repository)
         expect(page).not_to have_content('Update Repository')
-        visit repository_edit_path(org_repository)
+        visit edit_repository_path(org_repository)
         expect(page).not_to have_content('Update Repository')
       end
     end

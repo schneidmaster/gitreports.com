@@ -12,11 +12,12 @@ module AuthenticationsHelper
   end
 
   def ensure_own_repository!
+    id = params[:id] || params[:repository_id]
     if !signed_in?
       redirect_to root_path
-    elsif !Repository.exists?(params[:id])
+    elsif !Repository.exists?(id)
       render 'repositories/404'
-    elsif !Repository.find(params[:id]).users.include?(current_user)
+    elsif !Repository.find(id).users.include?(current_user)
       redirect_to profile_path
     end
   end

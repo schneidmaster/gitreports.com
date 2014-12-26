@@ -23,7 +23,7 @@
     <% end %>
     <hr>
     <p>
-      <%= link_to "Edit", repository_edit_path(@repository) %> /
+      <%= link_to "Edit", edit_repository_path(@repository) %> /
       <% if @repository.is_active %>
         <%= link_to "Deactivate", repository_deactivate_path(@repository), method: :post, data: { confirm: "Are you sure you want to deactivate repository '" + @repository.name + "'?" } %>
       <% else %>

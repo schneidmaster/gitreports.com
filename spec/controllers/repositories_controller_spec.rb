@@ -23,31 +23,31 @@ describe RepositoriesController do
     end
   end
 
-  describe '#repository_show' do
+  describe '#show' do
     let!(:repository) { create :user_repository, users: [user] }
     let!(:org_repository) { create :repository, organization: organization, users: [org_user] }
 
     context 'repository owner logged in' do
       before { log_in user }
-      subject  { get :repository_show, id: repository }
+      subject  { get :show, id: repository }
 
       it 'shows the repository' do
-        expect(subject).to render_template(:repository_show)
+        expect(subject).to render_template(:show)
       end
     end
 
     context 'org user logged in' do
       before { log_in org_user }
-      subject  { get :repository_show, id: org_repository }
+      subject  { get :show, id: org_repository }
 
       it 'shows the repository' do
-        expect(subject).to render_template(:repository_show)
+        expect(subject).to render_template(:show)
       end
     end
 
     context 'another user logged in' do
       before { log_in another_user }
-      subject  { get :repository_show, id: repository }
+      subject  { get :show, id: repository }
 
       it 'does not show the repository' do
         expect(subject).to redirect_to(profile_path)
@@ -56,7 +56,7 @@ describe RepositoriesController do
 
     context 'repo does not exist' do
       before { log_in another_user }
-      subject  { get :repository_show, id: 0 }
+      subject  { get :show, id: 0 }
 
       it 'renders 404' do
         expect(subject).to render_template('404')
@@ -64,31 +64,31 @@ describe RepositoriesController do
     end
   end
 
-  describe '#repository_edit' do
+  describe '#edit' do
     let!(:repository) { create :user_repository, users: [user] }
     let!(:org_repository) { create :repository, organization: organization, users: [org_user] }
 
     context 'repository owner logged in' do
       before { log_in user }
-      subject  { get :repository_edit, id: repository }
+      subject  { get :edit, id: repository }
 
       it 'shows the repository' do
-        expect(subject).to render_template(:repository_edit)
+        expect(subject).to render_template(:edit)
       end
     end
 
     context 'org user logged in' do
       before { log_in org_user }
-      subject  { get :repository_edit, id: org_repository }
+      subject  { get :edit, id: org_repository }
 
       it 'shows the repository' do
-        expect(subject).to render_template(:repository_edit)
+        expect(subject).to render_template(:edit)
       end
     end
 
     context 'another user logged in' do
       before { log_in another_user }
-      subject  { get :repository_edit, id: repository }
+      subject  { get :edit, id: repository }
 
       it 'does not show the repository' do
         expect(subject).to redirect_to(profile_path)
@@ -97,7 +97,7 @@ describe RepositoriesController do
 
     context 'repo does not exist' do
       before { log_in another_user }
-      subject  { get :repository_edit, id: 0 }
+      subject  { get :edit, id: 0 }
 
       it 'renders 404' do
         expect(subject).to render_template('404')
@@ -105,13 +105,13 @@ describe RepositoriesController do
     end
   end
 
-  describe '#repository_activate' do
+  describe '#activate' do
     let!(:repository) { create :user_repository, is_active: false, users: [user] }
     let!(:org_repository) { create :repository, is_active: false, organization: organization, users: [org_user] }
 
     context 'repository owner logged in' do
       before { log_in user }
-      subject  { post :repository_activate, id: repository }
+      subject  { post :activate, repository_id: repository }
 
       it 'activates the repository' do
         expect(subject).to redirect_to(repository_path(repository))
@@ -120,7 +120,7 @@ describe RepositoriesController do
 
     context 'org user logged in' do
       before { log_in org_user }
-      subject  { post :repository_activate, id: org_repository }
+      subject  { post :activate, repository_id: org_repository }
 
       it 'activates the repository' do
         expect(subject).to redirect_to(repository_path(org_repository))
@@ -129,7 +129,7 @@ describe RepositoriesController do
 
     context 'another user logged in' do
       before { log_in another_user }
-      subject  { post :repository_activate, id: repository }
+      subject  { post :activate, repository_id: repository }
 
       it 'does not allow activation' do
         expect(subject).to redirect_to(profile_path)
@@ -138,7 +138,7 @@ describe RepositoriesController do
 
     context 'repo does not exist' do
       before { log_in another_user }
-      subject  { post :repository_activate, id: 0 }
+      subject  { post :activate, repository_id: 0 }
 
       it 'renders 404' do
         expect(subject).to render_template('404')
@@ -146,13 +146,13 @@ describe RepositoriesController do
     end
   end
 
-  describe '#repository_deactivate' do
+  describe '#deactivate' do
     let!(:repository) { create :user_repository, users: [user] }
     let!(:org_repository) { create :repository, organization: organization, users: [org_user] }
 
     context 'repository owner logged in' do
       before { log_in user }
-      subject  { post :repository_deactivate, id: repository }
+      subject  { post :deactivate, repository_id: repository }
 
       it 'deactivates the repository' do
         expect(subject).to redirect_to(repository_path(repository))
@@ -161,7 +161,7 @@ describe RepositoriesController do
 
     context 'org user logged in' do
       before { log_in org_user }
-      subject  { post :repository_deactivate, id: org_repository }
+      subject  { post :deactivate, repository_id: org_repository }
 
       it 'deactivates the repository' do
         expect(subject).to redirect_to(repository_path(org_repository))
@@ -170,7 +170,7 @@ describe RepositoriesController do
 
     context 'another user logged in' do
       before { log_in another_user }
-      subject  { post :repository_deactivate, id: repository }
+      subject  { post :deactivate, repository_id: repository }
 
       it 'dedoes not allow activation' do
         expect(subject).to redirect_to(profile_path)
@@ -179,7 +179,7 @@ describe RepositoriesController do
 
     context 'repo does not exist' do
       before { log_in another_user }
-      subject  { post :repository_deactivate, id: 0 }
+      subject  { post :deactivate, repository_id: 0 }
 
       it 'renders 404' do
         expect(subject).to render_template('404')
