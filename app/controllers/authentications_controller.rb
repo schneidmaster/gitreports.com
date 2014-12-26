@@ -66,13 +66,7 @@ class AuthenticationsController < ApplicationController
   end
 
   def state
-    if session[:state]
-      session[:state]
-    else
-      state = SecureRandom.hex
-      session[:state] = state
-      state
-    end
+    session[:state] ||= SecureRandom.hex
   end
 
   def token_request!(code)
@@ -85,14 +79,8 @@ class AuthenticationsController < ApplicationController
     # Create the new request
     request = Net::HTTP::Post.new('/login/oauth/access_token')
 
-    # Set params
-    req_params = {}
-    req_params[:client_id] = ENV['GITHUB_CLIENT_ID']
-    req_params[:client_secret] = ENV['GITHUB_CLIENT_SECRET']
-    req_params[:code] = code
-
     # Add params to request
-    request.set_form_data(req_params)
+    request.set_form_data(client_id: ENV['GITHUB_CLIENT_ID'], client_secret: ENV['GITHUB_CLIENT_SECRET'], code: code)
 
     # Accept JSON
     request['accept'] = 'application/json'
