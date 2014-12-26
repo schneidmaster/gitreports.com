@@ -15,7 +15,7 @@ class GithubService
       return nil if (client = Octokit::Client.new access_token: access_token, auto_paginate: true).rate_limit.remaining < 10
 
       # Add repos and remove user from any repos they no longer have access to
-      remove_outdated(user, user.repositories.pluck(:github_id) - add_repos(client.repos, user) - add_orgs(client.orgs, user))
+      remove_outdated(user, process_repos(user, client))
     end
 
     def submit_issue(repo_id, sub_name, email, details)
@@ -52,7 +52,7 @@ class GithubService
       end
 
       # Remove user from any orgs they're no longer part of
-      user.organizations.delete(Organization.where.not(name: found_org_names))
+      remove_outdated_orgs(user, found_org_names)
 
       # Return found IDs
       found_ids
@@ -61,29 +61,35 @@ class GithubService
     def add_repos(repos, user, org = nil)
       owner = org || user
 
-      repos.select(&:has_issues).collect do |api_repo|
-        if (repo = owner.repositories.find_by_github_id(api_repo.id))
-          # Update any information and ensure user is added
-          repo.update(name: api_repo[:name], owner: api_repo[:owner][:login])
-          repo.users << user
-
-          # Add ID to return array
-          api_repo.id.to_s
-        # Else create it
-        else
-          Repository.create(github_id: api_repo[:id], name: api_repo[:name], is_active: false, organization: org, users: [user])
-          nil
-        end
-      end.compact!
+      repos.select(&:has_issues).collect{ |api_repo| find_or_update_repo(owner, api_repo, user, org) }.compact!
     end
 
-    private
+    def find_or_update_repo(owner, api_repo, user, org = nil)
+      if (repo = owner.repositories.find_by_github_id(api_repo.id))
+        # Update any information and ensure user is added
+        repo.update(name: api_repo[:name], owner: api_repo[:owner][:login])
+        repo.users << user
+
+        # Return repo ID
+        api_repo.id.to_s
+      # Else create it
+      else
+        Repository.create(github_id: api_repo[:id], name: api_repo[:name], is_active: false, organization: org, users: [user])
+
+        # Return nil
+        nil
+      end
+    end
 
     def create_issue(client, repo, body)
       name = repo.holder_name + '/' + repo.name
       issue_name = repo.issue_name.present? ? repo.issue_name : 'Git Reports Issue'
       labels = { labels: repo.labels.present? ? repo.labels : '' }
       client.create_issue(name, issue_name, body, labels)
+    end
+
+    def process_repos(user, client)
+      user.repositories.pluck(:github_id) - add_repos(client.repos, user) - add_orgs(client.orgs, user)
     end
 
     def add_org(api_org, user)
@@ -110,6 +116,10 @@ class GithubService
         # If the repo has no users left, disable it
         repo.update(is_active: false) if repo.users.count == 0
       end
+    end
+
+    def remove_outdated_orgs(user, old_names)
+      user.organizations.delete(Organization.where.not(name: old_names))
     end
   end
 end
