@@ -1,4 +1,4 @@
-![](https://travis-ci.org/schneidmaster/gitreports.com.svg?branch=master)
+[![Build Status](https://travis-ci.org/schneidmaster/gitreports.com.svg?branch=master)](https://travis-ci.org/schneidmaster/gitreports.com)
 [![Coverage Status](https://img.shields.io/coveralls/schneidmaster/gitreports.com.svg)](https://coveralls.io/r/schneidmaster/gitreports.com)
 [![Code Climate](https://codeclimate.com/github/schneidmaster/gitreports.com/badges/gpa.svg)](https://codeclimate.com/github/schneidmaster/gitreports.com)
 
