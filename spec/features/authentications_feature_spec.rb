@@ -33,6 +33,9 @@ feature 'Authentication' do
       scenario 'logs in the user' do
         visit "/github_callback?state=#{state}&code=#{SecureRandom.hex}"
         expect(page).to have_content('Logged in!')
+
+        # Should have queued repository update
+        expect(GithubWorker.jobs.size).to eq(1)
       end
     end
   end

@@ -205,6 +205,9 @@ feature 'Repository' do
         fill_in 'captcha', with: 'asdfgh'
         click_on 'Submit'
         expect(page).to have_content('Thanks for submitting your report!')
+
+        # Should have queued issue submission
+        expect(GithubWorker.jobs.size).to eq(1)
       end
     end
 

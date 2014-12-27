@@ -118,13 +118,31 @@ describe GithubService do
 
   describe '#submit_issue' do
     let!(:user) { create :user }
-    let!(:repository) { create :repository, users: [user] }
 
     subject { GithubService.submit_issue(repository.id, 'Bob', 'bob@email.com', "I'm having a problem with this.") }
 
-    it 'create the issue' do
-      issue = subject
-      expect(issue['body']).to eq("I'm having a problem with this.")
+    context 'repository has configured notification mails' do
+      let!(:repository) { create :repository, users: [user], notification_emails: 'joe@email.com' }
+
+      it 'creates the issue and sends notification' do
+        issue = subject
+        expect(issue['body']).to eq("I'm having a problem with this.")
+
+        # Should have queued notification mail
+        expect(EmailWorker.jobs.size).to eq(1)
+      end
+    end
+
+    context 'repository has not configured notification mails' do
+      let!(:repository) { create :repository, users: [user] }
+
+      it 'creates the issue and sends no notification' do
+        issue = subject
+        expect(issue['body']).to eq("I'm having a problem with this.")
+
+        # Should have queued notification mail
+        expect(EmailWorker.jobs.size).to eq(0)
+      end
     end
   end
 end

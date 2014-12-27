@@ -5,7 +5,9 @@ require 'simplecov'
 require 'coveralls'
 
 SimpleCov.formatter = Coveralls::SimpleCov::Formatter if ENV['TRAVIS']
-SimpleCov.start
+SimpleCov.start do
+  add_filter '/workers/'
+end
 
 require 'rspec/rails'
 require 'rspec/autorun'
@@ -14,6 +16,7 @@ require 'capybara-screenshot/rspec'
 require 'capybara/poltergeist'
 require 'webmock/rspec'
 require 'rack_session_access/capybara'
+require 'sidekiq/testing'
 
 WebMock.disable_net_connect!(allow_localhost: true)
 
@@ -80,5 +83,10 @@ RSpec.configure do |config|
   # Stub GitHub requests
   config.before(:each) do
     stub_request(:any, /github.com/).to_rack(FakeGitHub)
+  end
+
+  # Ensure Sidekiq is empty
+  config.before(:each) do
+    Sidekiq::Worker.clear_all
   end
 end
