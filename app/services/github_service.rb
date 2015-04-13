@@ -55,13 +55,14 @@ class GithubService
       remove_outdated_orgs(user, found_org_names)
 
       # Return found IDs
-      found_ids
+      found_ids || []
     end
 
     def add_repos(repos, user, org = nil)
       owner = org || user
 
-      repos.select(&:has_issues).map { |api_repo| find_or_update_repo(owner, api_repo, user, org) }.compact!
+      repos = repos.select(&:has_issues).map { |api_repo| find_or_update_repo(owner, api_repo, user, org) }.compact!
+      repos || []
     end
 
     def find_or_update_repo(owner, api_repo, user, org = nil)
