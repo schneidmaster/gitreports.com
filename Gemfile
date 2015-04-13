@@ -68,3 +68,6 @@ gem 'sidekiq-status', '0.5.1'
 
 # Validate emails
 gem 'valid_email', require: 'valid_email/validate_email'
+
+# Server monitoring
+gem 'newrelic_rpm'
