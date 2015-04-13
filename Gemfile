@@ -64,7 +64,7 @@ gem 'dotenv-rails', '0.9.0'
 gem 'redcarpet'
 
 # SimpleCaptcha for, well, captchas
-gem 'galetahub-simple_captcha', require: 'simple_captcha'
+gem 'simple_captcha2', require: 'simple_captcha'
 
 # Sidekiq handles jobs
 gem 'sidekiq', '3.2.1'
