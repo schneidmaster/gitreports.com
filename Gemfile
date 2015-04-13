@@ -3,12 +3,16 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.8'
 
-# Use sqlite3 as the database for Active Record
 group :development do
-  gem 'sqlite3', '1.3.8'
+  # Use sqlite3 as the database for Active Record
+  gem 'sqlite3', '1.3.10'
   gem 'binding_of_caller', '0.7.2'
   gem 'better_errors', '1.1.0'
   gem 'rubocop', '0.24.1'
+
+  # Use Capistrano for deployment
+  gem 'capistrano-rails', '1.1.2'
+  gem 'capistrano-rvm', '0.1.2'
 end
 
 group :test do
@@ -60,7 +64,7 @@ gem 'dotenv-rails', '0.9.0'
 gem 'redcarpet'
 
 # SimpleCaptcha for, well, captchas
-gem 'simple_captcha', git: 'git://github.com/galetahub/simple-captcha.git'
+gem 'galetahub-simple_captcha', require: 'simple_captcha'
 
 # Sidekiq handles jobs
 gem 'sidekiq', '3.2.1'
