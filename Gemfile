@@ -13,6 +13,7 @@ group :development do
   # Use Capistrano for deployment
   gem 'capistrano-rails', '1.1.2'
   gem 'capistrano-rvm', '0.1.2'
+  gem 'capistrano-sidekiq'
 end
 
 group :test do
