@@ -5,7 +5,8 @@
       "jquery": "2.1.1",
       "jquery-ujs": "*",
       "foundation": "5.4.7",
-      "responsive-tables": "git://github.com/schneidmaster/responsive-tables.git"
+      "responsive-tables": "git://github.com/schneidmaster/responsive-tables.git",
+      "modernizr": "2.8.3"
     }
   }
 }
