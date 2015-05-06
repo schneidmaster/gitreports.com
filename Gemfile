@@ -27,7 +27,6 @@ group :test do
   gem 'rack_session_access', '~> 0.1.1'
   gem 'rspec-rails', '~> 3.1'
   gem 'simplecov', '~> 0.8.2'
-  gem 'sinatra', '~> 1.4.5'
   gem 'webmock', '~> 1.18.0'
 end
 
@@ -76,3 +75,6 @@ gem 'valid_email', require: 'valid_email/validate_email'
 
 # Server monitoring
 gem 'newrelic_rpm'
+
+# Sinatra used for Sidekiq logging
+gem 'sinatra', '~> 1.4.5'
