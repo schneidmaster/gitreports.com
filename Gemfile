@@ -32,7 +32,7 @@ group :test do
 end
 
 group :development, :test do
-  gem 'pry-rails', '0.3.2'
+  gem 'byebug'
 end
 
 # Use mysql2 in production

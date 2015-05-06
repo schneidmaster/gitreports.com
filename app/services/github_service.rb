@@ -1,10 +1,14 @@
 class GithubService
   class << self
     def create_or_update_user(access_token)
-      return nil if (client = Octokit::Client.new access_token: access_token).rate_limit.remaining < 10
+      client = Octokit::Client.new access_token: access_token
+
+      return nil if client.rate_limit.remaining < 10
 
       # Retrieve or update the user
-      retrieve_user(client, access_token)
+      user = User.find_or_create_by(access_token: access_token)
+      user.update(username: client.user[:login], name: client.user[:name], avatar_url: client.user[:avatar_url])
+      user
     end
 
     def load_repositories(access_token)
@@ -12,10 +16,13 @@ class GithubService
       user = User.find_by_access_token(access_token)
 
       # Create client with token
-      return nil if (client = Octokit::Client.new access_token: access_token, auto_paginate: true).rate_limit.remaining < 10
+      client = Octokit::Client.new access_token: access_token, auto_paginate: true
+      return nil if client.rate_limit.remaining < 10
+
+      active_repos = user.repositories.pluck(:github_id) - add_repos(client.repos, user) - add_orgs(client.orgs, user)
 
       # Add repos and remove user from any repos they no longer have access to
-      remove_outdated(user, process_repos(user, client))
+      remove_outdated(user, active_repos)
     end
 
     def submit_issue(repo_id, sub_name, email, details)
@@ -23,7 +30,8 @@ class GithubService
       repo = Repository.find(repo_id)
 
       # Create client and check rate limit
-      throw 'Rate limit reached' if (client = Octokit::Client.new access_token: repo.access_token).rate_limit.remaining < 10
+      client = Octokit::Client.new access_token: repo.access_token
+      throw 'Rate limit reached' if client.rate_limit.remaining < 10
 
       # Create the issue
       issue = create_issue(client, repo, repo.construct_body(sub_name, email, details))
@@ -89,10 +97,6 @@ class GithubService
       client.create_issue(name, issue_name, body, labels)
     end
 
-    def process_repos(user, client)
-      user.repositories.pluck(:github_id) - add_repos(client.repos, user) - add_orgs(client.orgs, user)
-    end
-
     def add_org(api_org, user)
       org = Organization.find_or_create_by(name: api_org[:login])
 
@@ -100,13 +104,6 @@ class GithubService
       org.users << user
 
       org
-    end
-
-    def retrieve_user(client, access_token)
-      # Find
-      user = User.find_or_create_by(access_token: access_token)
-      user.update(username: client.user[:login], name: client.user[:name], avatar_url: client.user[:avatar_url])
-      user
     end
 
     def remove_outdated(user, old_ids)
