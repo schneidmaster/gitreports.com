@@ -2,4 +2,4 @@ New issue submitted to repository <%= @repository.name %>!
 
 View it <%= link_to "here", @repository.github_issue_path(@issue_id) %>.
 
-To manage settings and notifications for this repository, visit <%= link_to "here", "https://gitreports.com/#{repository_path(@repository)}" %>.
+To manage settings and notifications for this repository, visit <%= link_to "here", repository_url(@repository) %>.

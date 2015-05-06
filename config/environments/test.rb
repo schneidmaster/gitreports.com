@@ -13,7 +13,7 @@ GitReports::Application.configure do
   config.eager_load = false
 
   # Configure static asset server for tests with Cache-Control for performance.
-  config.serve_static_assets  = true
+  config.serve_static_files  = true
   config.static_cache_control = 'public, max-age=3600'
 
   # Show full error reports and disable caching.
@@ -33,6 +33,9 @@ GitReports::Application.configure do
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
+
+  # Set host for email links
+  config.action_mailer.default_url_options = { host: 'localhost:3000' }
 
   # Access to rack session
   config.middleware.use RackSessionAccess::Middleware

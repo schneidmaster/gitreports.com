@@ -111,7 +111,7 @@ describe GithubService do
       end
 
       it 'leaves the other user on the org repository' do
-        expect(repository.users.find(another_user)).not_to eq(nil)
+        expect(repository.users.find(another_user.id)).not_to eq(nil)
       end
     end
   end

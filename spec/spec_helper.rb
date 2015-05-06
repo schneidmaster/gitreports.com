@@ -10,7 +10,6 @@ SimpleCov.start do
 end
 
 require 'rspec/rails'
-require 'rspec/autorun'
 require 'capybara/rspec'
 require 'capybara-screenshot/rspec'
 require 'capybara/poltergeist'
@@ -32,6 +31,8 @@ ActiveRecord::Migration.maintain_test_schema!
 SimpleCov.start
 
 RSpec.configure do |config|
+  config.infer_spec_type_from_file_location!
+
   # Include FactoryGirl helper methods
   config.include FactoryGirl::Syntax::Methods
 

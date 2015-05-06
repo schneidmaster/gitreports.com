@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.1.8'
+gem 'rails', '4.2.1'
 
 group :development do
   # Use sqlite3 as the database for Active Record
@@ -25,7 +25,7 @@ group :test do
   gem 'faker', '~> 1.3.0'
   gem 'poltergeist', '~> 1.5.0'
   gem 'rack_session_access', '~> 0.1.1'
-  gem 'rspec-rails', '~> 2.14.1'
+  gem 'rspec-rails', '~> 3.1'
   gem 'simplecov', '~> 0.8.2'
   gem 'sinatra', '~> 1.4.5'
   gem 'webmock', '~> 1.18.0'
