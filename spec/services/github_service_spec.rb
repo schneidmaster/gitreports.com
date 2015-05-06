@@ -70,6 +70,18 @@ describe GithubService do
       end
     end
 
+    context 'user repo exists but is not owned by the user' do
+      let!(:org) { create :organization }
+      let!(:user) { create :user, access_token: 'access', organizations: [org] }
+      let!(:repository) { create :user_repository, name: 'NeatOrgProject', github_id: 19_548_055, users: [user], owner: [org.name] }
+
+      before { subject }
+
+      it 'leaves user on the repository' do
+        expect(user.repositories.find_by_name('NeatOrgProject')).not_to eq(nil)
+      end
+    end
+
     context 'user is removed from a repo with another user on it' do
       let!(:user) { create :user, access_token: 'access' }
       let!(:another_user) { create :user }

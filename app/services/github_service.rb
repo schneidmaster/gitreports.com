@@ -19,10 +19,14 @@ class GithubService
       client = Octokit::Client.new access_token: access_token, auto_paginate: true
       return nil if client.rate_limit.remaining < 10
 
-      active_repos = user.repositories.pluck(:github_id) - add_repos(client.repos, user) - add_orgs(client.orgs, user)
+      old_repos = user.repositories.pluck(:github_id)
+      current_user_repos = add_repos(client.repos, user)
+      current_org_repos = add_orgs(client.orgs, user)
+
+      outdated_repos = old_repos - current_user_repos - current_org_repos
 
       # Add repos and remove user from any repos they no longer have access to
-      remove_outdated(user, active_repos)
+      remove_outdated(user, outdated_repos)
     end
 
     def submit_issue(repo_id, sub_name, email, details)
@@ -69,25 +73,22 @@ class GithubService
     def add_repos(repos, user, org = nil)
       owner = org || user
 
-      repos = repos.select(&:has_issues).map { |api_repo| find_or_update_repo(owner, api_repo, user, org) }.compact!
-      repos || []
-    end
+      found_repo_ids = []
 
-    def find_or_update_repo(owner, api_repo, user, org = nil)
-      if (repo = owner.repositories.find_by_github_id(api_repo.id))
-        # Update any information and ensure user is added
-        repo.update(name: api_repo[:name], owner: api_repo[:owner][:login])
-        repo.users << user
+      repos = repos.select(&:has_issues).each do |api_repo|
+        if (repo = owner.repositories.find_by_github_id(api_repo.id))
+          # Update any information and ensure user is added
+          repo.update(name: api_repo[:name], owner: api_repo[:owner][:login])
+          repo.users << user
 
-        # Return repo ID
-        api_repo.id.to_s
-      # Else create it
-      else
-        Repository.create(github_id: api_repo[:id], name: api_repo[:name], is_active: false, organization: org, users: [user])
-
-        # Return nil
-        nil
+          found_repo_ids << api_repo.id.to_s
+        # Else create it
+        else
+          Repository.create(github_id: api_repo[:id], name: api_repo[:name], is_active: false, owner: api_repo[:owner][:login], organization: org, users: [user])
+        end
       end
+
+      found_repo_ids
     end
 
     def create_issue(client, repo, body)
