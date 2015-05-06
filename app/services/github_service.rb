@@ -71,14 +71,12 @@ class GithubService
     end
 
     def add_repos(repos, user, org = nil)
-      owner = org || user
-
       found_repo_ids = []
 
       repos = repos.select(&:has_issues).each do |api_repo|
-        if (repo = owner.repositories.find_by_github_id(api_repo.id))
+        if (repo = Repository.find_by_github_id(api_repo.id))
           # Update any information and ensure user is added
-          repo.update(name: api_repo[:name], owner: api_repo[:owner][:login])
+          repo.update(name: api_repo[:name], owner: api_repo[:owner][:login], organization: org)
           repo.users << user
 
           found_repo_ids << api_repo.id.to_s
