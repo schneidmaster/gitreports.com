@@ -11,3 +11,4 @@ before_script:
   - redis-server --daemonize yes
   - bundle exec sidekiq -d
   - bundle exec rake bower:install
+  - bundle exec rake db:migrate RAILS_ENV=test
