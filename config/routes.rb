@@ -1,3 +1,5 @@
+require 'sidekiq/web'
+
 GitReports::Application.routes.draw do
 
   root 'pages#home'
@@ -27,4 +29,8 @@ GitReports::Application.routes.draw do
 
   get '/load_status', to: 'repositories#load_status'
 
+  # Sidekiq monitoring
+  constraints lambda { |r| r.session[:user_id] && User.where(r.session[:user_id]).count > 0 && User.find(r.session[:user_id]).is_admin } do
+    mount Sidekiq::Web => '/admin/sidekiq'
+  end
 end

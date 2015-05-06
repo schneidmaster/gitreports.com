@@ -11,45 +11,45 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141130233032) do
+ActiveRecord::Schema.define(version: 20150506175412) do
 
-  create_table "organizations", force: true do |t|
-    t.string   "name"
+  create_table "organizations", force: :cascade do |t|
+    t.string   "name",       limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "organizations_users", force: true do |t|
+  create_table "organizations_users", force: :cascade do |t|
     t.integer  "organization_id"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "repositories", force: true do |t|
-    t.string   "github_id"
-    t.string   "name"
-    t.string   "display_name"
-    t.string   "issue_name"
+  create_table "repositories", force: :cascade do |t|
+    t.string   "github_id",           limit: 255
+    t.string   "name",                limit: 255
+    t.string   "display_name",        limit: 255
+    t.string   "issue_name",          limit: 255
     t.text     "prompt"
     t.text     "followup"
-    t.string   "labels"
+    t.string   "labels",              limit: 255
     t.boolean  "is_active"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "organization_id"
-    t.string   "owner"
-    t.string   "notification_emails"
+    t.string   "owner",               limit: 255
+    t.string   "notification_emails", limit: 255
   end
 
-  create_table "repositories_users", force: true do |t|
+  create_table "repositories_users", force: :cascade do |t|
     t.integer  "repository_id"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "simple_captcha_data", force: true do |t|
+  create_table "simple_captcha_data", force: :cascade do |t|
     t.string   "key",        limit: 40
     t.string   "value",      limit: 6
     t.datetime "created_at"
@@ -58,13 +58,14 @@ ActiveRecord::Schema.define(version: 20141130233032) do
 
   add_index "simple_captcha_data", ["key"], name: "idx_key"
 
-  create_table "users", force: true do |t|
-    t.string   "username"
-    t.string   "name"
-    t.string   "avatar_url"
-    t.string   "access_token"
+  create_table "users", force: :cascade do |t|
+    t.string   "username",     limit: 255
+    t.string   "name",         limit: 255
+    t.string   "avatar_url",   limit: 255
+    t.string   "access_token", limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "is_admin",                 default: false
   end
 
 end
