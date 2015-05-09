@@ -31,7 +31,7 @@ set :linked_files, fetch(:linked_files, []).push('.env', 'config/database.yml', 
 # Default value for keep_releases is 5
 # set :keep_releases, 5
 
-set :sidekiq_processes, 4
+set :sidekiq_processes, 2
 
 namespace :deploy do
   before :deploy, :set_env do
