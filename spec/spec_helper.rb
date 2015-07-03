@@ -1,16 +1,15 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV['RAILS_ENV'] = 'test'
 require File.expand_path('../../config/environment', __FILE__)
-require 'simplecov'
-require 'coveralls'
 
 if ENV['CIRCLE_ARTIFACTS']
-  SimpleCov.formatter = Coveralls::SimpleCov::Formatter
-  dir = File.join('..', '..', '..', ENV['CIRCLE_ARTIFACTS'], 'coverage')
-  SimpleCov.coverage_dir(dir)
-end
-SimpleCov.start do
-  add_filter '/workers/'
+  require 'codeclimate-test-reporter'
+  CodeClimate::TestReporter.start
+else
+  require 'simplecov'
+  SimpleCov.start do
+    add_filter '/workers/'
+  end
 end
 
 require 'rspec/rails'

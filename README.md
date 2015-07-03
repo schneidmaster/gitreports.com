@@ -1,5 +1,5 @@
 [![Build Status](https://circleci.com/gh/schneidmaster/gitreports.com.svg?style=svg)](https://circleci.com/gh/schneidmaster/gitreports.com)
-[![Coverage Status](https://coveralls.io/repos/schneidmaster/gitreports.com/badge.svg?branch=master)](https://coveralls.io/r/schneidmaster/gitreports.com?branch=master)
+[![Test Coverage](https://codeclimate.com/github/schneidmaster/gitreports.com/badges/coverage.svg)](https://codeclimate.com/github/schneidmaster/gitreports.com/coverage)
 [![Code Climate](https://codeclimate.com/github/schneidmaster/gitreports.com/badges/gpa.svg)](https://codeclimate.com/github/schneidmaster/gitreports.com)
 
 gitreports.com
