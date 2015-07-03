@@ -20,7 +20,7 @@ require 'webmock/rspec'
 require 'rack_session_access/capybara'
 require 'sidekiq/testing'
 
-WebMock.disable_net_connect!(allow_localhost: true, %w{codeclimate.com})
+WebMock.disable_net_connect!(allow_localhost: true, allow: %w{codeclimate.com})
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
