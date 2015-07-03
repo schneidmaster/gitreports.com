@@ -4,7 +4,11 @@ require File.expand_path('../../config/environment', __FILE__)
 require 'simplecov'
 require 'coveralls'
 
-SimpleCov.formatter = Coveralls::SimpleCov::Formatter if ENV['TRAVIS']
+if ENV['CIRCLE_ARTIFACTS']
+  SimpleCov.formatter = Coveralls::SimpleCov::Formatter
+  dir = File.join('..', '..', '..', ENV['CIRCLE_ARTIFACTS'], 'coverage')
+  SimpleCov.coverage_dir(dir)
+end
 SimpleCov.start do
   add_filter '/workers/'
 end
