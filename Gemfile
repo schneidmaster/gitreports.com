@@ -26,7 +26,7 @@ group :test do
   gem 'poltergeist', '~> 1.5.0'
   gem 'rack_session_access', '~> 0.1.1'
   gem 'rspec-rails', '~> 3.1'
-  gem 'simplecov', '~> 0.8.2'
+  gem 'simplecov', '~> 0.10.0'
   gem 'webmock', '~> 1.18.0'
 end
 

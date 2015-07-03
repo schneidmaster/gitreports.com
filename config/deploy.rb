@@ -5,7 +5,7 @@ set :application, 'gitreports.com'
 set :repo_url, 'git@github.com:schneidmaster/gitreports.com.git'
 
 # Default branch is :master
-set :branch, "master"
+set :branch, 'master'
 
 # Default deploy_to directory is /var/www/my_app_name
 set :deploy_to, '/srv/www/gitreports.com'
