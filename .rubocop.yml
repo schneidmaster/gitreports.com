@@ -1,6 +1,7 @@
 AllCops:
   Exclude:
     - db/**/*
+    - vendor/**/*
 
 BlockNesting: 
   Max: 4
