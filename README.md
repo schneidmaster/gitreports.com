@@ -1,4 +1,4 @@
-[![Build Status](https://circleci.com/gh/schneidmaster/gitreports.com.svg?style=svg)](https://circleci.com/gh/schneidmaster/gitreports.com)
+[![Build Status](https://circleci.com/gh/schneidmaster/gitreports.com.svg?style=shield)](https://circleci.com/gh/schneidmaster/gitreports.com)
 [![Test Coverage](https://codeclimate.com/github/schneidmaster/gitreports.com/badges/coverage.svg)](https://codeclimate.com/github/schneidmaster/gitreports.com/coverage)
 [![Code Climate](https://codeclimate.com/github/schneidmaster/gitreports.com/badges/gpa.svg)](https://codeclimate.com/github/schneidmaster/gitreports.com)
 
