@@ -30,6 +30,15 @@ feature 'Repository' do
         expect(page).to have_content('The repository you\'re looking for could not be located.')
       end
     end
+
+    context 'URL params are passed' do
+      scenario 'prefills the issue form' do
+        visit repository_public_path(user.username, repository.name, name: 'Important Issue', email: 'some@email.com', details: 'Big details')
+        expect(find_field('name').value).to eq('Important Issue')
+        expect(find_field('email').value).to eq('some@email.com')
+        expect(find_field('details').value).to eq('Big details')
+      end
+    end
   end
 
   describe 'edit repository' do

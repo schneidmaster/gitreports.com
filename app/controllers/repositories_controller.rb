@@ -35,10 +35,9 @@ class RepositoriesController < ApplicationController
   def repository
     @repository = current_resource
 
-    # Load any data from session
-    return unless session[:issuedata]
-    @name, @email, @details = session[:issuedata][:name], session[:issuedata][:email], session[:issuedata][:details]
-    session.delete(:issuedata)
+    @name = params[:name] if params[:name]
+    @email = params[:email] if params[:email]
+    @details = params[:details] if params[:details]
   end
 
   def submit
@@ -55,12 +54,8 @@ class RepositoriesController < ApplicationController
 
     # If invalid, display as such
     else
-
-      # Store posted data in session
-      session[:issuedata] = { name: params[:name], email: params[:email], details: params[:details] }
-
       # Redirect
-      redirect_to repository_public_path(params[:username], params[:repositoryname]), flash: { error: 'Incorrect CAPTCHA; please retry!' }
+      redirect_to repository_public_path(params.slice(:username, :repositoryname, :name, :email, :details)), flash: { error: 'Incorrect CAPTCHA; please retry!' }
     end
   end
 
