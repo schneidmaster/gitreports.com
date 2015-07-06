@@ -1,0 +1,2 @@
+exclude_paths:
+- 'app/services/github_service.rb'
