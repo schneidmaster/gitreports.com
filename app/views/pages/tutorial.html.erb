@@ -24,6 +24,7 @@
         <li><b>Followup:</b> This is the result message that will be displayed to a user after they have successfully submitted an issue.  You can use <%= link_to "Markdown", "http://daringfireball.net/projects/markdown/" %> in your followup message.  If it's not set, the default is:
         <blockquote>Thanks for submitting your report!  We'll look into it as soon as possible.</blockquote></li>
         <li><b>Labels:</b> This is a comma-separated list of labels that will be applied to new Git Reports created by the application.  Label names must match label options in the issues section of your repository on GitHub; default examples are bug, enhancement, etc.  If this setting isn't set, no labels will be applied to created issues.</li>
+        <li><b>Allow Custom Titles:</b> Whether to allow users to set the title of the issue submitted to GitHub. If an Issue Name is set (see above), that will override the custom user title.</li>
       </ul>
     </p>
     <h5>Prefilling Fields</h5>

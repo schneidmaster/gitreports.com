@@ -131,7 +131,7 @@ describe GithubService do
   describe '#submit_issue' do
     let!(:user) { create :user }
 
-    subject { GithubService.submit_issue(repository.id, 'Bob', 'bob@email.com', "I'm having a problem with this.") }
+    subject { GithubService.submit_issue(repository.id, 'Bob', 'bob@email.com', nil, "I'm having a problem with this.") }
 
     context 'repository has configured notification mails' do
       let!(:repository) { create :repository, users: [user], notification_emails: 'joe@email.com' }
@@ -154,6 +154,28 @@ describe GithubService do
 
         # Should have queued notification mail
         expect(EmailWorker.jobs.size).to eq(0)
+      end
+    end
+
+    context 'custom title submitted' do
+      subject { GithubService.submit_issue(repository.id, 'Bob', 'bob@email.com', 'Custom Title', "I'm having a problem with this.") }
+
+      context 'repository has enabled custom issue title' do
+        let!(:repository) { create :repository, users: [user], allow_issue_title: true }
+
+        it 'uses custom title' do
+          issue = subject
+          expect(issue['title']).to eq('Custom Title')
+        end
+      end
+
+      context 'repository has not enabled custom issue title' do
+        let!(:repository) { create :repository, users: [user] }
+
+        it 'ignores custom title' do
+          issue = subject
+          expect(issue['title']).to eq('Git Reports Issue')
+        end
       end
     end
   end

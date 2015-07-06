@@ -110,6 +110,7 @@ feature 'Repository' do
         fill_in 'Followup', with: 'Thanks!'
         fill_in 'Labels', with: 'problem'
         fill_in 'Notification emails', with: 'valid@email.com, invalid@email'
+        choose 'repository_allow_issue_title_yes'
         click_on 'Update'
 
         expect(page).to have_content('The Coolest')
@@ -119,6 +120,7 @@ feature 'Repository' do
         expect(page).to have_content('problem')
         expect(page).to have_content('valid@email.com')
         expect(page).not_to have_content('invalid@email')
+        expect(page).to have_content('Yes: Users are permitted to set the issue title on GitHub.')
       end
     end
 

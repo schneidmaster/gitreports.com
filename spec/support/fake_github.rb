@@ -47,7 +47,9 @@ class FakeGitHub < Sinatra::Base
   end
 
   post '/repos/:username/:repository/issues' do
-    json_response 201, 'issue.json'
+    body = JSON.parse(request.body.string)
+    overrides = body['title'] == 'Custom Title' ? { 'Git Reports Issue' => 'Custom Title' } : {}
+    json_response 201, 'issue.json', nil, overrides
   end
 
   private
@@ -60,7 +62,7 @@ class FakeGitHub < Sinatra::Base
     request.env['HTTP_AUTHORIZATION'] == 'token rate_limit_expired' || params[:code] == 'rate_limit_expired'
   end
 
-  def json_response(response_code, content, headers = nil)
+  def json_response(response_code, content, headers = nil, overrides = {})
     content_type :json
     status response_code
 
@@ -73,7 +75,10 @@ class FakeGitHub < Sinatra::Base
     if content.is_a? Hash
       content.to_json
     else
-      File.open(File.expand_path('../../', __FILE__) + '/fixtures/' + content, 'rb').read
+      response_json = File.open(File.expand_path('../../', __FILE__) + '/fixtures/' + content, 'rb').read
+      # Replace any overrides in the JSON.
+      overrides.each { |k, v| response_json.gsub!(k, v) }
+      response_json
     end
   end
 end

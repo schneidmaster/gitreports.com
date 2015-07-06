@@ -29,16 +29,19 @@ class GithubService
       remove_outdated(user, outdated_repos)
     end
 
-    def submit_issue(repo_id, sub_name, email, details)
+    def submit_issue(repo_id, sub_name, email, title, details)
       # Find repo
       repo = Repository.find(repo_id)
+
+      # Determine title
+      issue_title = (repo.allow_issue_title && !title.empty?) ? title : 'Git Reports Issue'
 
       # Create client and check rate limit
       client = Octokit::Client.new access_token: repo.access_token
       throw 'Rate limit reached' if client.rate_limit.remaining < 10
 
       # Create the issue
-      issue = create_issue(client, repo, repo.construct_body(sub_name, email, details))
+      issue = create_issue(client, repo, issue_title, repo.construct_body(sub_name, email, details))
 
       # Send notification email
       EmailWorker.perform_async NotificationMailer, :issue_submitted_email, repo.id, issue.number unless repo.notification_emails.blank?
@@ -89,9 +92,9 @@ class GithubService
       found_repo_ids
     end
 
-    def create_issue(client, repo, body)
+    def create_issue(client, repo, title, body)
       name = repo.holder_name + '/' + repo.name
-      issue_name = repo.issue_name.present? ? repo.issue_name : 'Git Reports Issue'
+      issue_name = repo.issue_name.present? ? repo.issue_name : title
       labels = { labels: repo.labels.present? ? repo.labels : '' }
       client.create_issue(name, issue_name, body, labels)
     end

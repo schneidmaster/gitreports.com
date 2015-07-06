@@ -80,6 +80,19 @@
         </div>
 
         <div class="row">
+          <div class="small-12 columns">
+            <%= f.label :allow_issue_title %><br>
+            <p>
+              <i>Allow anonymous users to set the title of the submitted issue on GitHub. If active, the repository page will include a field for the issue title.</i>
+            </p>
+            <%= f.radio_button :allow_issue_title, 'no', :checked => true %> 
+            <%= label :allow_issue_title, 'No' %>
+            <%= f.radio_button :allow_issue_title, 'yes' %>
+            <%= label :allow_issue_title, 'Yes' %>
+          </div>
+        </div>
+
+        <div class="row">
           <div class="small-3 columns">
             <%= submit_tag "Update", class: "button small" %>
           </div>

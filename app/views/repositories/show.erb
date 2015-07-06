@@ -109,5 +109,11 @@
         Not set
       <% end %>
     </p>
+    <h4>
+      Custom Issue Titles
+    </h4>
+    <p>
+      <b><%= @repository.allow_issue_title ? 'Yes' : 'No' %></b>: Users are <%= 'not' unless @repository.allow_issue_title %> permitted to set the issue title on GitHub.
+    </p>
   </div>
 </div>

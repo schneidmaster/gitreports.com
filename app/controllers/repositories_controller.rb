@@ -35,9 +35,10 @@ class RepositoriesController < ApplicationController
   def repository
     @repository = current_resource
 
-    @name = params[:name] if params[:name]
-    @email = params[:email] if params[:email]
-    @details = params[:details] if params[:details]
+    # Set each param passed in the URL.
+    %w(name email issue_title details).each do |p|
+      instance_variable_set("@#{p}", params[p.intern])
+    end
   end
 
   def submit
@@ -47,7 +48,7 @@ class RepositoriesController < ApplicationController
     if pass_captcha?
 
       # Submit issue
-      GithubWorker.perform_async(:submit_issue, repo.id, params[:name], params[:email], params[:details])
+      GithubWorker.perform_async(:submit_issue, repo.id, params[:name], params[:email], params[:issue_title], params[:details])
 
       # Redirect
       redirect_to submitted_path(repo.holder_name, repo.name)
@@ -55,7 +56,7 @@ class RepositoriesController < ApplicationController
     # If invalid, display as such
     else
       # Redirect
-      redirect_to repository_public_path(params.slice(:username, :repositoryname, :name, :email, :details)), flash: { error: 'Incorrect CAPTCHA; please retry!' }
+      redirect_to repository_public_path(params.slice(:username, :repositoryname, :name, :email, :issue_title, :details)), flash: { error: 'Incorrect CAPTCHA; please retry!' }
     end
   end
 
@@ -75,7 +76,10 @@ class RepositoriesController < ApplicationController
   private
 
   def repository_params
-    params[:repository].permit(:display_name, :issue_name, :prompt, :followup, :labels).merge(notification_emails: parse_emails(params[:repository][:notification_emails]))
+    params[:repository].permit(:display_name, :issue_name, :prompt, :followup, :labels, :allow_issue_title).merge(
+      notification_emails: parse_emails(params[:repository][:notification_emails]),
+      allow_issue_title: (params[:repository][:allow_issue_title] == 'yes')
+    )
   end
 
   def current_resource

@@ -9,6 +9,7 @@ FactoryGirl.define do
     owner { Faker::Internet.user_name }
     organization
     users { [] }
+    allow_issue_title false
 
     factory :user_repository do
       organization nil
