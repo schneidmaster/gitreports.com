@@ -24,10 +24,12 @@
            </div>
          </div>
          <% if @repository.allow_issue_title %>
-          <div class="small-12 columns">
-            <%= label :issue_title, "Issue Title" %>
-             <%= text_field_tag :issue_title, @issue_title %>
-           </div>
+          <div class="row">
+            <div class="small-12 columns">
+              <%= label :issue_title, "Issue Title" %>
+              <%= text_field_tag :issue_title, @issue_title %>
+            </div>
+          </div>
          <% end %>
          <div class="row">
           <div class="small-12 columns">
