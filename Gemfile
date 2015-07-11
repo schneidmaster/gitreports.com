@@ -36,7 +36,9 @@ end
 
 # Use mysql2 in production
 group :production do
-  gem 'mysql2'
+  gem 'pg'
+  gem 'puma'
+  gem 'rails_12factor'
 end
 
 # Use SCSS for stylesheets
