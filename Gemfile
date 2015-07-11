@@ -39,9 +39,6 @@ group :production do
   gem 'mysql2'
 end
 
-# Use bower for frontend assets
-gem 'bower-rails', '~> 0.9.1'
-
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
 
