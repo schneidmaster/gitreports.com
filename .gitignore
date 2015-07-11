@@ -18,12 +18,6 @@
 # Ignore environment variables
 .env
 
-# Ignore database configuration
-/config/database.yml
-
-# Ignore secret token
-/config/initializers/secret_token.rb
-
 # Ignore test code
 /coverage
 

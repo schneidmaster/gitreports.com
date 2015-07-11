@@ -11,4 +11,4 @@
 # if you're sharing your code publicly.
 
 # Replace '####' with an alphanumeric string, and rename this file to "secret_token.rb"
-GitReports::Application.config.secret_key_base = '####'
+GitReports::Application.config.secret_key_base = ENV['SECRET_KEY_TOKEN']
