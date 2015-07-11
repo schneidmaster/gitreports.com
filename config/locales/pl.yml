@@ -1,0 +1,23 @@
+en:
+  repositories:
+    not_found:
+      label: '404: Strona nie znaleziona'
+      message: Repozytorium, którego szukasz nie może zostać znalezione. Przepraszamy!
+
+  submit_form:
+    title: Zgłoszenie
+    label:
+      name: Nazwa
+      email: E-mail
+      issue_title: Tytuł problemu
+      details: Szczegóły
+      submit: Zgłoś
+    captcha_message: Proszę przepisać następujący obrazek CAPTCHA, aby potwierdzić, że jesteś człowiekiem.
+
+  simple_captcha:
+    placeholder:  Podaj tekst z obrazka
+    label: 'Podaj kod w polu'
+    refresh_button_text: Odśwież
+    message:
+      default: Kod nie odpowiada podanemu na obrazku
+      user: Kod obrazka i obraz różnią się
