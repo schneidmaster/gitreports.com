@@ -13,7 +13,7 @@ feature 'Repository' do
     context 'holder does not exist' do
       scenario 'shows 404' do
         visit repository_public_path('joe_schmoe', inactive_repository.name)
-        expect(page).to have_content('The repository you\'re looking for could not be located.')
+        expect(page).to have_content(I18n.t('repositories.not_found.message'))
       end
     end
 
@@ -27,7 +27,7 @@ feature 'Repository' do
     context 'repository is not activated' do
       scenario 'shows 404' do
         visit repository_public_path(user.username, inactive_repository.name)
-        expect(page).to have_content('The repository you\'re looking for could not be located.')
+        expect(page).to have_content(I18n.t('repositories.not_found.message'))
       end
     end
 
@@ -191,7 +191,7 @@ feature 'Repository' do
         fill_in 'email', with: 'joe.schmoe@gmail.com'
         fill_in 'details', with: 'Your code is broken!'
         fill_in 'captcha', with: 'asdfgh'
-        click_on 'Submit'
+        click_on I18n.t('submit_form.label.submit')
         expect(page).to have_content('Thanks a lot!')
         expect(page).not_to have_content('Thanks for submitting your report!')
       end
@@ -214,7 +214,7 @@ feature 'Repository' do
         fill_in 'email', with: 'joe.schmoe@gmail.com'
         fill_in 'details', with: 'Your code is broken!'
         fill_in 'captcha', with: 'asdfgh'
-        click_on 'Submit'
+        click_on I18n.t('submit_form.label.submit')
         expect(page).to have_content('Thanks for submitting your report!')
 
         # Should have queued issue submission
@@ -231,7 +231,7 @@ feature 'Repository' do
         fill_in 'email', with: 'joe.schmoe@gmail.com'
         fill_in 'details', with: 'Your code is broken!'
         fill_in 'captcha', with: 'asdfgh'
-        click_on 'Submit'
+        click_on I18n.t('submit_form.label.submit')
         expect(page).to have_content('Incorrect CAPTCHA; please retry!')
         expect(find_field('name').value).to eq('Joe Schmoe')
         expect(find_field('email').value).to eq('joe.schmoe@gmail.com')
