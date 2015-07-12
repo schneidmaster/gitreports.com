@@ -7,6 +7,8 @@ class ApplicationController < ActionController::Base
 
   around_action :catch_halt
 
+  before_filter :set_locale
+
   def render(*args)
     super
     throw :halt
@@ -23,5 +25,11 @@ class ApplicationController < ActionController::Base
     catch :halt do
       yield
     end
+  end
+
+  private
+
+  def set_locale
+    I18n.locale = http_accept_language.compatible_language_from(I18n.available_locales) || :en
   end
 end

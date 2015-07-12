@@ -75,3 +75,6 @@ gem 'sinatra', '~> 1.4.5'
 
 # Kill requests that take too long
 gem 'rack-timeout'
+
+# Automatically accept language if available
+gem 'http_accept_language'
