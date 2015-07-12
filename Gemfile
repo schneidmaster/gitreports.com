@@ -9,11 +9,6 @@ group :development do
   gem 'binding_of_caller', '0.7.2'
   gem 'better_errors', '1.1.0'
   gem 'rubocop', '0.24.1'
-
-  # Use Capistrano for deployment
-  gem 'capistrano-rails', '1.1.2'
-  gem 'capistrano-rvm', '0.1.2'
-  gem 'capistrano-sidekiq'
 end
 
 group :test do
