@@ -16,5 +16,5 @@ test:
 
 production:
   <<: *default
-  adapter: pg
-  database: <%= ENV['DATABASE_URL'] %>
+  adapter: postgresql
+  database: <%= ENV['HEROKU_POSTGRESQL_ORANGE_URL'] %>
