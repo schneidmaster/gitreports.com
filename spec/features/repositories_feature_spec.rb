@@ -39,6 +39,16 @@ feature 'Repository' do
         expect(find_field('details').value).to eq('Big details')
       end
     end
+
+    context 'locale is passed in headers' do
+      before { Capybara.current_session.driver.header('Accept-Language', 'pl') }
+      after { Capybara.current_session.driver.header('Accept-Language', 'pl') }
+
+      scenario 'uses requested language' do
+        visit repository_public_path(user.username, repository.name)
+        expect(page).to have_content('Zgłoszenie')
+      end
+    end
   end
 
   describe 'edit repository' do
