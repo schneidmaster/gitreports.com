@@ -13,3 +13,8 @@ development:
 test:
   <<: *default
   database: db/test.sqlite3
+
+production:
+  <<: *default
+  adapter: pg
+  database: <%= ENV['DATABASE_URL'] %>
