@@ -2,8 +2,7 @@ require 'codeclimate-test-reporter'
 require 'simplecov'
 
 SimpleCov.formatter = CodeClimate::TestReporter::Formatter if ENV['CIRCLE_ARTIFACTS']
-SimpleCov.start do
-  add_filter '/config/'
+SimpleCov.start 'rails' do
   add_filter '/workers/'
 end
 
