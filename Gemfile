@@ -36,11 +36,10 @@ end
 
 # Use mysql2 in production
 group :production do
-  gem 'mysql2'
+  gem 'pg'
+  gem 'puma'
+  gem 'rails_12factor'
 end
-
-# Use bower for frontend assets
-gem 'bower-rails', '~> 0.9.1'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
@@ -78,3 +77,6 @@ gem 'newrelic_rpm'
 
 # Sinatra used for Sidekiq logging
 gem 'sinatra', '~> 1.4.5'
+
+# Kill requests that take too long
+gem 'rack-timeout'
