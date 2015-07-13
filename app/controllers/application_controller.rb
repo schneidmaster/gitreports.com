@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
 
   around_action :catch_halt
 
+  before_filter :redirect_if_heroku
   before_filter :set_locale
 
   def render(*args)
@@ -28,6 +29,10 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  def redirect_if_heroku
+    redirect_to "https://gitreports.com#{request.fullpath}" if request.host == 'https://gitreports.herokuapp.com'
+  end
 
   def set_locale
     I18n.locale = http_accept_language.compatible_language_from(I18n.available_locales) || :en
