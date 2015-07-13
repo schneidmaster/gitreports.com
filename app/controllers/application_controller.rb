@@ -31,7 +31,7 @@ class ApplicationController < ActionController::Base
   private
 
   def redirect_if_heroku
-    redirect_to "https://gitreports.com#{request.fullpath}" if request.host == 'https://gitreports.herokuapp.com'
+    redirect_to "https://gitreports.com#{request.fullpath}" if request.host == 'gitreports.herokuapp.com'
   end
 
   def set_locale
