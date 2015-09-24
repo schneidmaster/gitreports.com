@@ -29,10 +29,9 @@ group :development, :test do
   gem 'byebug'
 end
 
-# Use mysql2 in production
 group :production do
+  gem 'passenger'
   gem 'pg'
-  gem 'puma'
   gem 'rails_12factor'
 end
 
@@ -72,9 +71,6 @@ gem 'newrelic_rpm'
 
 # Sinatra used for Sidekiq logging
 gem 'sinatra', '~> 1.4.5'
-
-# Kill requests that take too long
-gem 'rack-timeout'
 
 # Automatically accept language if available
 gem 'http_accept_language'
