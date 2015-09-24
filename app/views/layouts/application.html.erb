@@ -15,12 +15,12 @@
 
     <title><%= content_for?(:title) ? yield(:title) : "Git Reports" %></title>
 
-    <%= stylesheet_link_tag    "application" %>
-    <%= csrf_meta_tags %>
-
     <%= favicon_link_tag "favicon.ico" %>
 
+    <%= javascript_include_tag "vendor/modernizr" %>
     <%= javascript_include_tag "application" %>
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+    <%= csrf_meta_tags %>
   </head>
 
   <body>

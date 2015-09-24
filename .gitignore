@@ -23,6 +23,3 @@
 
 # Ignore dotfiles
 .DS_Store
-
-# Ignore bower assets
-/vendor

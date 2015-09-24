@@ -13,11 +13,10 @@ Self-hosting
 
 You're welcome to clone and self-host the application if you're so inclined.  Follow these steps:
 
-1. Make sure [bower](https://bower.io) is installed on your system- the app uses it for frontend asset management. Rake automatically installs assets when your app launches.
-2. Git Reports uses Sidekiq for background jobs. To enable processing of jobs on your local machine, you just need to have Redis installed and running. (If you installed Redis with Homebrew, execute `brew info redis` to retrieve the necessary command and then execute that command.) Then just run `bundle exec sidekiq` (use the `-d` flag to daemonize it).
-3. Clone the application, `bundle`, and `rake db:migrate`.
-4. Register your instance of the application with GitHub [here](https://github.com/settings/applications/new); this will give you an application client ID and client secret.
-5. Git Reports uses dotenv for configuration.  Create a file in the application root directory named ".env" and add the following lines to it (filling in the values you got from the last step):
+1. Git Reports uses Sidekiq for background jobs. To enable processing of jobs on your local machine, you just need to have Redis installed and running. (If you installed Redis with Homebrew, execute `brew info redis` to retrieve the necessary command and then execute that command.) Then just run `bundle exec sidekiq` (use the `-d` flag to daemonize it).
+2. Clone the application, `bundle`, and `rake db:migrate`.
+3. Register your instance of the application with GitHub [here](https://github.com/settings/applications/new); this will give you an application client ID and client secret.
+4. Git Reports uses dotenv for configuration.  Create a file in the application root directory named ".env" and add the following lines to it (filling in the values you got from the last step):
 
 ---
 
