@@ -9,6 +9,7 @@ pl:
     label:
       name: Nazwa
       email: E-mail
+      email_public: E-mail Publiczne (wysyłanie w organizmie emisyjnej)
       issue_title: Tytuł problemu
       details: Szczegóły
       submit: Zgłoś
