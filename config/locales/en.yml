@@ -9,6 +9,7 @@ en:
     label:
       name: Name
       email: Email
+      email_public: Public Email (send in the issue body)
       issue_title: Issue Title
       details: Details
       submit: Submit
