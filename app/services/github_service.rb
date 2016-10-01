@@ -29,6 +29,7 @@ class GithubService
       remove_outdated(user, outdated_repos)
     end
 
+    # rubocop:disable MethodLength
     def submit_issue(repo_id, sub_name, email, email_public, title, details)
       # Find repo
       repo = Repository.find(repo_id)
@@ -48,7 +49,8 @@ class GithubService
 
       issue
     end
-
+    # rubocop:enable MethodLength
+    
     private
 
     def add_orgs(orgs, user)

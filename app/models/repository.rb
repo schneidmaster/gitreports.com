@@ -32,10 +32,9 @@ class Repository < ActiveRecord::Base
   def construct_body(sub_name, email, email_public, details)
     body = ''
     body += "Submitter: #{sub_name}\r\n" unless sub_name.blank?
-    if email_public
-      body += "Email: #{email}\r\n" unless email.blank?
-    end
+      body += "Email: #{email}\r\n" unless email.blank? if email_public=="on"
     body += details unless details.blank?
+
     body
   end
 
