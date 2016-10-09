@@ -1,0 +1,23 @@
+fr:
+  repositories:
+    not_found:
+      label: '404: Page introuvable'
+      message: Le répôt que vous cherchez est introuvable. Désolés.
+
+  submit_form:
+    title: Rapport
+    label:
+      name: Nom
+      email: Email
+      issue_title: Titre
+      details: Details
+      submit: Envoyer
+    captcha_message: Merci de compléter le CAPTCHA suivant pour nous prouver que vous êtes humains
+
+  simple_captcha:
+    placeholder: Entrer le texte de l'image
+    label: 'Entrez le code dans le champ :'
+    refresh_button_text: Changer
+    message:
+      default: Le code entré ne correspond pas à l'image
+      user: L'image et le code entré sont différents
