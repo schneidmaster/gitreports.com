@@ -8,8 +8,8 @@ en:
     title: Report
     label:
       name: Name
-      email: Email
-      issue_title: Issue Title
+      email: E-mail
+      issue_title: Issue title
       details: Details
       submit: Submit
     captcha_message: Please complete the following CAPTCHA to prove that you're a human.
@@ -19,5 +19,5 @@ en:
     label: 'Enter the code in the box:'
     refresh_button_text: Refresh
     message:
-      default: Secret Code did not match with the Image
-      user: The secret Image and code were different
+      default: Code did not match with the image
+      user: The secret image and code were different
