@@ -3,7 +3,7 @@ ruby '2.3.1'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.7.1'
-gem 'jquery-rails', '4.0.5'
+gem 'jquery-rails', '3.1.3'
 gem 'foundation-rails', '~> 5.5'
 
 group :development do
