@@ -4,51 +4,57 @@
     <hr>
     <p>
       <% if @repository.prompt.present? && @repository.prompt != "" %>
-        <%= raw markdown @repository.prompt %>
+          <%= raw markdown @repository.prompt %>
       <% else %>
-        Please enter your bug report or feature request, then click 'Submit'.  If you're reporting a bug, try to include as many details as possible about what you were doing when the bug occurred- a detailed report makes a bug much easier to track down.
+          Please enter your bug report or feature request, then click 'Submit'. If you're reporting a bug, try to
+          include as many details as possible about what you were doing when the bug occurred- a detailed report makes a
+          bug much easier to track down.
       <% end %>
     </p>
     <hr>
     <%= form_tag(repository_public_path(@repository.holder_name, @repository.name), method: :post) do %>
-      <fieldset>
-        <legend><%= t('submit_form.title') %></legend>
-        <div class="row">
-          <div class="small-6 columns">
-            <%= label :name, t('submit_form.label.name') %>
-             <%= text_field_tag :name, @name %>
-           </div>
-          <div class="small-6 columns">
-            <%= label :email, t('submit_form.label.email') %>
-             <%= email_field_tag :email, @email %>
-           </div>
-         </div>
-         <% if @repository.allow_issue_title %>
+        <fieldset>
+          <legend><%= t('submit_form.title') %></legend>
           <div class="row">
-            <div class="small-12 columns">
-              <%= label :issue_title, t('submit_form.label.issue_title') %>
-              <%= text_field_tag :issue_title, @issue_title %>
+            <div class="small-6 columns">
+              <%= label :name, t('submit_form.label.name') %>
+              <%= text_field_tag :name, @name %>
+            </div>
+            <div class="small-6 columns">
+              <%= label :email, t('submit_form.label.email') %>
+              <%= email_field_tag :email, @email %>
+            </div>
+            <div class="small-6 columns">
+              <%= label :email_public, t('submit_form.label.email_public') %>
+              <%= check_box_tag :email_public, @email_public %>
             </div>
           </div>
-         <% end %>
-         <div class="row">
-          <div class="small-12 columns">
-             <%= label :details, t('submit_form.label.details') %>
-             <%= text_area_tag :details, @details, class: "report-textarea" %>
+          <% if @repository.allow_issue_title %>
+              <div class="row">
+                <div class="small-12 columns">
+                  <%= label :issue_title, t('submit_form.label.issue_title') %>
+                  <%= text_field_tag :issue_title, @issue_title %>
+                </div>
+              </div>
+          <% end %>
+          <div class="row">
+            <div class="small-12 columns">
+              <%= label :details, t('submit_form.label.details') %>
+              <%= text_area_tag :details, @details, class: "report-textarea" %>
+            </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="small-6 columns">
-            <p><%= t('submit_form.captcha_message') %></p>
-            <%= show_simple_captcha(label: "") %><br>
+          <div class="row">
+            <div class="small-6 columns">
+              <p><%= t('submit_form.captcha_message') %></p>
+              <%= show_simple_captcha(label: "") %><br>
+            </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="small-3 columns">
-             <%= submit_tag t('submit_form.label.submit'), class: "button small" %>
-           </div>
-         </div>
-      </fieldset>
+          <div class="row">
+            <div class="small-3 columns">
+              <%= submit_tag t('submit_form.label.submit'), class: "button small" %>
+            </div>
+          </div>
+        </fieldset>
     <% end %>
   </div>
 </div>

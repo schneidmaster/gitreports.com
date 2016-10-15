@@ -29,7 +29,8 @@ class GithubService
       remove_outdated(user, outdated_repos)
     end
 
-    def submit_issue(repo_id, sub_name, email, title, details)
+    # rubocop:disable Metrics/ParameterLists
+    def submit_issue(repo_id, sub_name, email, email_public, title, details)
       # Find repo
       repo = Repository.find(repo_id)
 
@@ -41,13 +42,15 @@ class GithubService
       throw 'Rate limit reached' if client.rate_limit.remaining < 10
 
       # Create the issue
-      issue = create_issue(client, repo, issue_title, repo.construct_body(sub_name, email, details))
+      issue = create_issue(client, repo, issue_title, repo.construct_body(sub_name, email, email_public, details))
 
       # Send notification email
       EmailWorker.perform_async NotificationMailer, :issue_submitted_email, repo.id, issue.number unless repo.notification_emails.blank?
 
       issue
     end
+
+    # rubocop:enable Metrics/ParameterLists
 
     private
 

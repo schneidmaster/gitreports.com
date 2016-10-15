@@ -29,11 +29,12 @@ class Repository < ActiveRecord::Base
     "https://github.com/#{holder_name}"
   end
 
-  def construct_body(sub_name, email, details)
+  def construct_body(sub_name, email, email_public, details)
     body = ''
     body += "Submitter: #{sub_name}\r\n" unless sub_name.blank?
-    body += "Email: #{email}\r\n" unless email.blank?
+    body += "Email: #{email}\r\n" unless email.blank? if email_public == 'on'
     body += details unless details.blank?
+
     body
   end
 
