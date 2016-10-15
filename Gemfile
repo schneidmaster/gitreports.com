@@ -62,8 +62,8 @@ gem 'redcarpet'
 gem 'simple_captcha2', require: 'simple_captcha'
 
 # Sidekiq handles jobs
-gem 'sidekiq', '3.2.1'
-gem 'sidekiq-status', '0.5.1'
+gem 'sidekiq', '3.4.2'
+gem 'sidekiq-status', '0.6.0'
 
 # Validate emails
 gem 'valid_email', require: 'valid_email/validate_email'
