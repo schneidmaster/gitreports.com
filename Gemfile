@@ -51,7 +51,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'therubyracer', platforms: :ruby
 
 # Octokit GitHub API
-gem 'octokit', '3.5.2'
+gem 'octokit', '4.6.2'
 
 # dotenv to load GitHub client variables
 gem 'dotenv-rails', '0.9.0'

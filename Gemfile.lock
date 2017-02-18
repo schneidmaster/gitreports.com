@@ -92,7 +92,7 @@ GEM
       railties (>= 3.0.0)
     faker (1.3.0)
       i18n (~> 0.5)
-    faraday (0.9.1)
+    faraday (0.11.0)
       multipart-post (>= 1.2, < 3)
     foundation-rails (5.5.2.1)
       railties (>= 3.1.0)
@@ -124,8 +124,8 @@ GEM
     nokogiri (1.6.8)
       mini_portile2 (~> 2.1.0)
       pkg-config (~> 1.1.7)
-    octokit (3.5.2)
-      sawyer (~> 0.5.3)
+    octokit (4.6.2)
+      sawyer (~> 0.8.0, >= 0.5.3)
     parser (2.3.0.pre.2)
       ast (>= 1.1, < 3.0)
     passenger (5.0.30)
@@ -215,9 +215,9 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
-    sawyer (0.5.5)
-      addressable (~> 2.3.5)
-      faraday (~> 0.8, < 0.10)
+    sawyer (0.8.1)
+      addressable (>= 2.3.5, < 2.6)
+      faraday (~> 0.8, < 1.0)
     sidekiq (3.4.2)
       celluloid (~> 0.16.0)
       connection_pool (~> 2.2, >= 2.2.0)
@@ -288,7 +288,7 @@ DEPENDENCIES
   http_accept_language
   jquery-rails (= 3.1.3)
   newrelic_rpm
-  octokit (= 3.5.2)
+  octokit (= 4.6.2)
   passenger
   pg
   poltergeist (~> 1.5.0)
