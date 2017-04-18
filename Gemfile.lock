@@ -121,9 +121,8 @@ GEM
     multi_json (1.11.2)
     multipart-post (2.0.0)
     newrelic_rpm (3.12.1.298)
-    nokogiri (1.6.8)
+    nokogiri (1.7.1)
       mini_portile2 (~> 2.1.0)
-      pkg-config (~> 1.1.7)
     octokit (4.6.2)
       sawyer (~> 0.8.0, >= 0.5.3)
     parser (2.3.0.pre.2)
@@ -132,7 +131,6 @@ GEM
       rack
       rake (>= 0.8.1)
     pg (0.18.2)
-    pkg-config (1.1.7)
     poltergeist (1.5.1)
       capybara (~> 2.1)
       cliver (~> 0.3.1)
@@ -314,4 +312,4 @@ RUBY VERSION
    ruby 2.3.1p112
 
 BUNDLED WITH
-   1.12.5
+   1.14.4
