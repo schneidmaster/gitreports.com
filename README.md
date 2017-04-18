@@ -23,7 +23,6 @@ You're welcome to clone and self-host the application if you're so inclined.  Fo
     GITHUB_CLIENT_ID=youridhere
     GITHUB_CLIENT_SECRET=yoursecrethere
     GITHUB_CALLBACK_URL=http://yourdomain.com/github_callback
-    SECRET_TOKEN=some_token # should be at least 128 random chars
 
 If you're developing locally with WEBrick or similar, your domain in the callback URL should include the port, i.e.
 
