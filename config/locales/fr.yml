@@ -2,7 +2,7 @@ fr:
   repositories:
     not_found:
       label: '404: Page introuvable'
-      message: Le répôt que vous cherchez est introuvable. Désolés.
+      message: Le dépôt que vous cherchez est introuvable. Désolés.
 
   submit_form:
     title: Rapport
