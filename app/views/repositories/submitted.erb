@@ -9,5 +9,7 @@
         Thanks for submitting your report!  We'll look into it as soon as possible.
       <% end %>
     </p>
+    <p>New issue submitted to repository <%= @repository.name %>!</p>
+    <p>View it <%= link_to "here", @repository.github_issue_path(@issue_id) %>.</p>
   </div>
 </div>
