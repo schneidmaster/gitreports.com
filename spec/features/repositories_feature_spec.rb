@@ -203,6 +203,8 @@ feature 'Repository' do
         fill_in 'captcha', with: 'asdfgh'
         click_on I18n.t('submit_form.label.submit')
         expect(page).to have_content('Thanks a lot!')
+        expect(page).to have_content(repository.name)
+        expect(page).to have_content(epository.github_issue_path(@issue_id))    
         expect(page).not_to have_content('Thanks for submitting your report!')
       end
     end
@@ -211,6 +213,7 @@ feature 'Repository' do
       scenario 'shows default display name and prompt' do
         visit repository_public_path(repository.holder_name, repository.name)
         expect(page).to have_content(repository.name)
+        expect(page).to have_content(epository.github_issue_path(@issue_id)) 
         expect(page).to have_content('Please enter your bug report or feature request')
       end
     end
