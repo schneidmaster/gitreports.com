@@ -203,8 +203,6 @@ feature 'Repository' do
         fill_in 'captcha', with: 'asdfgh'
         click_on I18n.t('submit_form.label.submit')
         expect(page).to have_content('Thanks a lot!')
-        expect(page).to have_content(repository.name)
-        expect(page).to have_content(epository.github_issue_path(@issue_id))    
         expect(page).not_to have_content('Thanks for submitting your report!')
       end
     end
@@ -213,7 +211,6 @@ feature 'Repository' do
       scenario 'shows default display name and prompt' do
         visit repository_public_path(repository.holder_name, repository.name)
         expect(page).to have_content(repository.name)
-        expect(page).to have_content(epository.github_issue_path(@issue_id)) 
         expect(page).to have_content('Please enter your bug report or feature request')
       end
     end
@@ -251,5 +248,19 @@ feature 'Repository' do
         expect(find_field('details').value).to eq('Your code is broken!')
       end
     end
+
+    context 'Follow up message linked to repo'
+      before { override_captcha true } 
+      
+      scenario 'prefills issue page and shows error' do
+        visit repository_public_path(repository.holder_name, repository.name)
+        fill_in 'name', with: 'Joe Schmoe'
+        fill_in 'email', with: 'joe.schmoe@gmail.com'
+        fill_in 'details', with: 'Your code is broken!'
+        fill_in 'captcha', with: 'asdfgh'
+        click_on I18n.t('submit_form.label.submit')
+        expect(page).to have_content(repository.name)
+        expect(page).to visit repository.github_issue_path(@issue_id)
+    end 
   end
 end
