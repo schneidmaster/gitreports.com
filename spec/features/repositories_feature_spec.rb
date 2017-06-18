@@ -248,5 +248,21 @@ feature 'Repository' do
         expect(find_field('details').value).to eq('Your code is broken!')
       end
     end
+
+    context 'Follow up message linked to repo'
+      before { override_captcha true } 
+      
+      scenario 'prefills issue page and shows error' do
+        visit repository_public_path(repository.holder_name, repository.name)
+        fill_in 'name', with: 'Joe Schmoe'
+        fill_in 'email', with: 'joe.schmoe@gmail.com'
+        fill_in 'details', with: 'Your code is broken!'
+        fill_in 'captcha', with: 'asdfgh'
+        click_on I18n.t('submit_form.label.submit')
+        expect(page).to have_content(repository.name)
+        expect(page).to have_current_path("wwww.github.com/#{user.username}/CoolCode/issues")
+    end 
   end
 end
+
+
