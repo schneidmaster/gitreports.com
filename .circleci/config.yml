@@ -11,7 +11,7 @@ jobs:
       - image: circleci/postgres:9.6
         environment:
           POSTGRES_USER: root
-      - image: redis@3
+      - image: redis:3
 
     steps:
       - checkout
