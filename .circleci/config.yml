@@ -1,0 +1,44 @@
+version: 2
+jobs:
+  test:
+    working_directory: ~/gitreports.com
+    docker:
+      - image: circleci/ruby:2.3-node
+        environment:
+          GEM_HOME: ~/gitreports.com/vendor/bundle
+          NODE_ENV: test
+          RAILS_ENV: test
+      - image: circleci/postgres:9.6
+        environment:
+          POSTGRES_USER: root
+      - image: redis@3
+
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "Gemfile.lock" }}
+      - run:
+          name: bundle-install
+          command: bundle check || bundle install --jobs=4 --retry=3 
+      - save_cache:
+          key: dependency-cache-{{ checksum "Gemfile.lock" }}
+          paths:
+            - ./vendor/bundle
+      - run:
+          name: db
+          command: bundle exec rake db:create db:schema:load
+      - run:
+          name: rspec
+          command: bundle exec rspec
+      - run:
+          name: rubocop
+          command: bundle exec rubocop
+      - run:
+          name: codeclimate
+          command: bundle exec codeclimate-test-reporter
+      
+workflows:
+  version: 2
+  test:
+    jobs:
+      - test
