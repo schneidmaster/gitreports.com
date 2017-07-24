@@ -1,8 +1,3 @@
-table {
-  width: 100%;
-  table-layout: fixed;
-}
-
 .profile-img {
   max-height: 96px;
   max-width: 96px;
@@ -10,15 +5,14 @@ table {
 
 #repo-alert {
   display: none;
-
-  a {
-    color: white;
-    text-decoration: underline;
-  }
 }
 
 .footer-links {
   a {
     margin-left: 10px;
   }
+}
+
+footer {
+  margin-bottom: 25px;
 }

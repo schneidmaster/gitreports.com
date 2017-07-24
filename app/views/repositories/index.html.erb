@@ -9,10 +9,7 @@
 </div>
 <div id="repo-alert" class="row">
   <div class="col-xs-12">
-    <div data-alert class="alert-box warning">
-      <span id="repo-load-info">Refreshing repository information from GitHub...</span>
-      <a href="#" class="close">&times;</a>
-    </div>
+    <span id="repo-load-info">Refreshing repository information from GitHub...</span>
   </div>
 </div>
 <div class="row">
@@ -23,7 +20,7 @@
       <p>Get to work!</p>
     <% else %>
       <h3>Repositories</h3>
-      <table class="responsive">
+      <table class="table table-striped">
         <thead>
           <tr>
             <th width="60%">Repository Name</th>
@@ -44,7 +41,7 @@
     <% @current_user.organizations.each do |org| %>
       <hr>
       <h3><%= org.name %></h3>
-      <table class="responsive">
+      <table class="table table-striped">
         <thead>
           <tr>
             <th width="60%">Repository Name</th>
