@@ -1,16 +1,16 @@
-<div class="row">
-  <div class="col-xs-12">
+<div class='row'>
+  <div class='col-xs-12'>
     <h3>Tutorial</h3>
     <p>
       Let's get you up to speed.
     </p>
     <h5>Log In</h5>
     <p>
-      Click the <%= link_to "Login", login_path %> link to connect your GitHub account with Git Reports.  You'll be redirected to log in to GitHub, and then asked if you want to grant the application access to your repositories.  Click "Accept" and you'll be redirected back to the site.
+      Click the <%= link_to 'Login', login_path %> link to connect your GitHub account with Git Reports.  You'll be redirected to log in to GitHub, and then asked if you want to grant the application access to your repositories.  Click "Accept" and you'll be redirected back to the site.
     </p>
     <h5>Profile</h5>
     <p>
-      After logging in, you'll be redirected to your <%= link_to "Profile", profile_path %> page.  Here, you'll see a list of repositories that you own.  You'll also see separate tables for any organizations with repositories for which you are a member (only pull access is required).  To see a summary of the repository's information, click its name in the list.  To edit its settings, click the "Edit" link next to the repository's name.  Repositories are always inactive by default; to allow anonymous users to post issues to a repository, activate it by clicking the "Activate" link next to its name.  (The "Activate" link turns into a "Deactivate" link if the repository is already activated, and behaves as you would expect.)  Finally, click the "View" link next to a repository to view its public page if it has been activated- this is where you should direct anonymous users to submit issues/bugs.
+      After logging in, you'll be redirected to your <%= link_to 'Profile', profile_path %> page.  Here, you'll see a list of repositories that you own.  You'll also see separate tables for any organizations with repositories for which you are a member (only pull access is required).  To see a summary of the repository's information, click its name in the list.  To edit its settings, click the "Edit" link next to the repository's name.  Repositories are always inactive by default; to allow anonymous users to post issues to a repository, activate it by clicking the "Activate" link next to its name.  (The "Activate" link turns into a "Deactivate" link if the repository is already activated, and behaves as you would expect.)  Finally, click the "View" link next to a repository to view its public page if it has been activated- this is where you should direct anonymous users to submit issues/bugs.
     </p>
     <h5>Repository Settings</h5>
     <p>
@@ -18,10 +18,10 @@
       <ul>
         <li><b>Display Name:</b> This is the user-friendly name for your repository that will be displayed to anonymous users submitting an issue.  If it's not set, the application will display the repository name by default.</li>
         <li><b>Issue Name:</b> This is the name that will be given to new Git Reports created by the application.  If it's not set, the default is "Git Reports Issue."</li>
-        <li><b>Prompt:</b> This is a few sentences of text that will be displayed to anonymous users when they visit the report submission page.  You can use <%= link_to "Markdown", "http://daringfireball.net/projects/markdown/" %> in your prompt.  If it's not set, the default is:
+        <li><b>Prompt:</b> This is a few sentences of text that will be displayed to anonymous users when they visit the report submission page.  You can use <%= link_to 'Markdown', 'http://daringfireball.net/projects/markdown/' %> in your prompt.  If it's not set, the default is:
         <blockquote>Please enter your bug report or feature request, then click 'Submit'.  If you're reporting a bug, try to include as many details as possible about what you were doing when the bug occurred- a detailed report makes a bug much easier to track down.</blockquote>
         </li>
-        <li><b>Followup:</b> This is the result message that will be displayed to a user after they have successfully submitted an issue.  You can use <%= link_to "Markdown", "http://daringfireball.net/projects/markdown/" %> in your followup message.  If it's not set, the default is:
+        <li><b>Followup:</b> This is the result message that will be displayed to a user after they have successfully submitted an issue.  You can use <%= link_to 'Markdown', 'http://daringfireball.net/projects/markdown/' %> in your followup message.  If it's not set, the default is:
         <blockquote>Thanks for submitting your report!  We'll look into it as soon as possible.</blockquote></li>
         <li><b>Labels:</b> This is a comma-separated list of labels that will be applied to new Git Reports created by the application.  Label names must match label options in the issues section of your repository on GitHub; default examples are bug, enhancement, etc.  If this setting isn't set, no labels will be applied to created issues.</li>
         <li><b>Allow Custom Titles:</b> Whether to allow users to set the title of the issue submitted to GitHub. If an Issue Name is set (see above), that will override the custom user title.</li>

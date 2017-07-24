@@ -1,14 +1,6 @@
 require 'sidekiq/web'
 
 GitReports::Application.routes.draw do
-
-  root 'pages#home'
-
-  # Pages
-  get '/profile', to: 'pages#profile', as: 'profile'
-  get '/tutorial', to: 'pages#tutorial', as: 'tutorial'
-  get '/about', to: 'pages#about', as: 'about'
-
   # Authentication routes
   get '/login', to: 'authentications#login', as: 'login'
   get '/github_callback', to: 'authentications#callback'
@@ -16,6 +8,7 @@ GitReports::Application.routes.draw do
   get '/login_rate_limited', to: 'authentications#login_rate_limited', as: 'login_rate_limited'
 
   # Repository routes
+  get '/profile', to: 'repositories#index', as: 'profile'
   scope :issue do
     get ':username/:repositoryname', to: 'repositories#repository', as: 'repository_public', repositoryname: /[^\/]+/
     post ':username/:repositoryname', to: 'repositories#submit', repositoryname: /[^\/]+/

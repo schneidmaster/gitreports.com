@@ -16,7 +16,7 @@ module AuthenticationsHelper
     if !signed_in?
       redirect_to root_path
     elsif !Repository.exists?(id)
-      render 'repositories/404'
+      render 'not_found'
     elsif !Repository.find(id).users.include?(current_user)
       redirect_to profile_path
     end
@@ -26,10 +26,10 @@ module AuthenticationsHelper
     holder = User.find_by_username(params[:username]) || Organization.find_by_name(params[:username])
 
     if holder.nil?
-      render '404'
+      render 'not_found'
     else
       repo = holder.repositories.find_by_name(params[:repositoryname])
-      render '404' if repo.nil? || !repo.is_active
+      render 'not_found' if repo.nil? || !repo.is_active
     end
   end
 end

@@ -1,6 +1,11 @@
 class RepositoriesController < ApplicationController
+  before_action :ensure_signed_in!
   before_action :ensure_own_repository!, except: [:load_status, :repository, :submit, :submitted]
   before_action :ensure_repository_active!, only: [:repository, :submit, :submitted]
+
+  def index
+    @current_user = current_user
+  end
 
   def show
     @repository = Repository.find(params[:id])

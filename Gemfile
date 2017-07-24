@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 gem 'rails', '5.1'
 gem 'webpack-rails'
 
+gem 'high_voltage', '~> 3.0.0'
 gem 'http_accept_language'
 gem 'meta-tags'
 gem 'newrelic_rpm'

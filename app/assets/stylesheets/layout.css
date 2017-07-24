@@ -16,3 +16,9 @@ table {
     text-decoration: underline;
   }
 }
+
+.footer-links {
+  a {
+    margin-left: 10px;
+  }
+}

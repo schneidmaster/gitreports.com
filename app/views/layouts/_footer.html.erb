@@ -1,8 +1,19 @@
 <footer class='footer'>
   <div class='container'>
     <hr />
-    <p>&copy; <%= Time.now.year %> <%= link_to "Zach Schneider", "https://schneid.io" %></p>
-  </div>
+
+    <div class='row'>
+      <div class='col-xs-12 col-md-3'>
+        &copy; <%= Time.now.year %> <%= link_to 'Zach Schneider', 'https://schneid.io' %>  
+      </div>
+      <div class='col-xs-12 col-md-9 footer-links'>
+        <div class='pull-right'>
+          <%= link_to 'Home', root_path %>
+          <%= link_to 'About', page_path('about') %>
+          <%= link_to 'Tutorial', page_path('tutorial') %>
+        </div>
+      </div>
+    </div>
   
   <% if ENV['GOOGLE_ANALYTICS_CODE'] %>
     <%= javascript_tag do %>
