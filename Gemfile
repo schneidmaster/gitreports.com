@@ -3,6 +3,23 @@ source 'https://rubygems.org'
 gem 'rails', '5.1'
 gem 'webpack-rails'
 
+gem 'http_accept_language'
+gem 'meta-tags'
+gem 'newrelic_rpm'
+gem 'octokit', '4.6.2'
+gem 'redcarpet'
+gem 'sidekiq', '3.4.2'
+gem 'sidekiq-status', '0.6.0'
+gem 'simple_captcha2', require: 'simple_captcha'
+gem 'sinatra'
+gem 'valid_email', require: 'valid_email/validate_email'
+
+group :production do
+  gem 'passenger', '~> 5.1'
+  gem 'pg'
+  gem 'rails_12factor'
+end
+
 group :development do
   # Use sqlite3 as the database for Active Record
   gem 'sqlite3', '1.3.10'
@@ -29,34 +46,3 @@ group :development, :test do
   gem 'byebug'
   gem 'dotenv-rails', '0.9.0'
 end
-
-group :production do
-  gem 'passenger', '~> 5.1'
-  gem 'pg'
-  gem 'rails_12factor'
-end
-
-# Octokit GitHub API
-gem 'octokit', '4.6.2'
-
-# RedCarpet to render markdown
-gem 'redcarpet'
-
-# SimpleCaptcha for captchas
-gem 'simple_captcha2', require: 'simple_captcha'
-
-# Sidekiq handles jobs
-gem 'sidekiq', '3.4.2'
-gem 'sidekiq-status', '0.6.0'
-
-# Validate emails
-gem 'valid_email', require: 'valid_email/validate_email'
-
-# Server monitoring
-gem 'newrelic_rpm'
-
-# Sinatra used for Sidekiq logging
-gem 'sinatra'
-
-# Automatically accept language if available
-gem 'http_accept_language'

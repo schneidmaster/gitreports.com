@@ -1,14 +1,14 @@
 <div class="row">
-  <div class="small-9 columns">
+  <div class="col-xs-12 col-md-9">
     <h2><%= @current_user.name %></h2>
     <h4><%= link_to @current_user.username, @current_user.github_path %></h4>
   </div>
-  <div class="small-3 columns text-right">
+  <div class="col-xs-12 col-md-3 text-right">
     <%= image_tag @current_user.avatar_url, alt: @current_user.name, class: "profile-img" %>
   </div>
 </div>
 <div id="repo-alert" class="row">
-  <div class="small-12 columns">
+  <div class="col-xs-12">
     <div data-alert class="alert-box warning">
       <span id="repo-load-info">Refreshing repository information from GitHub...</span>
       <a href="#" class="close">&times;</a>
@@ -16,7 +16,7 @@
   </div>
 </div>
 <div class="row">
-  <div class="small-12 columns">
+  <div class="col-xs-12">
     <hr>
     <% if @current_user.repositories.user_owned.count == 0 %>
       <h3>No Repositories</h3>

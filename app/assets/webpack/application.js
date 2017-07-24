@@ -7,3 +7,4 @@ import 'javascripts/profile';
 import 'bootstrap-jquery/dist/css/bootstrap';
 import 'stylesheets/layout';
 import 'stylesheets/repositories';
+import 'stylesheets/simple_captcha';

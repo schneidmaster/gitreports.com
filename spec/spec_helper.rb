@@ -17,8 +17,6 @@ require 'webmock/rspec'
 require 'rack_session_access/capybara'
 require 'sidekiq/testing'
 
-WebMock.disable_net_connect!(allow_localhost: true, allow: %w(codeclimate.com))
-
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
@@ -66,6 +64,7 @@ RSpec.configure do |config|
   end
 
   config.before(:suite) do
+    WebMock.disable_net_connect!(allow_localhost: true)
     DatabaseCleaner.clean_with :truncation
   end
 

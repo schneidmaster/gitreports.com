@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="small-12 columns">
+  <div class="col-xs-12">
     <h3><%= @repository.name %></h3>
     <%= form_for :repository, url: repository_path(@repository), method: :patch do |f| %>
       <fieldset>
@@ -7,7 +7,7 @@
 
         <% if @repository.errors.any? %>
         <div class="row">
-          <div class="small-12 columns">
+          <div class="col-xs-12">
             <h2><%= pluralize(@repository.errors.count, "error") %> prohibited
               this repository from being saved:</h2>
             <ul>
@@ -20,7 +20,7 @@
         <% end %>
 
         <div class="row">
-          <div class="small-12 columns">
+          <div class="col-xs-12">
             <%= f.label :display_name %><br>
             <p>
               <i>This is the project name that will be displayed when an anonymous user creates a new issue.</i>
@@ -30,7 +30,7 @@
         </div>
 
         <div class="row">
-          <div class="small-12 columns">
+          <div class="col-xs-12">
             <%= f.label :issue_name %><br>
             <p>
               <i>This is what will be set as the name of the new issue created on GitHub.</i>
@@ -40,7 +40,7 @@
         </div>
 
         <div class="row">
-          <div class="small-12 columns">
+          <div class="col-xs-12">
             <%= f.label :prompt %><br>
             <p>
               <i>This is the message that will be displayed to an anonymous user when they create a new issue.  You can use <%= link_to "Markdown", "http://daringfireball.net/projects/markdown/" %>.</i>
@@ -50,7 +50,7 @@
         </div>
 
         <div class="row">
-          <div class="small-12 columns">
+          <div class="col-xs-12">
             <%= f.label :followup %><br>
             <p>
               <i>This is the result message that will be displayed to an anonymous user after they submit a new issue.  You can use <%= link_to "Markdown", "http://daringfireball.net/projects/markdown/" %>.</i>
@@ -60,7 +60,7 @@
         </div>
 
         <div class="row">
-          <div class="small-12 columns">
+          <div class="col-xs-12">
             <%= f.label :labels %><br>
             <p>
             <i>This is the comma-separated list of labels that will be applied to the new issue created on GitHub (bug, enhancement, etc.).  They should match label options on your repository's <%= link_to "issues page", @repository.github_issues_path %>.</i>
@@ -70,7 +70,7 @@
         </div>
 
         <div class="row">
-          <div class="small-12 columns">
+          <div class="col-xs-12">
             <%= f.label :notification_emails %><br>
             <p>
               <i>A notification email will be sent to these email(s) when an issue is submitted. Enter a comma-separated list.</i>
@@ -80,7 +80,7 @@
         </div>
 
         <div class="row">
-          <div class="small-12 columns">
+          <div class="col-xs-12">
             <%= f.label :allow_issue_title %><br>
             <p>
               <i>Allow anonymous users to set the title of the submitted issue on GitHub. If active, the repository page will include a field for the issue title.</i>
@@ -93,7 +93,7 @@
         </div>
 
         <div class="row">
-          <div class="small-3 columns">
+          <div class="col-xs-3">
             <%= submit_tag "Update", class: "button small" %>
           </div>
         </div>
