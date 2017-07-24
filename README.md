@@ -3,13 +3,22 @@
 [![Code Climate](https://codeclimate.com/github/schneidmaster/gitreports.com/badges/gpa.svg)](https://codeclimate.com/github/schneidmaster/gitreports.com)
 [![security](https://hakiri.io/github/schneidmaster/gitreports.com/master.svg)](https://hakiri.io/github/schneidmaster/gitreports.com/master)
 
-gitreports.com
-================
+# gitreports.com
 
 Git Reports is a free service that lets you set up a stable URL for anonymous users to submit bugs and other Issues to your GitHub repositories.  It works with public and private repositories and personal and organization repositories.  It also provides some custom settings like Issue labels and messages to display to users submitting bugs.
 
-Self-hosting
-================
+## Development
+
+Git Reports is built on Ruby on Rails and uses yarn for frontend assets.
+
+### Setup
+
+1. Clone the repository (`git clone git@github.com:schneidmaster/gitreports.com.git`)
+2. Install gems: `bundle install`
+3. Install packages: `yarn install`
+4. Start the Rails and webpack servers: `foreman start -f Procfile.dev`
+
+## Self-hosting
 
 You're welcome to clone and self-host the application if you're so inclined.  Follow these steps:
 
@@ -38,9 +47,19 @@ If you want to track the application with Google Analytics, create the property 
 
 The public-facing portions of the Git Reports UI support i18n translations. Presently, English and Polish are supported; the active locale is selected using the Accept-Location HTTP header. If you would like to contribute a translation, make a copy of `config/locales/en.yml` using the desired locale code (check the full list [here](http://www.roseindia.net/tutorials/I18N/locales-list.shtml)), translate the text, and submit a pull request.
 
+## Staging/Production Configuration
+
+On Heroku, Git Reports requires both the node buildpack (for webpack/asset compilation) and the ruby buildpack. Add them with:
+
+```
+heroku buildpacks:clear
+heroku buildpacks:set heroku/nodejs
+heroku buildpacks:add heroku/ruby --index 2
+```
+
 ## Contributing
 
-1. Fork it ( https://github.com/schneidmaster/gitreports.com/fork )
+1. Fork it (https://github.com/schneidmaster/gitreports.com/fork)
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
