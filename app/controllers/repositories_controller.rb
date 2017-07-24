@@ -1,7 +1,7 @@
 class RepositoriesController < ApplicationController
   before_action :ensure_signed_in!
-  before_action :ensure_own_repository!, except: [:load_status, :repository, :submit, :submitted]
-  before_action :ensure_repository_active!, only: [:repository, :submit, :submitted]
+  before_action :ensure_own_repository!, except: %i[load_status repository submit submitted]
+  before_action :ensure_repository_active!, only: %i[repository submit submitted]
 
   def index
     @current_user = current_user
@@ -41,7 +41,7 @@ class RepositoriesController < ApplicationController
     @repository = current_resource
 
     # Set each param passed in the URL.
-    %w(name email email_public issue_title details).each do |p|
+    %w[name email email_public issue_title details].each do |p|
       instance_variable_set("@#{p}", params[p.intern])
     end
   end
@@ -102,11 +102,11 @@ class RepositoriesController < ApplicationController
       emails.split(/,|\n/).each do |full_email|
         next if full_email.blank?
 
-        if full_email.index(/\<.+\>/)
-          email = full_email.match(/\<.*\>/)[0].gsub(/[\<\>]/, '').strip
-        else
-          email = full_email.strip
-        end
+        email = if full_email.index(/\<.+\>/)
+                  full_email.match(/\<.*\>/)[0].gsub(/[\<\>]/, '').strip
+                else
+                  full_email.strip
+                end
         email = email.delete('<').delete('>')
         valid_emails << email if ValidateEmail.valid?(email)
       end

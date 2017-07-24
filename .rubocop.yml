@@ -2,18 +2,26 @@ AllCops:
   Exclude:
     - db/**/*
     - vendor/**/*
+  TargetRubyVersion: 2.3
+  DisplayCopNames: true
 
-BlockNesting: 
-  Max: 4
-ClassLength:
-  Enabled: False
-ClassVars:
-  Enabled: False
-CyclomaticComplexity:
-  Enabled: False
-Documentation:
+Metrics/AbcSize:
   Enabled: false
-LineLength:
+Metrics/BlockLength:
+  Enabled: false
+Metrics/BlockNesting:
+  Max: 4
+Metrics/ClassLength:
+  Enabled: false
+Metrics/CyclomaticComplexity:
+  Enabled: false
+Metrics/LineLength:
   Max: 175
-MethodLength:
+Metrics/MethodLength:
+  Enabled: false
+Style/ClassVars:
+  Enabled: false
+Style/Documentation:
+  Enabled: false
+Style/FrozenStringLiteralComment:
   Enabled: false

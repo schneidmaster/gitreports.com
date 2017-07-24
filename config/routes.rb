@@ -10,12 +10,12 @@ GitReports::Application.routes.draw do
   # Repository routes
   get '/profile', to: 'repositories#index', as: 'profile'
   scope :issue do
-    get ':username/:repositoryname', to: 'repositories#repository', as: 'repository_public', repositoryname: /[^\/]+/
-    post ':username/:repositoryname', to: 'repositories#submit', repositoryname: /[^\/]+/
-    get ':username/:repositoryname/submitted', to: 'repositories#submitted', as: 'submitted', repositoryname: /[^\/]+/
+    get ':username/:repositoryname', to: 'repositories#repository', as: 'repository_public', repositoryname: %r{[^\/]+}
+    post ':username/:repositoryname', to: 'repositories#submit', repositoryname: %r{[^\/]+}
+    get ':username/:repositoryname/submitted', to: 'repositories#submitted', as: 'submitted', repositoryname: %r{[^\/]+}
   end
 
-  resources :repositories, only: [:show, :edit, :update] do
+  resources :repositories, only: %i[show edit update] do
     post 'activate'
     post 'deactivate'
   end
@@ -23,7 +23,7 @@ GitReports::Application.routes.draw do
   get '/load_status', to: 'repositories#load_status'
 
   # Sidekiq monitoring
-  constraints -> (request) { User.find_by(id: request.session[:user_id])&.is_admin } do
+  constraints ->(request) { User.find_by(id: request.session[:user_id])&.is_admin } do
     mount Sidekiq::Web => '/admin/sidekiq'
   end
 end

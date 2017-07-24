@@ -32,7 +32,7 @@ class Repository < ApplicationRecord
   def construct_body(sub_name, email, email_public, details)
     body = ''
     body += "Submitter: #{sub_name}\r\n" unless sub_name.blank?
-    body += "Email: #{email}\r\n" unless email.blank? if email_public == 'on'
+    body += "Email: #{email}\r\n" if email_public == 'on' && !email.blank?
     body += details unless details.blank?
 
     body
@@ -54,7 +54,7 @@ class Repository < ApplicationRecord
   private
 
   def custom_field_length
-    %w(display_name issue_name prompt followup).each do |field|
+    %w[display_name issue_name prompt followup].each do |field|
       errors[field] << 'must be at least 5 characters' unless send(field).blank? || send(field).length >= 5
     end
   end

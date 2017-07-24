@@ -6,7 +6,6 @@ describe GithubService do
   end
 
   describe '#load_repositories' do
-
     subject { GithubService.load_repositories('access') }
 
     context 'first user login' do

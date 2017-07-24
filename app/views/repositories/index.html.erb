@@ -18,7 +18,7 @@
 <div class="row">
   <div class="col-xs-12">
     <hr>
-    <% if @current_user.repositories.user_owned.count == 0 %>
+    <% if @current_user.repositories.user_owned.none? %>
       <h3>No Repositories</h3>
       <p>Get to work!</p>
     <% else %>

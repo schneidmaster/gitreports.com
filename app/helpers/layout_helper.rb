@@ -1,7 +1,7 @@
 module LayoutHelper
-  TITLE = 'Git Reports'
-  DESCRIPTION = 'Git Reports is a free service that lets you set up a stable URL for anonymous users to submit bugs and other Issues to your GitHub repositories.'
-  KEYWORDS = 'GitHub, git, issue, report, bug'
+  TITLE = 'Git Reports'.freeze
+  DESCRIPTION = 'Git Reports is a free service that lets you set up a stable URL for anonymous users to submit bugs and other Issues to your GitHub repositories.'.freeze
+  KEYWORDS = 'GitHub, git, issue, report, bug'.freeze
 
   def default_meta
     {

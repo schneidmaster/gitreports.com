@@ -35,7 +35,7 @@ class GithubService
       repo = Repository.find(repo_id)
 
       # Determine title
-      issue_title = (repo.allow_issue_title && !title.empty?) ? title : 'Git Reports Issue'
+      issue_title = repo.allow_issue_title && !title.empty? ? title : 'Git Reports Issue'
 
       # Create client and check rate limit
       client = Octokit::Client.new access_token: repo.access_token
@@ -116,7 +116,7 @@ class GithubService
         (repo = Repository.find_by_github_id(github_id)).users.delete(user)
 
         # If the repo has no users left, disable it
-        repo.update(is_active: false) if repo.users.count == 0
+        repo.update(is_active: false) if repo.users.count.zero?
       end
     end
 
