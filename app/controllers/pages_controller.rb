@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
-  before_filter :ensure_signed_in!, only: [:profile]
+  before_action :ensure_signed_in!
 
   def profile
     @current_user = current_user

@@ -7,8 +7,8 @@ class ApplicationController < ActionController::Base
 
   around_action :catch_halt
 
-  before_filter :redirect_if_heroku
-  before_filter :set_locale
+  before_action :redirect_if_heroku
+  before_action :set_locale
 
   def render(*args)
     super

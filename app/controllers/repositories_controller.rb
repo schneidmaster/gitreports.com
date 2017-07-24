@@ -1,6 +1,6 @@
 class RepositoriesController < ApplicationController
-  before_filter :ensure_own_repository!, except: [:load_status, :repository, :submit, :submitted]
-  before_filter :ensure_repository_active!, only: [:repository, :submit, :submitted]
+  before_action :ensure_own_repository!, except: [:load_status, :repository, :submit, :submitted]
+  before_action :ensure_repository_active!, only: [:repository, :submit, :submitted]
 
   def show
     @repository = Repository.find(params[:id])

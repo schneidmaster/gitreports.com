@@ -10,16 +10,16 @@
     <meta property="og:url" content="<%= request.url %>" />
     <meta property="og:site_name" content="Git Reports"/>
     <meta property="og:description" content="Git Reports is a free service that lets you set up a stable URL for anonymous users to submit bugs and other Issues to your GitHub repositories." />
-    <meta property="og:image" content="<%= request.protocol + request.host + image_path("alarm.png") %>" />
+    <meta property="og:image" content="<%= request.protocol + request.host + 'assets/alarm.png' %>" />
     <meta property="og:type" content="website" />
 
     <title><%= content_for?(:title) ? yield(:title) : "Git Reports" %></title>
 
     <%= favicon_link_tag "favicon.ico" %>
 
-    <%= javascript_include_tag "vendor/modernizr" %>
-    <%= javascript_include_tag "application" %>
-    <%= stylesheet_link_tag 'application', media: 'all' %>
+    <%= stylesheet_link_tag *webpack_asset_paths('application', extension: 'css') %>
+    <%= javascript_include_tag *webpack_asset_paths('application', extension: 'js') %>
+
     <%= csrf_meta_tags %>
   </head>
 

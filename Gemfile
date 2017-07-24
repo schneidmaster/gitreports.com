@@ -1,10 +1,7 @@
 source 'https://rubygems.org'
-ruby '2.3.1'
 
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.7.1'
-gem 'jquery-rails', '3.1.3'
-gem 'foundation-rails', '~> 5.5'
+gem 'rails', '5.1'
+gem 'webpack-rails'
 
 group :development do
   # Use sqlite3 as the database for Active Record
@@ -30,6 +27,7 @@ end
 
 group :development, :test do
   gem 'byebug'
+  gem 'dotenv-rails', '0.9.0'
 end
 
 group :production do
@@ -38,28 +36,13 @@ group :production do
   gem 'rails_12factor'
 end
 
-# Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0.4'
-
-# Use coffeescript
-gem 'coffee-rails', '~> 4.1.0'
-
-# Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '>= 1.3.0'
-
-# See https://github.com/sstephenson/execjs#readme for more supported runtimes
-gem 'therubyracer', platforms: :ruby
-
 # Octokit GitHub API
 gem 'octokit', '4.6.2'
-
-# dotenv to load GitHub client variables
-gem 'dotenv-rails', '0.9.0'
 
 # RedCarpet to render markdown
 gem 'redcarpet'
 
-# SimpleCaptcha for, well, captchas
+# SimpleCaptcha for captchas
 gem 'simple_captcha2', require: 'simple_captcha'
 
 # Sidekiq handles jobs
@@ -73,7 +56,7 @@ gem 'valid_email', require: 'valid_email/validate_email'
 gem 'newrelic_rpm'
 
 # Sinatra used for Sidekiq logging
-gem 'sinatra', '~> 1.4.5'
+gem 'sinatra'
 
 # Automatically accept language if available
 gem 'http_accept_language'

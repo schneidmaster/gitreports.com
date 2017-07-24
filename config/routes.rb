@@ -30,7 +30,7 @@ GitReports::Application.routes.draw do
   get '/load_status', to: 'repositories#load_status'
 
   # Sidekiq monitoring
-  constraints -> (r) { r.session[:user_id] && User.where(r.session[:user_id]).count > 0 && User.find(r.session[:user_id]).is_admin } do
+  constraints -> (request) { User.find_by(id: request.session[:user_id])&.is_admin } do
     mount Sidekiq::Web => '/admin/sidekiq'
   end
 end
