@@ -1,6 +1,7 @@
 AllCops:
   Exclude:
     - db/**/*
+    - node_modules/**/*
     - vendor/**/*
   TargetRubyVersion: 2.3
   DisplayCopNames: true
