@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe GithubService do
   describe '#create_or_update_user' do
     subject { GithubService.create_or_update_user(access_token) }

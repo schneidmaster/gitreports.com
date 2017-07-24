@@ -53,10 +53,10 @@ RSpec.configure do |config|
   config.order = 'random'
 
   # Set up Capybara
+  Capybara.register_driver :poltergeist do |app|
+    Capybara::Poltergeist::Driver.new(app)
+  end
   Capybara.configure do |capy|
-    capy.register_driver :poltergeist do |app|
-      Capybara::Poltergeist::Driver.new(app)
-    end
     capy.javascript_driver = :poltergeist
     capy.server_port = 5000
   end
@@ -83,5 +83,33 @@ RSpec.configure do |config|
   # Ensure Sidekiq is empty
   config.before(:each) do
     Sidekiq::Worker.clear_all
+  end
+
+  # Start webpack server if needed.
+  config.add_setting :webpack_dev_server_pid
+
+  config.when_first_matching_example_defined(:needs_assets) do
+    # Start webpack-dev-server unless in CI or it is already running
+    next if ENV['CI'] == 'true' || system('lsof -i:3808', out: '/dev/null')
+
+    config.webpack_dev_server_pid = fork do
+      puts 'Child process starting webpack-dev-server...'
+      exec 'TARGET=development webpack-dev-server --config config/webpack.babel.js --quiet'
+    end
+  end
+
+  config.after(:suite) do
+    next unless config.webpack_dev_server_pid
+    puts 'Killing webpack-dev-server'
+    Process.kill('HUP', config.webpack_dev_server_pid)
+    begin
+      Timeout.timeout(2) do
+        Process.wait(config.webpack_dev_server_pid, 0)
+      end
+    rescue Timeout::Error
+      Process.kill(9, config.webpack_dev_server_pid)
+    ensure
+      config.webpack_dev_server_pid = nil
+    end
   end
 end

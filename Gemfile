@@ -30,17 +30,18 @@ group :development do
 end
 
 group :test do
-  gem 'capybara', '~> 2.3.0'
-  gem 'capybara-screenshot', '~> 0.3.19'
+  gem 'capybara'
+  gem 'capybara-screenshot'
   gem 'codeclimate-test-reporter', require: false
-  gem 'database_cleaner', '~> 1.3.0'
-  gem 'factory_girl_rails', '~> 4.4.1'
-  gem 'faker', '~> 1.3.0'
-  gem 'poltergeist', '~> 1.5.0'
-  gem 'rack_session_access', '~> 0.1.1'
-  gem 'rspec-rails', '~> 3.1'
-  gem 'simplecov', '~> 0.10.0'
-  gem 'webmock', '~> 1.18.0'
+  gem 'database_cleaner'
+  gem 'factory_girl_rails'
+  gem 'faker'
+  gem 'poltergeist'
+  gem 'rack_session_access'
+  gem 'rails-controller-testing'
+  gem 'rspec-rails'
+  gem 'simplecov'
+  gem 'webmock'
 end
 
 group :development, :test do

@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Repository do
   describe '#avatar_url' do
     context 'avatar url is blank' do

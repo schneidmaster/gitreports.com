@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe NotificationMailer do
   describe '#issue_submitted_email' do
     let!(:repository) { create :repository, name: 'CoolCode', owner: 'CoolOrg', notification_emails: 'joe@email.com' }

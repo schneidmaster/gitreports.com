@@ -1,6 +1,4 @@
-require 'spec_helper'
-
-feature 'Authentication' do
+feature 'Authentication', :needs_assets do
   describe 'login and get repositories from API' do
     let!(:state) { SecureRandom.hex }
 

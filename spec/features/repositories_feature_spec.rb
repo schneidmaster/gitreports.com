@@ -1,6 +1,4 @@
-require 'spec_helper'
-
-feature 'Repository' do
+feature 'Repository', :needs_assets do
   let!(:organization) { create :organization }
   let!(:user) { create :user, username: 'greptest' }
   let!(:org_user) { create :user, organizations: [organization] }

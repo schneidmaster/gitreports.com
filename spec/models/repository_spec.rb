@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Repository do
   describe '#holder_name' do
     context 'owner field is set' do

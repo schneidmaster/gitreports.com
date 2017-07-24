@@ -1,6 +1,6 @@
 class RepositoriesController < ApplicationController
-  before_action :ensure_signed_in!
-  before_action :ensure_own_repository!, except: %i[load_status repository submit submitted]
+  before_action :ensure_signed_in!, only: [:index]
+  before_action :ensure_own_repository!, except: %i[index load_status repository submit submitted]
   before_action :ensure_repository_active!, only: %i[repository submit submitted]
 
   def index
@@ -61,7 +61,7 @@ class RepositoriesController < ApplicationController
     # If invalid, display as such
     else
       # Redirect
-      redirect_to repository_public_path(params.slice(:username, :repositoryname, :name, :email, :issue_title, :details)), flash: { error: 'Incorrect CAPTCHA; please retry!' }
+      redirect_to repository_public_path(prefill_params), flash: { error: 'Incorrect CAPTCHA; please retry!' }
     end
   end
 
@@ -70,7 +70,7 @@ class RepositoriesController < ApplicationController
   end
 
   def load_status
-    render text:
+    render plain:
       if session[:job_id]
         Sidekiq::Status.complete?(session[:job_id])
       else
@@ -85,6 +85,10 @@ class RepositoriesController < ApplicationController
       notification_emails: parse_emails(params[:repository][:notification_emails]),
       allow_issue_title: (params[:repository][:allow_issue_title] == 'yes')
     )
+  end
+
+  def prefill_params
+    params.permit(:username, :repositoryname, :name, :email, :issue_title, :details)
   end
 
   def current_resource
