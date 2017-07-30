@@ -10,7 +10,7 @@
     "start": "npm run dev",
     "dev": "TARGET=development webpack-dev-server --config config/webpack.babel.js",
     "build": "webpack --bail --config config/webpack.babel.js",
-    "heroku-postbuild": "npm run build",
+    "heroku-postbuild": "TARGET=production npm run build",
     "analyze": "TARGET=production BUNDLE_ANALYZE=true npm run build",
     "lint": "eslint 'app/assets/javascripts/*.js' 'config/**/*.js'"
   },
