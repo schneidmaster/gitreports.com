@@ -1,4 +1,4 @@
-describe Repository do
+describe User do
   describe '#avatar_url' do
     context 'avatar url is blank' do
       subject { create :user, username: 'joeschmoe', avatar_url: nil }

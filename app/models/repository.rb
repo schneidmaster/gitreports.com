@@ -1,15 +1,13 @@
 class Repository < ApplicationRecord
-  has_and_belongs_to_many :users, -> { order 'username ASC' } do
-    def <<(user)
-      super unless proxy_association.owner.users.include?(user)
-    end
-  end
+  has_and_belongs_to_many :users, -> { order 'username ASC' }
   belongs_to :organization
 
   scope :user_owned, -> { where(organization: nil) }
   scope :with_user, ->(user) { joins(:users).where('users.id = ?', user) }
 
   validate :custom_field_length
+
+  include HasUniqueUsers
 
   def access_token
     users.first.access_token

@@ -1,7 +1,7 @@
 require 'simplecov'
 
 SimpleCov.start 'rails' do
-  add_filter '/workers/'
+  add_group 'Services', '/services/'
 end
 
 ENV['RAILS_ENV'] = 'test'
