@@ -20,13 +20,13 @@ class GithubService
       return nil if client.rate_limit.remaining < 10
 
       old_repos = user.repositories.pluck(:github_id)
-      current_user_repos = add_repos(client.repos, user)
-      current_org_repos = add_orgs(client.orgs, user)
+      old_orgs = user.organizations.pluck(:name)
 
-      outdated_repos = old_repos - current_user_repos - current_org_repos
+      current_repos, current_orgs = add_repos(client.repos, user)
 
-      # Add repos and remove user from any repos they no longer have access to
-      remove_outdated(user, outdated_repos)
+      # Add repos and remove user from any repos/orgs they no longer have access to
+      remove_outdated(user, old_repos - current_repos)
+      remove_outdated_orgs(user, old_orgs - current_orgs)
     end
 
     # rubocop:disable ParameterLists
@@ -53,45 +53,40 @@ class GithubService
 
     private
 
-    def add_orgs(orgs, user)
-      # Record repo IDs that are found
-      found_ids = []
-
-      found_org_names = orgs.map do |api_org|
-        # Add the org
-        org = add_org(api_org, user)
-
-        # Add or create the org's repos
-        found_ids += add_repos(api_org.rels[:repos].get.data, user, org)
-
-        # Return its name
-        org.name
-      end
-
-      # Remove user from any orgs they're no longer part of
-      remove_outdated_orgs(user, found_org_names)
-
-      # Return found IDs
-      found_ids || []
-    end
-
-    def add_repos(repos, user, org = nil)
+    def add_repos(repos, user)
       found_repo_ids = []
+      found_org_names = []
 
       repos.select(&:has_issues).each do |api_repo|
+        repo_attrs = {
+          name: api_repo[:name],
+          owner: api_repo[:owner][:login]
+        }
+
+        if api_repo[:owner][:type] == 'Organization'
+          org_name = api_repo[:owner][:login]
+          repo_attrs[:organization] = add_org(org_name, user)
+          found_org_names << org_name unless found_org_names.include?(org_name)
+        end
+
         if (repo = Repository.find_by_github_id(api_repo.id))
           # Update any information and ensure user is added
-          repo.update(name: api_repo[:name], owner: api_repo[:owner][:login], organization: org)
+          repo.update(repo_attrs)
           repo.add_user!(user)
 
           found_repo_ids << api_repo.id.to_s
         # Else create it
         else
-          Repository.create(github_id: api_repo[:id], name: api_repo[:name], is_active: false, owner: api_repo[:owner][:login], organization: org, users: [user])
+          repo_attrs.merge!(
+            github_id: api_repo[:id],
+            is_active: false,
+            users: [user]
+          )
+          Repository.create(repo_attrs)
         end
       end
 
-      found_repo_ids
+      [found_repo_ids, found_org_names]
     end
 
     def create_issue(client, repo, title, body)
@@ -101,8 +96,8 @@ class GithubService
       client.create_issue(name, issue_name, body, labels)
     end
 
-    def add_org(api_org, user)
-      org = Organization.find_or_create_by(name: api_org[:login])
+    def add_org(org_name, user)
+      org = Organization.find_or_create_by(name: org_name)
 
       # Make sure it's added to the user
       org.add_user!(user)
@@ -112,8 +107,10 @@ class GithubService
 
     def remove_outdated(user, old_ids)
       old_ids.each do |github_id|
+        repo = Repository.find_by_github_id(github_id)
+
         # Delete user from repository
-        (repo = Repository.find_by_github_id(github_id)).users.delete(user)
+        repo.users.delete(user)
 
         # If the repo has no users left, disable it
         repo.update(is_active: false) if repo.users.count.zero?
@@ -121,7 +118,7 @@ class GithubService
     end
 
     def remove_outdated_orgs(user, old_names)
-      user.organizations.delete(Organization.where.not(name: old_names))
+      user.organizations.delete(Organization.where(name: old_names))
     end
   end
 end

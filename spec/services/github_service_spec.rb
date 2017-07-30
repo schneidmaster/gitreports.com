@@ -11,12 +11,8 @@ describe GithubService do
 
       before { subject }
 
-      it 'retrieves and stores repositories' do
-        expect(user.repositories.count).to eq(4)
-      end
-
       it('adds user to org') do
-        expect(user.organizations.first.name).to eq('neatorg')
+        expect(user.organizations.first.name).to eq('CoolOrg')
       end
     end
 
@@ -96,7 +92,7 @@ describe GithubService do
     end
 
     context 'user is removed from an org with another user in it' do
-      let!(:org) { create :organization, name: 'CoolOrg' }
+      let!(:org) { create :organization, name: 'NeatOrg' }
       let!(:user) { create :user, access_token: 'access', organizations: [org] }
       let!(:another_user) { create :user, organizations: [org] }
       let!(:repository) { create :user_repository, name: 'SharedOrgCode', organization: org, users: [user, another_user] }
@@ -104,11 +100,11 @@ describe GithubService do
       before { subject }
 
       it 'removes the user from the org' do
-        expect(user.organizations.find_by_name('CoolOrg')).to eq(nil)
+        expect(user.organizations.find_by_name('NeatOrg')).to eq(nil)
       end
 
       it 'leaves the other user in the org' do
-        expect(another_user.organizations.find_by_name('CoolOrg')).not_to eq(nil)
+        expect(another_user.organizations.find_by_name('NeatOrg')).not_to eq(nil)
       end
 
       it 'removes the user from the org repository' do

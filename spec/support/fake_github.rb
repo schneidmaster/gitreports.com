@@ -24,10 +24,6 @@ class FakeGitHub < Sinatra::Base
     json_response 200, 'organization.json'
   end
 
-  get '/orgs/:org/repos' do
-    json_response 200, 'org_repos.json'
-  end
-
   get '/rate_limit' do
     headers = {}
     headers['X-RateLimit-Limit'] = '5000'
