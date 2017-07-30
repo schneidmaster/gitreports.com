@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
 
   before_action :redirect_if_heroku
   before_action :set_locale
+  before_action :strip_www
 
   def render(*args)
     super
@@ -36,5 +37,9 @@ class ApplicationController < ActionController::Base
 
   def set_locale
     I18n.locale = http_accept_language.compatible_language_from(I18n.available_locales) || :en
+  end
+
+  def strip_www
+    redirect_to "https://gitreports.com#{request.fullpath}" if request.host.start_with?('www')
   end
 end
