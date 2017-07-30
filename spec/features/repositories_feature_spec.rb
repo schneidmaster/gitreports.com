@@ -1,6 +1,4 @@
-require 'spec_helper'
-
-feature 'Repository' do
+feature 'Repository', :needs_assets do
   let!(:organization) { create :organization }
   let!(:user) { create :user, username: 'greptest' }
   let!(:org_user) { create :user, organizations: [organization] }
@@ -228,7 +226,7 @@ feature 'Repository' do
         expect(page).to have_content('Thanks for submitting your report!')
 
         # Should have queued issue submission
-        expect(GithubWorker.jobs.size).to eq(1)
+        expect(enqueued_jobs.size).to eq(1)
       end
     end
 

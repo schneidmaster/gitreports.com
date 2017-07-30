@@ -1,5 +1,10 @@
 {
+  "id": 1,
   "url": "https://api.github.com/repos/greptest/CoolCode/issues/1347",
+  "repository_url": "https://api.github.com/repos/greptest/CoolCode",
+  "labels_url": "https://api.github.com/repos/greptest/CoolCode/issues/1347/labels{/name}",
+  "comments_url": "https://api.github.com/repos/greptest/CoolCode/issues/1347/comments",
+  "events_url": "https://api.github.com/repos/greptest/CoolCode/issues/1347/events",
   "html_url": "https://github.com/greptest/CoolCode/issues/1347",
   "number": 1347,
   "state": "open",
@@ -26,9 +31,11 @@
   },
   "labels": [
     {
+      "id": 208045946,
       "url": "https://api.github.com/repos/greptest/CoolCode/labels/bug",
       "name": "bug",
-      "color": "f29513"
+      "color": "f29513",
+      "default": true
     }
   ],
   "assignee": {
@@ -52,10 +59,13 @@
   },
   "milestone": {
     "url": "https://api.github.com/repos/greptest/CoolCode/milestones/1",
+    "html_url": "https://github.com/greptest/CoolCode/milestones/v1.0",
+    "labels_url": "https://api.github.com/repos/greptest/CoolCode/milestones/1/labels",
+    "id": 1002604,
     "number": 1,
     "state": "open",
     "title": "v1.0",
-    "description": "",
+    "description": "Tracking milestone for version 1.0",
     "creator": {
       "login": "greptest",
       "id": 1,
@@ -80,8 +90,9 @@
     "created_at": "2011-04-10T20:09:31Z",
     "updated_at": "2014-03-03T18:58:10Z",
     "closed_at": "2013-02-12T13:22:01Z",
-    "due_on": null
+    "due_on": "2012-10-09T23:39:01Z"
   },
+  "locked": false,
   "comments": 0,
   "pull_request": {
     "url": "https://api.github.com/repos/greptest/CoolCode/pulls/1347",

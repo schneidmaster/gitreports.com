@@ -1,0 +1,67 @@
+<div class="row">
+  <div class="col-xs-12 col-md-9">
+    <h2><%= @current_user.name %></h2>
+    <h4><%= link_to @current_user.username, @current_user.github_path %></h4>
+  </div>
+  <div class="col-xs-12 col-md-3 text-right">
+    <%= image_tag @current_user.avatar_url, alt: @current_user.name, class: "profile-img" %>
+  </div>
+</div>
+<% if params[:refresh] %>
+  <div id="repo-alert" class="row">
+    <div class="col-xs-12">
+      <div class="alert alert-info">
+        <button class="close" data-dismiss="alert">×</button>
+        <span id="repo-load-info">Refreshing repository information from GitHub...</span>
+      </div>
+    </div>
+  </div>
+<% end %>
+<div class="row">
+  <div class="col-xs-12">
+    <hr>
+    <% if @current_user.repositories.user_owned.none? %>
+      <h3>No Repositories</h3>
+      <p>Get to work!</p>
+    <% else %>
+      <h3>Repositories</h3>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th width="60%">Repository Name</th>
+            <th width="10%">Edit</th>
+            <th width="10%">Status</th>
+            <th width="10%">Toggle</th>
+            <th width="10%">Public URL</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @current_user.repositories.user_owned.each do |repo| %>
+            <%= render partial: "repository", locals: { repo: repo } %>
+          <% end %>
+        </tbody>
+      </table>
+    <% end %>
+
+    <% @current_user.organizations.each do |org| %>
+      <hr>
+      <h3><%= org.name %></h3>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th width="60%">Repository Name</th>
+            <th width="10%">Edit</th>
+            <th width="10%">Status</th>
+            <th width="10%">Toggle</th>
+            <th width="10%">Public URL</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% org.repositories.with_user(@current_user).each do |repo| %>
+            <%= render partial: "repository", locals: { repo: repo } %>
+          <% end %>
+        </tbody>
+      </table>
+    <% end %>
+  </div>
+</div>

@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe RepositoriesController do
   let!(:organization) { create :organization }
   let!(:user) { create :user }
@@ -10,8 +8,8 @@ describe RepositoriesController do
     subject { get :load_status }
 
     context 'job ID does not exist' do
-      it 'returns true' do
-        expect(subject.body).to eq('true')
+      it 'returns false' do
+        expect(subject.body).to eq('false')
       end
     end
 
@@ -29,7 +27,7 @@ describe RepositoriesController do
 
     context 'repository owner logged in' do
       before { log_in user }
-      subject  { get :show, id: repository }
+      subject { get :show, params: { id: repository } }
 
       it 'shows the repository' do
         expect(subject).to render_template(:show)
@@ -38,7 +36,7 @@ describe RepositoriesController do
 
     context 'org user logged in' do
       before { log_in org_user }
-      subject  { get :show, id: org_repository }
+      subject { get :show, params: { id: org_repository } }
 
       it 'shows the repository' do
         expect(subject).to render_template(:show)
@@ -47,7 +45,7 @@ describe RepositoriesController do
 
     context 'another user logged in' do
       before { log_in another_user }
-      subject  { get :show, id: repository }
+      subject { get :show, params: { id: repository } }
 
       it 'does not show the repository' do
         expect(subject).to redirect_to(profile_path)
@@ -56,10 +54,10 @@ describe RepositoriesController do
 
     context 'repo does not exist' do
       before { log_in another_user }
-      subject  { get :show, id: 0 }
+      subject { get :show, params: { id: 0 } }
 
       it 'renders 404' do
-        expect(subject).to render_template('404')
+        expect(subject).to render_template('not_found')
       end
     end
   end
@@ -70,7 +68,7 @@ describe RepositoriesController do
 
     context 'repository owner logged in' do
       before { log_in user }
-      subject  { get :edit, id: repository }
+      subject { get :edit, params: { id: repository } }
 
       it 'shows the repository' do
         expect(subject).to render_template(:edit)
@@ -79,7 +77,7 @@ describe RepositoriesController do
 
     context 'org user logged in' do
       before { log_in org_user }
-      subject  { get :edit, id: org_repository }
+      subject { get :edit, params: { id: org_repository } }
 
       it 'shows the repository' do
         expect(subject).to render_template(:edit)
@@ -88,7 +86,7 @@ describe RepositoriesController do
 
     context 'another user logged in' do
       before { log_in another_user }
-      subject  { get :edit, id: repository }
+      subject { get :edit, params: { id: repository } }
 
       it 'does not show the repository' do
         expect(subject).to redirect_to(profile_path)
@@ -97,10 +95,10 @@ describe RepositoriesController do
 
     context 'repo does not exist' do
       before { log_in another_user }
-      subject  { get :edit, id: 0 }
+      subject { get :edit, params: { id: 0 } }
 
       it 'renders 404' do
-        expect(subject).to render_template('404')
+        expect(subject).to render_template('not_found')
       end
     end
   end
@@ -111,7 +109,7 @@ describe RepositoriesController do
 
     context 'repository owner logged in' do
       before { log_in user }
-      subject  { post :activate, repository_id: repository }
+      subject { post :activate, params: { repository_id: repository } }
 
       it 'activates the repository' do
         expect(subject).to redirect_to(repository_path(repository))
@@ -120,7 +118,7 @@ describe RepositoriesController do
 
     context 'org user logged in' do
       before { log_in org_user }
-      subject  { post :activate, repository_id: org_repository }
+      subject { post :activate, params: { repository_id: org_repository } }
 
       it 'activates the repository' do
         expect(subject).to redirect_to(repository_path(org_repository))
@@ -129,7 +127,7 @@ describe RepositoriesController do
 
     context 'another user logged in' do
       before { log_in another_user }
-      subject  { post :activate, repository_id: repository }
+      subject { post :activate, params: { repository_id: repository } }
 
       it 'does not allow activation' do
         expect(subject).to redirect_to(profile_path)
@@ -138,10 +136,10 @@ describe RepositoriesController do
 
     context 'repo does not exist' do
       before { log_in another_user }
-      subject  { post :activate, repository_id: 0 }
+      subject { post :activate, params: { repository_id: 0 } }
 
       it 'renders 404' do
-        expect(subject).to render_template('404')
+        expect(subject).to render_template('not_found')
       end
     end
   end
@@ -152,7 +150,7 @@ describe RepositoriesController do
 
     context 'repository owner logged in' do
       before { log_in user }
-      subject  { post :deactivate, repository_id: repository }
+      subject { post :deactivate, params: { repository_id: repository } }
 
       it 'deactivates the repository' do
         expect(subject).to redirect_to(repository_path(repository))
@@ -161,7 +159,7 @@ describe RepositoriesController do
 
     context 'org user logged in' do
       before { log_in org_user }
-      subject  { post :deactivate, repository_id: org_repository }
+      subject { post :deactivate, params: { repository_id: org_repository } }
 
       it 'deactivates the repository' do
         expect(subject).to redirect_to(repository_path(org_repository))
@@ -170,7 +168,7 @@ describe RepositoriesController do
 
     context 'another user logged in' do
       before { log_in another_user }
-      subject  { post :deactivate, repository_id: repository }
+      subject { post :deactivate, params: { repository_id: repository } }
 
       it 'dedoes not allow activation' do
         expect(subject).to redirect_to(profile_path)
@@ -179,10 +177,10 @@ describe RepositoriesController do
 
     context 'repo does not exist' do
       before { log_in another_user }
-      subject  { post :deactivate, repository_id: 0 }
+      subject { post :deactivate, params: { repository_id: 0 } }
 
       it 'renders 404' do
-        expect(subject).to render_template('404')
+        expect(subject).to render_template('not_found')
       end
     end
   end

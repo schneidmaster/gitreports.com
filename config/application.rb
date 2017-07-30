@@ -1,6 +1,10 @@
 require File.expand_path('../boot', __FILE__)
 
-require 'rails/all'
+require 'rails'
+require 'active_record/railtie'
+require 'action_controller/railtie'
+require 'action_mailer/railtie'
+require 'action_view/railtie'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -8,16 +12,19 @@ Bundler.require(:default, Rails.env)
 
 module GitReports
   class Application < Rails::Application
-    # Settings in config/environments/* take precedence over those specified here.
-    # Application configuration should go into files in config/initializers
-    # -- all .rb files in that directory are automatically loaded.
+    # Use errors controller for exceptions.
+    config.exceptions_app = routes
 
-    # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
-    # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
-    # config.time_zone = 'Central Time (US & Canada)'
+    # Use Sidekiq to back ActiveJob.
+    config.active_job.queue_adapter = :sidekiq
 
-    # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
-    # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
-    # config.i18n.default_locale = :de
+    # Use public/assets rather than public/webpack
+    config.webpack.output_dir = 'public/assets'
+    config.webpack.public_path = 'assets'
+    config.webpack.manifest_filename = 'webpack_manifest.json'
+    config.webpack.dev_server.manifest_port = 3808
+    config.webpack.dev_server.port = 3808
+    config.webpack.dev_server.host = ENV.fetch('WEBPACK_DEV_HOST', 'lvh.me')
+    config.webpack.dev_server.enabled = Rails.env.development?
   end
 end

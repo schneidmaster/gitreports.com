@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe AuthenticationsController do
   describe '#login' do
     let!(:user) { create :user }

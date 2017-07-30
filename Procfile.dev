@@ -1,0 +1,3 @@
+web: bundle exec rails s
+webpack: yarn start
+worker: bundle exec sidekiq

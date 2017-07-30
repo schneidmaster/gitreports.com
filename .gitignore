@@ -23,3 +23,8 @@
 
 # Ignore dotfiles
 .DS_Store
+.byebug_history
+
+# Ignore npm files
+/node_modules
+/public/assets

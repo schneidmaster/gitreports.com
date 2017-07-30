@@ -1,4 +1,4 @@
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   has_and_belongs_to_many :repositories, -> { order 'name ASC' }, uniq: true
   has_and_belongs_to_many :organizations, -> { order 'name ASC' }, uniq: true
 

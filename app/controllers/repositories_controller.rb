@@ -1,6 +1,11 @@
 class RepositoriesController < ApplicationController
-  before_filter :ensure_own_repository!, except: [:load_status, :repository, :submit, :submitted]
-  before_filter :ensure_repository_active!, only: [:repository, :submit, :submitted]
+  before_action :ensure_signed_in!, only: [:index]
+  before_action :ensure_own_repository!, except: %i[index load_status repository submit submitted]
+  before_action :ensure_repository_active!, only: %i[repository submit submitted]
+
+  def index
+    @current_user = current_user
+  end
 
   def show
     @repository = Repository.find(params[:id])
@@ -36,7 +41,7 @@ class RepositoriesController < ApplicationController
     @repository = current_resource
 
     # Set each param passed in the URL.
-    %w(name email email_public issue_title details).each do |p|
+    %w[name email email_public issue_title details].each do |p|
       instance_variable_set("@#{p}", params[p.intern])
     end
   end
@@ -48,7 +53,7 @@ class RepositoriesController < ApplicationController
     if pass_captcha?
 
       # Submit issue
-      GithubWorker.perform_async(:submit_issue, repo.id, params[:name], params[:email], params[:email_public], params[:issue_title], params[:details])
+      GithubJob.perform_later('submit_issue', repo.id, params[:name], params[:email], params[:email_public], params[:issue_title], params[:details])
 
       # Redirect
       redirect_to submitted_path(repo.holder_name, repo.name)
@@ -56,7 +61,7 @@ class RepositoriesController < ApplicationController
     # If invalid, display as such
     else
       # Redirect
-      redirect_to repository_public_path(params.slice(:username, :repositoryname, :name, :email, :issue_title, :details)), flash: { error: 'Incorrect CAPTCHA; please retry!' }
+      redirect_to repository_public_path(prefill_params), flash: { error: 'Incorrect CAPTCHA; please retry!' }
     end
   end
 
@@ -65,12 +70,7 @@ class RepositoriesController < ApplicationController
   end
 
   def load_status
-    render text:
-      if session[:job_id]
-        Sidekiq::Status.complete?(session[:job_id])
-      else
-        true
-      end
+    render plain: Sidekiq::Status.complete?(session[:job_id])
   end
 
   private
@@ -80,6 +80,10 @@ class RepositoriesController < ApplicationController
       notification_emails: parse_emails(params[:repository][:notification_emails]),
       allow_issue_title: (params[:repository][:allow_issue_title] == 'yes')
     )
+  end
+
+  def prefill_params
+    params.permit(:username, :repositoryname, :name, :email, :issue_title, :details)
   end
 
   def current_resource
@@ -97,11 +101,11 @@ class RepositoriesController < ApplicationController
       emails.split(/,|\n/).each do |full_email|
         next if full_email.blank?
 
-        if full_email.index(/\<.+\>/)
-          email = full_email.match(/\<.*\>/)[0].gsub(/[\<\>]/, '').strip
-        else
-          email = full_email.strip
-        end
+        email = if full_email.index(/\<.+\>/)
+                  full_email.match(/\<.*\>/)[0].gsub(/[\<\>]/, '').strip
+                else
+                  full_email.strip
+                end
         email = email.delete('<').delete('>')
         valid_emails << email if ValidateEmail.valid?(email)
       end

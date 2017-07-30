@@ -1,6 +1,6 @@
-require 'spec_helper'
-
 describe Repository do
+  it_behaves_like 'has unique users'
+
   describe '#holder_name' do
     context 'owner field is set' do
       subject { create :repository, owner: 'greptest' }

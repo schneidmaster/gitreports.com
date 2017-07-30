@@ -1,13 +1,10 @@
 require 'sidekiq/web'
 
 GitReports::Application.routes.draw do
-
-  root 'pages#home'
-
-  # Pages
-  get '/profile', to: 'pages#profile', as: 'profile'
-  get '/tutorial', to: 'pages#tutorial', as: 'tutorial'
-  get '/about', to: 'pages#about', as: 'about'
+  # Error pages.
+  %w[404 422 500].each do |code|
+    match code, to: "errors#error_#{code}", via: :all
+  end
 
   # Authentication routes
   get '/login', to: 'authentications#login', as: 'login'
@@ -16,13 +13,14 @@ GitReports::Application.routes.draw do
   get '/login_rate_limited', to: 'authentications#login_rate_limited', as: 'login_rate_limited'
 
   # Repository routes
+  get '/profile', to: 'repositories#index', as: 'profile'
   scope :issue do
-    get ':username/:repositoryname', to: 'repositories#repository', as: 'repository_public', repositoryname: /[^\/]+/
-    post ':username/:repositoryname', to: 'repositories#submit', repositoryname: /[^\/]+/
-    get ':username/:repositoryname/submitted', to: 'repositories#submitted', as: 'submitted', repositoryname: /[^\/]+/
+    get ':username/:repositoryname', to: 'repositories#repository', as: 'repository_public', repositoryname: %r{[^\/]+}
+    post ':username/:repositoryname', to: 'repositories#submit', repositoryname: %r{[^\/]+}
+    get ':username/:repositoryname/submitted', to: 'repositories#submitted', as: 'submitted', repositoryname: %r{[^\/]+}
   end
 
-  resources :repositories, only: [:show, :edit, :update] do
+  resources :repositories, only: %i[show edit update] do
     post 'activate'
     post 'deactivate'
   end
@@ -30,7 +28,7 @@ GitReports::Application.routes.draw do
   get '/load_status', to: 'repositories#load_status'
 
   # Sidekiq monitoring
-  constraints -> (r) { r.session[:user_id] && User.where(r.session[:user_id]).count > 0 && User.find(r.session[:user_id]).is_admin } do
+  constraints ->(request) { User.find_by(id: request.session[:user_id])&.is_admin } do
     mount Sidekiq::Web => '/admin/sidekiq'
   end
 end

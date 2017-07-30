@@ -1,0 +1,23 @@
+.profile-img {
+  max-height: 96px;
+  max-width: 96px;
+}
+
+#repo-alert {
+  display: none;
+  margin-top: 15px;
+}
+
+.no-resize {
+  resize: none;
+}
+
+.footer-links {
+  a {
+    margin-left: 10px;
+  }
+}
+
+footer {
+  margin-bottom: 25px;
+}

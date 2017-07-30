@@ -19,7 +19,7 @@ class AuthenticationsController < ApplicationController
     log_in!(user)
 
     # Add repositories
-    session[:job_id] = GithubWorker.perform_async(:load_repositories, access_token)
+    session[:job_id] = GithubJob.perform_later('load_repositories', access_token).provider_job_id
     profile_redirect!
   end
 
@@ -62,7 +62,7 @@ class AuthenticationsController < ApplicationController
   end
 
   def profile_redirect!
-    redirect_to profile_path, flash: { success: 'Logged in!' }
+    redirect_to profile_path(refresh: true), flash: { success: 'Logged in!' }
   end
 
   def state

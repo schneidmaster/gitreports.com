@@ -1,4 +1,4 @@
-class CreateRepositoriesUsers < ActiveRecord::Migration
+class CreateRepositoriesUsers < ActiveRecord::Migration[4.2]
   def change
     create_table :repositories_users do |t|
 

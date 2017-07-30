@@ -1,6 +1,4 @@
-require 'spec_helper'
-
-feature 'Authentication' do
+feature 'Authentication', :needs_assets do
   describe 'login and get repositories from API' do
     let!(:state) { SecureRandom.hex }
 
@@ -35,7 +33,7 @@ feature 'Authentication' do
         expect(page).to have_content('Logged in!')
 
         # Should have queued repository update
-        expect(GithubWorker.jobs.size).to eq(1)
+        expect(enqueued_jobs.size).to eq(1)
       end
     end
   end

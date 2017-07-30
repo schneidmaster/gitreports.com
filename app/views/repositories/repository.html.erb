@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="large-12 columns">
+  <div class="col-xs-12">
     <h3><%= @repository.display_or_name %></h3>
     <hr>
     <p>
@@ -13,48 +13,48 @@
     </p>
     <hr>
     <%= form_tag(repository_public_path(@repository.holder_name, @repository.name), method: :post) do %>
-        <fieldset>
-          <legend><%= t('submit_form.title') %></legend>
-          <div class="row">
-            <div class="small-6 columns">
+        <legend><%= t('submit_form.title') %></legend>
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="form-group">
               <%= label :name, t('submit_form.label.name') %>
-              <%= text_field_tag :name, @name %>
+              <%= text_field_tag :name, @name, class: 'form-control' %>
             </div>
-            <div class="small-6 columns">
+
+            <div class="form-group">
               <%= label :email, t('submit_form.label.email') %>
-              <%= email_field_tag :email, @email %>
+              <%= email_field_tag :email, @email, class: 'form-control' %>
             </div>
-            <div class="small-6 columns">
+
+            <div class="form-group">
               <%= label :email_public, t('submit_form.label.email_public') %>
-              <%= check_box_tag :email_public, @email_public %>
+              <%= check_box_tag :email_public, @email_public, class: 'form-control' %>
             </div>
-          </div>
-          <% if @repository.allow_issue_title %>
-              <div class="row">
-                <div class="small-12 columns">
+
+            <% if @repository.allow_issue_title %>
+                <div class="form-group">
                   <%= label :issue_title, t('submit_form.label.issue_title') %>
-                  <%= text_field_tag :issue_title, @issue_title %>
+                  <%= text_field_tag :issue_title, @issue_title, class: 'form-control' %>
                 </div>
-              </div>
-          <% end %>
-          <div class="row">
-            <div class="small-12 columns">
+            <% end %>
+
+            <div class="form-group">
               <%= label :details, t('submit_form.label.details') %>
-              <%= text_area_tag :details, @details, class: "report-textarea" %>
+              <%= text_area_tag :details, @details, class: "form-control no-resize" %>
             </div>
           </div>
-          <div class="row">
-            <div class="small-6 columns">
-              <p><%= t('submit_form.captcha_message') %></p>
-              <%= show_simple_captcha(label: "") %><br>
-            </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-6">
+            <p><%= t('submit_form.captcha_message') %></p>
+            <%= show_simple_captcha(label: "") %><br>
           </div>
-          <div class="row">
-            <div class="small-3 columns">
-              <%= submit_tag t('submit_form.label.submit'), class: "button small" %>
-            </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-3">
+            <%= submit_tag t('submit_form.label.submit'), class: "btn btn-primary" %>
           </div>
-        </fieldset>
+        </div>
     <% end %>
   </div>
 </div>
