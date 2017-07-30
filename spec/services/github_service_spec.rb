@@ -138,7 +138,9 @@ describe GithubService do
         expect(issue['body']).to eq("I'm having a problem with this.")
 
         # Should have queued notification mail
-        expect(EmailWorker.jobs.size).to eq(1)
+        expect(enqueued_jobs.size).to eq(1)
+        expect(enqueued_jobs.first[:job]).to eq(ActionMailer::DeliveryJob)
+        expect(enqueued_jobs.first[:args]).to eq(['NotificationMailer', 'issue_submitted_email', 'deliver_now', 1, 1347])
       end
     end
 
@@ -150,7 +152,7 @@ describe GithubService do
         expect(issue['body']).to eq("I'm having a problem with this.")
 
         # Should have queued notification mail
-        expect(EmailWorker.jobs.size).to eq(0)
+        expect(enqueued_jobs.size).to eq(0)
       end
     end
 

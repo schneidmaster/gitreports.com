@@ -45,7 +45,7 @@ class GithubService
       issue = create_issue(client, repo, issue_title, repo.construct_body(sub_name, email, email_public, details))
 
       # Send notification email
-      EmailWorker.perform_async NotificationMailer, :issue_submitted_email, repo.id, issue.number unless repo.notification_emails.blank?
+      NotificationMailer.issue_submitted_email(repo.id, issue.number).deliver_later unless repo.notification_emails.blank?
 
       issue
     end

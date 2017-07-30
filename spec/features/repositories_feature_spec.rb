@@ -226,7 +226,7 @@ feature 'Repository', :needs_assets do
         expect(page).to have_content('Thanks for submitting your report!')
 
         # Should have queued issue submission
-        expect(GithubWorker.jobs.size).to eq(1)
+        expect(enqueued_jobs.size).to eq(1)
       end
     end
 

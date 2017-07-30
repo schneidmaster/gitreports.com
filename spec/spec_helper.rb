@@ -13,7 +13,6 @@ require 'capybara-screenshot/rspec'
 require 'capybara/poltergeist'
 require 'webmock/rspec'
 require 'rack_session_access/capybara'
-require 'sidekiq/testing'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -25,6 +24,9 @@ ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
+
+  # Include ActiveJob helper methods
+  config.include ActiveJob::TestHelper
 
   # Include FactoryGirl helper methods
   config.include FactoryGirl::Syntax::Methods
@@ -80,9 +82,9 @@ RSpec.configure do |config|
     stub_request(:any, /github.com/).to_rack(FakeGitHub)
   end
 
-  # Ensure Sidekiq is empty
-  config.before(:each) do
-    Sidekiq::Worker.clear_all
+  # Ensure ActiveJob is empty
+  config.after(:each) do
+    clear_enqueued_jobs
   end
 
   # Start webpack server if needed.

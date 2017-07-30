@@ -15,6 +15,9 @@ module GitReports
     # Use errors controller for exceptions.
     config.exceptions_app = routes
 
+    # Use Sidekiq to back ActiveJob.
+    config.active_job.queue_adapter = :sidekiq
+
     # Use public/assets rather than public/webpack
     config.webpack.output_dir = 'public/assets'
     config.webpack.public_path = 'assets'

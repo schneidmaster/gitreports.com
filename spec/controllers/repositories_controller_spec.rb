@@ -8,8 +8,8 @@ describe RepositoriesController do
     subject { get :load_status }
 
     context 'job ID does not exist' do
-      it 'returns true' do
-        expect(subject.body).to eq('true')
+      it 'returns false' do
+        expect(subject.body).to eq('false')
       end
     end
 

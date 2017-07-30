@@ -53,7 +53,7 @@ class RepositoriesController < ApplicationController
     if pass_captcha?
 
       # Submit issue
-      GithubWorker.perform_async(:submit_issue, repo.id, params[:name], params[:email], params[:email_public], params[:issue_title], params[:details])
+      GithubJob.perform_later('submit_issue', repo.id, params[:name], params[:email], params[:email_public], params[:issue_title], params[:details])
 
       # Redirect
       redirect_to submitted_path(repo.holder_name, repo.name)

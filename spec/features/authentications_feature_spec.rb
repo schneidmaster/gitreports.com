@@ -33,7 +33,7 @@ feature 'Authentication', :needs_assets do
         expect(page).to have_content('Logged in!')
 
         # Should have queued repository update
-        expect(GithubWorker.jobs.size).to eq(1)
+        expect(enqueued_jobs.size).to eq(1)
       end
     end
   end
