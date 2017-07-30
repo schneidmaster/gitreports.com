@@ -1,6 +1,11 @@
 require 'sidekiq/web'
 
 GitReports::Application.routes.draw do
+  # Error pages.
+  %w[404 422 500].each do |code|
+    match code, to: "errors#error_#{code}", via: :all
+  end
+
   # Authentication routes
   get '/login', to: 'authentications#login', as: 'login'
   get '/github_callback', to: 'authentications#callback'

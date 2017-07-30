@@ -12,6 +12,9 @@ Bundler.require(:default, Rails.env)
 
 module GitReports
   class Application < Rails::Application
+    # Use errors controller for exceptions.
+    config.exceptions_app = routes
+
     # Use public/assets rather than public/webpack
     config.webpack.output_dir = 'public/assets'
     config.webpack.public_path = 'assets'
