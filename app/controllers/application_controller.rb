@@ -7,9 +7,8 @@ class ApplicationController < ActionController::Base
 
   around_action :catch_halt
 
-  before_action :redirect_if_heroku
+  before_action :ensure_production_host
   before_action :set_locale
-  before_action :strip_www
 
   def render(*args)
     super
@@ -31,15 +30,13 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def redirect_if_heroku
-    redirect_to "https://gitreports.com#{request.fullpath}" if request.host == 'gitreports.herokuapp.com'
+  def ensure_production_host
+    # Ensure hostname is gitreports.com -- not www or the heroku URL.
+    return unless %w[gitreports.herokuapp.com www.gitreports.com].include?(request.host)
+    redirect_to "https://gitreports.com#{request.fullpath}"
   end
 
   def set_locale
     I18n.locale = http_accept_language.compatible_language_from(I18n.available_locales) || :en
-  end
-
-  def strip_www
-    redirect_to "https://gitreports.com#{request.fullpath}" if request.host.start_with?('www')
   end
 end
