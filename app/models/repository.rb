@@ -30,7 +30,7 @@ class Repository < ApplicationRecord
   def construct_body(sub_name, email, email_public, details)
     body = ''
     body += "Submitter: #{sub_name}\r\n" unless sub_name.blank?
-    body += "Email: #{email}\r\n" if email_public == 'on' && !email.blank?
+    body += "Email: #{email}\r\n" if email_public == 'on' && email.present?
     body += details unless details.blank?
 
     body
