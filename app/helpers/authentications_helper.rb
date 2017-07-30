@@ -15,7 +15,7 @@ module AuthenticationsHelper
     id = params[:id] || params[:repository_id]
     if !signed_in?
       redirect_to root_path
-    elsif !Repository.exists?(id)
+    elsif !Repository.find_by(id: id)
       render 'not_found'
     elsif !Repository.find(id).users.include?(current_user)
       redirect_to profile_path
