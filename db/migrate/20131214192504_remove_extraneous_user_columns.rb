@@ -1,4 +1,4 @@
-class RemoveExtraneousUserColumns < ActiveRecord::Migration
+class RemoveExtraneousUserColumns < ActiveRecord::Migration[4.2]
   def change
     remove_column :organizations, :user_id
     remove_column :repositories, :user_id

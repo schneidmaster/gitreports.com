@@ -1,4 +1,4 @@
-class ChangeGravatarIdToAvatar < ActiveRecord::Migration
+class ChangeGravatarIdToAvatar < ActiveRecord::Migration[4.2]
   def up
     User.where.not(gravatar_id: '').each do |user|
       user.update!(gravatar_id: "https://gravatar.com/avatar/#{user.gravatar_id}?s=96")
