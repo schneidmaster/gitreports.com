@@ -82,7 +82,7 @@ class GithubService
         if (repo = Repository.find_by_github_id(api_repo.id))
           # Update any information and ensure user is added
           repo.update(name: api_repo[:name], owner: api_repo[:owner][:login], organization: org)
-          repo.users << user
+          repo.add_user!(user)
 
           found_repo_ids << api_repo.id.to_s
         # Else create it
@@ -105,7 +105,7 @@ class GithubService
       org = Organization.find_or_create_by(name: api_org[:login])
 
       # Make sure it's added to the user
-      org.users << user
+      org.add_user!(user)
 
       org
     end
