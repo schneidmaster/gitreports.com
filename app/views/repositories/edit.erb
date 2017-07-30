@@ -1,11 +1,8 @@
 <div class="row">
   <div class="col-xs-12">
-    <h3><%= @repository.name %></h3>
     <%= form_for :repository, url: repository_path(@repository), method: :patch do |f| %>
-      <fieldset>
-        <legend>Update Repository</legend>
-
-        <% if @repository.errors.any? %>
+      <legend>Update <%= @repository.name %></legend>
+      <% if @repository.errors.any? %>
         <div class="row">
           <div class="col-xs-12">
             <h2><%= pluralize(@repository.errors.count, "error") %> prohibited
@@ -17,88 +14,81 @@
             </ul>
           </div>
         </div>
-        <% end %>
+      <% end %>
 
-        <div class="row">
-          <div class="col-xs-12">
-            <%= f.label :display_name %><br>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="form-group">
+            <%= f.label :display_name %>
             <p>
               <i>This is the project name that will be displayed when an anonymous user creates a new issue.</i>
             </p>
-            <%= f.text_field :display_name %>
+            <%= f.text_field :display_name, class: "form-control" %>
           </div>
-        </div>
 
-        <div class="row">
-          <div class="col-xs-12">
-            <%= f.label :issue_name %><br>
+          <div class="form-group">
+            <%= f.label :issue_name %>
             <p>
               <i>This is what will be set as the name of the new issue created on GitHub.</i>
             </p>
-            <%= f.text_field :issue_name %>
+            <%= f.text_field :issue_name, class: "form-control" %>
           </div>
-        </div>
 
-        <div class="row">
-          <div class="col-xs-12">
-            <%= f.label :prompt %><br>
+          <div class="form-group">
+            <%= f.label :prompt %>
             <p>
               <i>This is the message that will be displayed to an anonymous user when they create a new issue.  You can use <%= link_to "Markdown", "http://daringfireball.net/projects/markdown/" %>.</i>
             </p>
-            <%= f.text_area :prompt, class: "repository-textarea" %>
+            <%= f.text_area :prompt, class: "form-control no-resize" %>
           </div>
-        </div>
 
-        <div class="row">
-          <div class="col-xs-12">
-            <%= f.label :followup %><br>
+          <div class="form-group">
+            <%= f.label :followup %>
             <p>
               <i>This is the result message that will be displayed to an anonymous user after they submit a new issue.  You can use <%= link_to "Markdown", "http://daringfireball.net/projects/markdown/" %>.</i>
             </p>
-            <%= f.text_area :followup, class: "repository-textarea" %>
+            <%= f.text_area :followup, class: "form-control no-resize" %>
           </div>
-        </div>
 
-        <div class="row">
-          <div class="col-xs-12">
+          <div class="form-group">
             <%= f.label :labels %><br>
             <p>
             <i>This is the comma-separated list of labels that will be applied to the new issue created on GitHub (bug, enhancement, etc.).  They should match label options on your repository's <%= link_to "issues page", @repository.github_issues_path %>.</i>
           </p>
-            <%= f.text_field :labels %>
+            <%= f.text_field :labels, class: "form-control" %>
           </div>
-        </div>
 
-        <div class="row">
-          <div class="col-xs-12">
+          <div class="form-group">
             <%= f.label :notification_emails %><br>
             <p>
               <i>A notification email will be sent to these email(s) when an issue is submitted. Enter a comma-separated list.</i>
             </p>
-            <%= f.text_field :notification_emails %>
+            <%= f.text_field :notification_emails, class: "form-control" %>
           </div>
-        </div>
 
-        <div class="row">
-          <div class="col-xs-12">
+          <div class="form-group">
             <%= f.label :allow_issue_title %><br>
             <p>
               <i>Allow anonymous users to set the title of the submitted issue on GitHub. If active, the repository page will include a field for the issue title.</i>
             </p>
-            <%= f.radio_button :allow_issue_title, 'no', :checked => !@repository.allow_issue_title %>
-            <%= label :allow_issue_title, 'No' %>
-            <%= f.radio_button :allow_issue_title, 'yes', :checked => @repository.allow_issue_title %>
-            <%= label :allow_issue_title, 'Yes' %>
-          </div>
-        </div>
 
-        <div class="row">
-          <div class="col-xs-3">
-            <%= submit_tag "Update", class: "button small" %>
+            <div class="radio">
+              <label>
+                <%= f.radio_button :allow_issue_title, 'no', :checked => !@repository.allow_issue_title %>
+                No
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <%= f.radio_button :allow_issue_title, 'yes', :checked => @repository.allow_issue_title %>
+                Yes
+              </label>
+            </div>
           </div>
-        </div>
 
-      </fieldset>
+          <%= submit_tag "Update", class: "btn btn-primary" %>
+        </div>
+      </div>
     <% end %>
   </div>
 </div>

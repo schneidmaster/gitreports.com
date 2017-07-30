@@ -8,6 +8,10 @@
   margin-top: 15px;
 }
 
+.no-resize {
+  resize: none;
+}
+
 .footer-links {
   a {
     margin-left: 10px;

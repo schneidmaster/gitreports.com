@@ -6,8 +6,8 @@ class GithubService
       return nil if client.rate_limit.remaining < 10
 
       # Retrieve or update the user
-      user = User.find_or_create_by(access_token: access_token)
-      user.update(username: client.user[:login], name: client.user[:name], avatar_url: client.user[:avatar_url])
+      user = User.find_or_create_by(username: client.user[:login])
+      user.update(access_token: access_token, name: client.user[:name], avatar_url: client.user[:avatar_url])
       user
     end
 

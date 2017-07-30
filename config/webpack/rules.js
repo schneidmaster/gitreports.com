@@ -19,6 +19,7 @@ const commonRules = [
   },
   {
     test: /\.js$/,
+    exclude: /rails-ujs/,
     use: [
       {
         loader: 'babel-loader',

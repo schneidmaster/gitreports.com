@@ -19,7 +19,7 @@ class AuthenticationsController < ApplicationController
     log_in!(user)
 
     # Add repositories
-    session[:job_id] = GithubJob.perform_later('load_repositories', access_token)
+    session[:job_id] = GithubJob.perform_later('load_repositories', access_token).provider_job_id
     profile_redirect!
   end
 
