@@ -25,7 +25,7 @@ module LayoutHelper
     when :success
       'alert-success'
     when :error
-      'alert-error'
+      'alert-danger'
     when :notice
       'alert-info'
     end
