@@ -1,19 +1,22 @@
-import $ from 'jquery';
-
-const checkStatus = () =>
-  $.get('/load_status', (data) => {
-    if (data === 'true') {
-      $('#repo-load-info').html(
+const checkStatus = () => {
+  fetch('/load_status', {
+    credentials: 'same-origin',
+  }).then((response) => {
+    return response.text();
+  }).then((data) => {
+    document.getElementById('repo-alert').style.display = 'block';
+    if(data === 'true') {
+      document.getElementById('repo-load-info').innerHTML =
         "Repositories refreshed! Click <a href='/profile'>here</a> to reload."
-      );
+      ;
     } else {
-      $('#repo-alert').show();
       setTimeout(checkStatus, 1000);
     }
   });
+};
 
-$(document).ready(() => {
-  if ($('#repo-alert').length > 0) {
+document.addEventListener('DOMContentLoaded', () => {
+  if(document.getElementById('repo-alert')) {
     checkStatus();
   }
 });

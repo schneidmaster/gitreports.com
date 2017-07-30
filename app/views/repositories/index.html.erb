@@ -7,11 +7,16 @@
     <%= image_tag @current_user.avatar_url, alt: @current_user.name, class: "profile-img" %>
   </div>
 </div>
-<div id="repo-alert" class="row">
-  <div class="col-xs-12">
-    <span id="repo-load-info">Refreshing repository information from GitHub...</span>
+<% if params[:refresh] %>
+  <div id="repo-alert" class="row">
+    <div class="col-xs-12">
+      <div class="alert alert-info">
+        <button class="close" data-dismiss="alert">×</button>
+        <span id="repo-load-info">Refreshing repository information from GitHub...</span>
+      </div>
+    </div>
   </div>
-</div>
+<% end %>
 <div class="row">
   <div class="col-xs-12">
     <hr>

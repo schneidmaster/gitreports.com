@@ -18,7 +18,7 @@ jobs:
       - restore_cache:
           key: dependency-cache-{{ checksum "Gemfile.lock" }}
       - run:
-          name: bundle-install
+          name: Install bundle dependencies
           command: bundle check || bundle install --jobs=4 --retry=3 
       - save_cache:
           key: dependency-cache-{{ checksum "Gemfile.lock" }}
@@ -27,26 +27,29 @@ jobs:
       - restore_cache:
           key: yarn-cache-{{ checksum "yarn.lock" }}
       - run:
-          name: yarn-install
+          name: Install yarn dependencies
           command: yarn install
       - save_cache:
           key: yarn-cache-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
       - run:
-          name: yarn-build
+          name: Build yarn
           command: yarn build
       - run:
-          name: db
+          name: Setup database
           command: bundle exec rake db:create db:schema:load
       - run:
-          name: rspec
+          name: Rspec
           command: bundle exec rspec
       - run:
-          name: rubocop
+          name: Rubocop
           command: bundle exec rubocop
       - run:
-          name: codeclimate
+          name: ESLint
+          command: yarn lint
+      - run:
+          name: Report to CodeClimate
           command: bundle exec codeclimate-test-reporter
       
 workflows:

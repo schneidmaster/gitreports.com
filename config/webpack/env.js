@@ -1,6 +1,6 @@
 export default function(target) {
   let deployTarget, namePattern, cssNamePattern;
-  if ((target === 'production') || (target === 'staging')) {
+  if (target === 'production' || target === 'staging') {
     deployTarget = true;
     namePattern = '[name]-[chunkhash]';
     cssNamePattern = '[name]-[contenthash]';
@@ -10,5 +10,5 @@ export default function(target) {
     cssNamePattern = '[name]';
   }
 
-  return {deployTarget, namePattern, cssNamePattern};
+  return { deployTarget, namePattern, cssNamePattern };
 };

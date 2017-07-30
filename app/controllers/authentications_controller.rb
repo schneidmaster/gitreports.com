@@ -62,7 +62,7 @@ class AuthenticationsController < ApplicationController
   end
 
   def profile_redirect!
-    redirect_to profile_path, flash: { success: 'Logged in!' }
+    redirect_to profile_path(refresh: true), flash: { success: 'Logged in!' }
   end
 
   def state

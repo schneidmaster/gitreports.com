@@ -70,12 +70,7 @@ class RepositoriesController < ApplicationController
   end
 
   def load_status
-    render plain:
-      if session[:job_id]
-        Sidekiq::Status.complete?(session[:job_id])
-      else
-        true
-      end
+    render plain: Sidekiq::Status.complete?(session[:job_id])
   end
 
   private
