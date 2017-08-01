@@ -11,6 +11,7 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 20170730214412) do
+ActiveRecord::Schema.define(version: 20170731231431) do
 
   create_table "organizations", force: :cascade do |t|
     t.string "name", limit: 255
@@ -40,6 +41,7 @@ ActiveRecord::Schema.define(version: 20170730214412) do
     t.string "owner", limit: 255
     t.string "notification_emails", limit: 255
     t.boolean "allow_issue_title", default: false
+    t.boolean "include_submitter_email", default: false
   end
 
   create_table "repositories_users", force: :cascade do |t|
