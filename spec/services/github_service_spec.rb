@@ -140,6 +140,20 @@ describe GithubService do
       end
     end
 
+    context 'repository has configured notification mails and includes submitters emails in said notifications' do
+      let!(:repository) { create :repository, users: [user], notification_emails: 'joe@email.com', include_submitter_email: true }
+
+      it 'creates the issue and sends notification' do
+        issue = subject
+        expect(issue['body']).to eq("I'm having a problem with this.")
+
+        # Should have queued notification mail
+        expect(enqueued_jobs.size).to eq(1)
+        expect(enqueued_jobs.first[:job]).to eq(ActionMailer::DeliveryJob)
+        expect(enqueued_jobs.first[:args]).to eq(['NotificationMailer', 'issue_submitted_email', 'deliver_now', 1, 1347, {"submitter_name"=>"Bob", "submitter_email"=>"bob@email.com", "_aj_symbol_keys"=>["submitter_name", "submitter_email"]}])
+      end
+    end
+
     context 'repository has not configured notification mails' do
       let!(:repository) { create :repository, users: [user] }
 
