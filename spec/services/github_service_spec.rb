@@ -151,7 +151,7 @@ describe GithubService do
         expect(enqueued_jobs.size).to eq(1)
         expect(enqueued_jobs.first[:job]).to eq(ActionMailer::DeliveryJob)
         expect(enqueued_jobs.first[:args]).to eq(['NotificationMailer', 'issue_submitted_email', 'deliver_now', 1, 1347, 
-          submitter_name: 'Bob', submitter_email: 'bob@email.com', _aj_symbol_keys: %w(submitter_name submitter_email)])
+          'submitter_name': 'Bob', 'submitter_email': 'bob@email.com', '_aj_symbol_keys': %w(submitter_name submitter_email)])
       end
     end
 
