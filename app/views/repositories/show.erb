@@ -115,5 +115,11 @@
     <p>
       <b><%= @repository.allow_issue_title ? 'Yes' : 'No' %></b>: Users are <%= 'not' unless @repository.allow_issue_title %> permitted to set the issue title on GitHub.
     </p>
+    <h4>
+      Submitter Email Inclusion
+    </h4>
+    <p>
+      <b><%= @repository.include_submitter_email ? 'Yes' : 'No' %></b>: User emails are <%= 'not' unless @repository.include_submitter_email %> included in notification emails.
+    </p>
   </div>
 </div>

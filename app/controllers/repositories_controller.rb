@@ -76,9 +76,10 @@ class RepositoriesController < ApplicationController
   private
 
   def repository_params
-    params[:repository].permit(:display_name, :issue_name, :prompt, :followup, :labels, :allow_issue_title).merge(
+    params[:repository].permit(:display_name, :issue_name, :prompt, :followup, :labels, :allow_issue_title, :include_submitter_email).merge(
       notification_emails: parse_emails(params[:repository][:notification_emails]),
-      allow_issue_title: (params[:repository][:allow_issue_title] == 'yes')
+      allow_issue_title: (params[:repository][:allow_issue_title] == 'yes'),
+      include_submitter_email: (params[:repository][:include_submitter_email] == 'yes')
     )
   end
 

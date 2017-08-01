@@ -86,6 +86,28 @@
             </div>
           </div>
 
+          <% if @repository.notification_emails.present? %>
+            <div class="form-group">
+              <%= f.label :include_submitter_email %><br>
+              <p>
+                <i>Require submitters to include an email. If active, submitter emails will be included in email notifications.</i>
+              </p>
+
+              <div class="radio">
+                <label>
+                  <%= f.radio_button :include_submitter_email, 'no', :checked => !@repository.include_submitter_email %>
+                  No
+                </label>
+              </div>
+              <div class="radio">
+                <label>
+                  <%= f.radio_button :include_submitter_email, 'yes', :checked => @repository.include_submitter_email %>
+                  Yes
+                </label>
+              </div>
+            </div>
+          <% end %>
+
           <%= submit_tag "Update", class: "btn btn-primary" %>
         </div>
       </div>

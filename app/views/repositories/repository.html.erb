@@ -23,7 +23,7 @@
 
             <div class="form-group">
               <%= label :email, t('submit_form.label.email') %>
-              <%= email_field_tag :email, @email, class: 'form-control' %>
+              <%= email_field_tag :email, @email, class: 'form-control', :required => @repository.include_submitter_email %>
             </div>
 
             <div class="form-group">
