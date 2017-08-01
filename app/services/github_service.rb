@@ -47,7 +47,7 @@ class GithubService
       # Send notification email
       if repo.notification_emails.present?
         if repo.include_submitter_email
-          NotificationMailer.issue_submitted_email(repo.id, issue.number, :submitter_name => sub_name, :submitter_email => email).deliver_later
+          NotificationMailer.issue_submitted_email(repo.id, issue.number, submitter_name: sub_name, submitter_email: email).deliver_later
 
         else
           NotificationMailer.issue_submitted_email(repo.id, issue.number).deliver_later
