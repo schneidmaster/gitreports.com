@@ -107,14 +107,14 @@ GEM
     mime-types (3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
-    mini_portile2 (2.2.0)
+    mini_portile2 (2.3.0)
     minitest (5.10.3)
     multipart-post (2.0.0)
     mustermann (1.0.0)
     newrelic_rpm (4.2.0.334)
     nio4r (2.1.0)
-    nokogiri (1.8.0)
-      mini_portile2 (~> 2.2.0)
+    nokogiri (1.8.1)
+      mini_portile2 (~> 2.3.0)
     octokit (4.6.2)
       sawyer (~> 0.8.0, >= 0.5.3)
     parallel (1.11.2)
@@ -300,4 +300,4 @@ DEPENDENCIES
   webpack-rails
 
 BUNDLED WITH
-   1.15.3
+   1.15.4
