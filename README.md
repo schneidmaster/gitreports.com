@@ -45,7 +45,7 @@ If you want to track the application with Google Analytics, create the property 
 
 ## Translations
 
-The public-facing portions of the Git Reports UI support i18n translations. Presently, English and Polish are supported; the active locale is selected using the Accept-Location HTTP header. If you would like to contribute a translation, make a copy of `config/locales/en.yml` using the desired locale code (check the full list [here](http://www.roseindia.net/tutorials/I18N/locales-list.shtml)), translate the text, and submit a pull request.
+The public-facing portions of the Git Reports UI support i18n translations. Presently, English, French and Polish are supported; the active locale is selected using the Accept-Location HTTP header. If you would like to contribute a translation, make a copy of `config/locales/en.yml` using the desired locale code (check the full list [here](http://www.roseindia.net/tutorials/I18N/locales-list.shtml)), translate the text, and submit a pull request.
 
 ## Staging/Production Configuration
 
