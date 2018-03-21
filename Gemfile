@@ -13,6 +13,7 @@ gem 'sentry-raven'
 gem 'sidekiq', '3.4.2'
 gem 'sidekiq-status', '0.6.0'
 gem 'simple_captcha2', require: 'simple_captcha'
+gem 'sinatra'
 gem 'valid_email', require: 'valid_email/validate_email'
 
 group :production do
@@ -47,5 +48,4 @@ end
 group :development, :test do
   gem 'byebug'
   gem 'dotenv-rails', '0.9.0'
-  gem 'sinatra'
 end
