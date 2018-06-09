@@ -132,8 +132,8 @@ GEM
       websocket-driver (>= 0.2.0)
     powerpack (0.1.1)
     public_suffix (2.0.5)
-    rack (2.0.4)
-    rack-protection (2.0.1)
+    rack (2.0.5)
+    rack-protection (2.0.3)
       rack
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -225,10 +225,10 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.1)
-    sinatra (2.0.1)
+    sinatra (2.0.3)
       mustermann (~> 1.0)
       rack (~> 2.0)
-      rack-protection (= 2.0.1)
+      rack-protection (= 2.0.3)
       tilt (~> 2.0)
     sprockets (3.7.1)
       concurrent-ruby (~> 1.0)
@@ -302,4 +302,4 @@ DEPENDENCIES
   webpack-rails
 
 BUNDLED WITH
-   1.16.0
+   1.16.2
