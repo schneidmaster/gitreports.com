@@ -1,0 +1,24 @@
+en:
+  repositories:
+    not_found:
+      label: '404: Pagina non trovata'
+      message: Non è possibile localizzare la repository che stai cercando. Ci dispace!
+
+  submit_form:
+    title: Resoconto
+    label:
+      name: Nome
+      email: Email
+      email_public: Email pubblica (da mandare nel corpo del problema)
+      issue_title: Titolo problema
+      details: Dettagli
+      submit: Invia
+    captcha_message: Per favore completa il seguente CAPTCHA per provare di essere un umano.
+
+  simple_captcha:
+    placeholder: Inserisci il testo dell'immagine
+    label: 'Inserisci il codice nel riquadro:'
+    refresh_button_text: Ricarica
+    message:
+      default: Il codice segreto non corrisponde con l'immagine
+      user: L'immagine segreta e il codice erano diversi
