@@ -310,5 +310,5 @@ DEPENDENCIES
   webmock
   webpack-rails
 
-BUNDLED WITH
-   1.17.1
+RUBY VERSION
+   ruby 2.4.5p335
