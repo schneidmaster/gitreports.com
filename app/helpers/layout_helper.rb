@@ -9,6 +9,7 @@ module LayoutHelper
       keywords: KEYWORDS,
       title: TITLE,
       icon: '/favicon.ico',
+      viewport: 'width=device-width, initial-scale=1.0',
       og: {
         title: TITLE,
         url: request.url,
