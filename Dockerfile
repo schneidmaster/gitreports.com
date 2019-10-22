@@ -13,7 +13,7 @@ ADD . /app
 
 # Install redis, sudo, nodejs, and yarn
 RUN apt-get update && apt-get -y install redis-server && apt-get install -y sudo
-RUN curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 RUN sudo apt-get install -y nodejs
 RUN npm install -g yarn
 
@@ -21,6 +21,9 @@ RUN npm install -g yarn
 RUN yarn install
 RUN bundle
 RUN rake db:migrate
+
+# Expose port 5000 from within the container to the world
+EXPOSE 5000
 
 # Start the Rails and webpack servers
 CMD foreman start -f Procfile.dev
