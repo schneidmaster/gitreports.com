@@ -33,7 +33,7 @@
     "style-loader": "^0.18.2",
     "webpack": "^3.3.0",
     "webpack-bundle-analyzer": "^2.8.3",
-    "webpack-dev-server": "^2.6.1",
+    "webpack-dev-server": "^3.1.11",
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
