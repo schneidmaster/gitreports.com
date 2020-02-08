@@ -26,10 +26,10 @@ module AuthenticationsHelper
     holder = User.find_by_username(params[:username]) || Organization.find_by_name(params[:username])
 
     if holder.nil?
-      render 'not_found'
+      render 'repositories/not_found'
     else
       repo = holder.repositories.find_by_name(params[:repositoryname])
-      render 'not_found' if repo.nil? || !repo.is_active
+      render 'repositories/not_found' if repo.nil? || !repo.is_active
     end
   end
 end
