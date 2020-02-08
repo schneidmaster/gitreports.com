@@ -93,6 +93,22 @@ feature 'Issue', :needs_assets do
 
         # Should have queued issue submission
         expect(enqueued_jobs.size).to eq(1)
+        expect(enqueued_jobs.first[:args]).to eq(['submit_issue', 1, 'Joe Schmoe', 'joe.schmoe@gmail.com', true, nil, 'Your code is broken!'])
+      end
+
+      scenario 'submits issue without public email' do
+        visit repository_public_path(repository.holder_name, repository.name)
+        fill_in 'name', with: 'Joe Schmoe'
+        fill_in 'email', with: 'joe.schmoe@gmail.com'
+        uncheck I18n.t('submit_form.label.email_public')
+        fill_in 'details', with: 'Your code is broken!'
+        fill_in 'captcha', with: 'asdfgh'
+        click_on I18n.t('submit_form.label.submit')
+        expect(page).to have_content('Thanks for submitting your report!')
+
+        # Should have queued issue submission
+        expect(enqueued_jobs.size).to eq(1)
+        expect(enqueued_jobs.first[:args]).to eq(['submit_issue', 1, 'Joe Schmoe', 'joe.schmoe@gmail.com', false, nil, 'Your code is broken!'])
       end
     end
 
@@ -103,12 +119,14 @@ feature 'Issue', :needs_assets do
         visit repository_public_path(repository.holder_name, repository.name)
         fill_in 'name', with: 'Joe Schmoe'
         fill_in 'email', with: 'joe.schmoe@gmail.com'
+        uncheck I18n.t('submit_form.label.email_public')
         fill_in 'details', with: 'Your code is broken!'
         fill_in 'captcha', with: 'asdfgh'
         click_on I18n.t('submit_form.label.submit')
         expect(page).to have_content('Incorrect CAPTCHA; please retry!')
         expect(find_field('name').value).to eq('Joe Schmoe')
         expect(find_field('email').value).to eq('joe.schmoe@gmail.com')
+        expect(find_field(I18n.t('submit_form.label.email_public'))).to_not be_checked
         expect(find_field('details').value).to eq('Your code is broken!')
       end
     end

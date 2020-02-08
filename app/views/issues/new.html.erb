@@ -28,7 +28,7 @@
 
             <div class="form-group">
               <%= label_tag :email_public, t('submit_form.label.email_public') %>
-              <%= check_box_tag :email_public, @email_public, class: 'form-control' %>
+              <%= check_box_tag :email_public, "1", @email_public == "1", class: 'form-control' %>
             </div>
 
             <% if @repository.allow_issue_title %>
