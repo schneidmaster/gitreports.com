@@ -32,7 +32,7 @@
     "stats-webpack-plugin": "^0.6.1",
     "style-loader": "^0.18.2",
     "webpack": "^3.3.0",
-    "webpack-bundle-analyzer": "^2.8.3",
+    "webpack-bundle-analyzer": "^3.6.0",
     "webpack-dev-server": "^2.6.1",
     "whatwg-fetch": "^2.0.3"
   },
