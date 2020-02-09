@@ -25,9 +25,9 @@
     <p>
       <%= link_to "Edit", edit_repository_path(@repository) %> /
       <% if @repository.is_active %>
-        <%= link_to "Deactivate", repository_deactivate_path(@repository), method: :post, data: { confirm: "Are you sure you want to deactivate repository '" + @repository.name + "'?" } %>
+        <%= link_to "Deactivate", repository_path(@repository, repository: { is_active: false }), method: :patch, data: { confirm: "Are you sure you want to deactivate repository '" + @repository.name + "'?" } %>
       <% else %>
-        <%= link_to "Activate", repository_activate_path(@repository), method: :post, data: { confirm: "Are you sure you want to activate repository '" + @repository.name + "'?" } %>
+        <%= link_to "Activate", repository_path(@repository, repository: { is_active: true }), method: :patch, data: { confirm: "Are you sure you want to activate repository '" + @repository.name + "'?" } %>
       <% end %>
     </p>
     <hr>

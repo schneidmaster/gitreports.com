@@ -17,29 +17,29 @@
         <div class="row">
           <div class="col-xs-12">
             <div class="form-group">
-              <%= label :name, t('submit_form.label.name') %>
+              <%= label_tag :name, t('submit_form.label.name') %>
               <%= text_field_tag :name, @name, class: 'form-control' %>
             </div>
 
             <div class="form-group">
-              <%= label :email, t('submit_form.label.email') %>
+              <%= label_tag :email, t('submit_form.label.email') %>
               <%= email_field_tag :email, @email, class: 'form-control', :required => @repository.include_submitter_email %>
             </div>
 
             <div class="form-group">
-              <%= label :email_public, t('submit_form.label.email_public') %>
-              <%= check_box_tag :email_public, @email_public, class: 'form-control' %>
+              <%= label_tag :email_public, t('submit_form.label.email_public') %>
+              <%= check_box_tag :email_public, "1", @email_public == "1", class: 'form-control' %>
             </div>
 
             <% if @repository.allow_issue_title %>
                 <div class="form-group">
-                  <%= label :issue_title, t('submit_form.label.issue_title') %>
+                  <%= label_tag :issue_title, t('submit_form.label.issue_title') %>
                   <%= text_field_tag :issue_title, @issue_title, class: 'form-control' %>
                 </div>
             <% end %>
 
             <div class="form-group">
-              <%= label :details, t('submit_form.label.details') %>
+              <%= label_tag :details, t('submit_form.label.details') %>
               <%= text_area_tag :details, @details, class: "form-control no-resize" %>
             </div>
           </div>

@@ -15,17 +15,16 @@ GitReports::Application.routes.draw do
   # Repository routes
   get '/profile', to: 'repositories#index', as: 'profile'
   scope :issue do
-    get ':username/:repositoryname', to: 'repositories#repository', as: 'repository_public', repositoryname: %r{[^\/]+}
-    post ':username/:repositoryname', to: 'repositories#submit', repositoryname: %r{[^\/]+}
-    get ':username/:repositoryname/submitted', to: 'repositories#submitted', as: 'submitted', repositoryname: %r{[^\/]+}
+    get ':username/:repositoryname', to: 'issues#new', as: 'repository_public', repositoryname: %r{[^\/]+}
+    post ':username/:repositoryname', to: 'issues#create', repositoryname: %r{[^\/]+}
+    get ':username/:repositoryname/submitted', to: 'issues#created', as: 'submitted', repositoryname: %r{[^\/]+}
   end
 
   resources :repositories, only: %i[show edit update] do
-    post 'activate'
-    post 'deactivate'
+    collection do
+      get :load_status
+    end
   end
-
-  get '/load_status', to: 'repositories#load_status'
 
   # Sidekiq monitoring
   constraints ->(request) { User.find_by(id: request.session[:user_id])&.is_admin } do
