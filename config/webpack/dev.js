@@ -1,14 +1,16 @@
 let liveReload;
 const devServerPort = 3808;
-if (!process.env.NO_LIVE_RELOAD) { liveReload = true; }
-const publicHost = process.env.WEBPACK_DEV_HOST || 'lvh.me';
+if (!process.env.NO_LIVE_RELOAD) {
+  liveReload = true;
+}
+const publicHost = process.env.WEBPACK_DEV_HOST || "lvh.me";
 
-export const devServer = {
+module.exports.devServer = {
   host: publicHost,
   port: devServerPort,
-  headers: { 'Access-Control-Allow-Origin': '*' },
+  headers: { "Access-Control-Allow-Origin": "*" },
   hot: liveReload,
-  inline: liveReload,
+  inline: liveReload
 };
 
-export const publicPath = `http://${publicHost}:${devServerPort}/assets/`;
+module.exports.publicPath = `http://${publicHost}:${devServerPort}/assets/`;
