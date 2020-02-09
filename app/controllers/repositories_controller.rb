@@ -50,11 +50,6 @@ class RepositoriesController < ApplicationController
     )
   end
 
-  def current_resource
-    holder = User.find_by_username(params[:username]) || Organization.find_by_name(params[:username])
-    @current_resource ||= holder.repositories.find_by_name(params[:repositoryname])
-  end
-
   def parse_emails(emails)
     valid_emails = []
     unless emails.nil?
