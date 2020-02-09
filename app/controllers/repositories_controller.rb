@@ -1,6 +1,6 @@
 class RepositoriesController < ApplicationController
   before_action :ensure_signed_in!, only: [:index]
-  before_action :ensure_own_repository!, except: %i[index load_status repository submit submitted]
+  before_action :ensure_own_repository!, except: %i[index load_status]
 
   def index
     @current_user = current_user
@@ -24,18 +24,6 @@ class RepositoriesController < ApplicationController
     end
   end
 
-  def activate
-    repo = Repository.find(params[:repository_id])
-    repo.update(is_active: true)
-    redirect_to repo
-  end
-
-  def deactivate
-    repo = Repository.find(params[:repository_id])
-    repo.update(is_active: false)
-    redirect_to repo
-  end
-
   def load_status
     render plain: Sidekiq::Status.complete?(session[:job_id])
   end
@@ -43,7 +31,7 @@ class RepositoriesController < ApplicationController
   private
 
   def repository_params
-    params[:repository].permit(:display_name, :issue_name, :prompt, :followup, :labels, :allow_issue_title, :include_submitter_email).merge(
+    params[:repository].permit(:display_name, :issue_name, :prompt, :followup, :labels, :allow_issue_title, :include_submitter_email, :is_active).merge(
       notification_emails: parse_emails(params[:repository][:notification_emails]),
       allow_issue_title: (params[:repository][:allow_issue_title] == 'yes'),
       include_submitter_email: (params[:repository][:include_submitter_email] == 'yes')

@@ -21,11 +21,10 @@ GitReports::Application.routes.draw do
   end
 
   resources :repositories, only: %i[show edit update] do
-    post 'activate'
-    post 'deactivate'
+    collection do
+      get :load_status
+    end
   end
-
-  get '/load_status', to: 'repositories#load_status'
 
   # Sidekiq monitoring
   constraints ->(request) { User.find_by(id: request.session[:user_id])&.is_admin } do
