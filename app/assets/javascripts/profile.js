@@ -1,5 +1,5 @@
 const checkStatus = () => {
-  fetch("/load_status", {
+  fetch("/repositories/load_status", {
     credentials: "same-origin"
   })
     .then(response => {
