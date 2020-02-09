@@ -4,7 +4,6 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
-const CleanWebpackPlugin = require("clean-webpack-plugin");
 const StatsPlugin = require("stats-webpack-plugin");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const envRules = require("./webpack/rules");
@@ -75,10 +74,8 @@ if (deployTarget) {
       filename: `${cssNamePattern}.css`
     }),
     new CompressionPlugin({
-      asset: "[path].gz",
       test: /\.(css|js)$/
-    }),
-    new CleanWebpackPlugin(outputPath, { allowExternal: true })
+    })
   );
 
   if (bundleAnalyze) {
