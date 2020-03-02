@@ -183,7 +183,7 @@ GEM
       thor (>= 0.19.0, < 2.0)
     rainbow (2.2.2)
       rake
-    rake (12.3.2)
+    rake (13.0.1)
     redcarpet (3.4.0)
     redis (3.3.3)
     redis-namespace (1.5.3)
