@@ -7,17 +7,17 @@ pl:
   submit_form:
     title: Zgłoszenie
     label:
-      name: Nazwa
+      name: Imię lub nick
       email: E-mail
-      email_public: E-mail Publiczne (wysyłanie w organizmie emisyjnej)
-      issue_title: Tytuł problemu
+      email_public: E-mail Publiczny (wysyłany w treści zgłoszenia)
+      issue_title: Tytuł zgłoszenia
       details: Szczegóły
       submit: Zgłoś
     captcha_message: Proszę przepisać następujący obrazek CAPTCHA, aby potwierdzić, że jesteś człowiekiem.
 
   simple_captcha:
-    placeholder:  Podaj tekst z obrazka
-    label: 'Podaj kod w polu'
+    placeholder:  Wpisz tekst z obrazka
+    label: 'Wpisz kod w polu'
     refresh_button_text: Odśwież
     message:
       default: Kod nie odpowiada podanemu na obrazku
