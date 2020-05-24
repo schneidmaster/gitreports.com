@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
-ruby '~> 2.4.5'
+ruby '~> 2.6.5'
 
-gem 'rails', '~> 5.2.2.1'
+gem 'rails', '~> 5.2.4.2'
 gem 'webpack-rails'
 
 gem 'high_voltage', '~> 3.0.0'
