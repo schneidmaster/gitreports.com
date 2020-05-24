@@ -1,3 +1,5 @@
+class GithubRateLimitError < RuntimeError; end
+
 class GithubService
   class << self
     def create_or_update_user(access_token)
@@ -39,7 +41,7 @@ class GithubService
 
       # Create client and check rate limit
       client = Octokit::Client.new access_token: repo.access_token
-      throw 'Rate limit reached' if client.rate_limit.remaining < 10
+      raise GithubRateLimitError if client.rate_limit.remaining < 10
 
       # Create the issue
       issue = create_issue(client, repo, issue_title, repo.construct_body(sub_name, email, email_public, details))
