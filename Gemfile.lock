@@ -184,7 +184,7 @@ GEM
     rainbow (2.2.2)
       rake
     rake (13.0.3)
-    redcarpet (3.4.0)
+    redcarpet (3.5.1)
     redis (3.3.3)
     redis-namespace (1.5.3)
       redis (~> 3.0, >= 3.0.4)
