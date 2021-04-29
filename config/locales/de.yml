@@ -1,0 +1,24 @@
+de:
+  repositories:
+    not_found:
+      label: '404: Seite nicht gefunden'
+      message: Das Repository, nach dem Sie suchen, konnte nicht gefunden werden.  Das tut uns leid!
+
+  submit_form:
+    title: Bericht
+    label:
+      name: Name
+      email: E-Mail
+      email_public: Öffentliche E-Mail (wird in der Beschreibung des Problems gesendet)
+      issue_title: Titel des Problems
+      details: Details
+      submit: Senden
+    captcha_message: Bitte füllen Sie das folgende CAPTCHA aus, um zu beweisen, dass Sie ein Mensch sind.
+
+  simple_captcha:
+    placeholder: Bildtext eingeben
+    label: 'Geben Sie den Code in das Feld ein:'
+    refresh_button_text: Aktualisieren
+    message:
+      default: Geheimcode stimmte nicht mit dem Bild überein
+      user: Das verschlüsselte Bild und der Code waren unterschiedlich
