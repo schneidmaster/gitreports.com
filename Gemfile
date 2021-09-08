@@ -25,7 +25,7 @@ end
 
 group :development do
   # Use sqlite3 as the database for Active Record
-  gem 'better_errors', '1.1.0'
+  gem 'better_errors', '2.8.0'
   gem 'binding_of_caller', '0.7.2'
   gem 'rubocop'
   gem 'sqlite3', '1.3.10'
