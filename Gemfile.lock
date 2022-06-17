@@ -129,7 +129,7 @@ GEM
     parallel (1.11.2)
     parser (2.4.0.0)
       ast (~> 2.2)
-    passenger (5.1.6)
+    passenger (5.3.2)
       rack
       rake (>= 0.8.1)
     pg (0.21.0)
@@ -140,7 +140,7 @@ GEM
     powerpack (0.1.1)
     public_suffix (4.0.6)
     racc (1.5.2)
-    rack (2.2.3)
+    rack (2.2.3.1)
     rack-protection (2.0.3)
       rack
     rack-test (1.1.0)
@@ -183,7 +183,7 @@ GEM
       thor (>= 0.19.0, < 2.0)
     rainbow (2.2.2)
       rake
-    rake (13.0.3)
+    rake (13.0.6)
     redcarpet (3.5.1)
     redis (3.3.3)
     redis-namespace (1.5.3)
@@ -289,7 +289,7 @@ DEPENDENCIES
   meta-tags
   newrelic_rpm
   octokit (= 4.6.2)
-  passenger (~> 5.1)
+  passenger (~> 5.3)
   pg
   poltergeist
   rack_session_access

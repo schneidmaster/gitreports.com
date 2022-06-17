@@ -18,7 +18,7 @@ gem 'sinatra'
 gem 'valid_email', require: 'valid_email/validate_email'
 
 group :production do
-  gem 'passenger', '~> 5.1'
+  gem 'passenger', '~> 5.3'
   gem 'pg'
   gem 'rails_12factor'
 end
